@@ -1,0 +1,12 @@
+archivesBaseName = 'security-reposistory'
+
+jar.enabled = true
+bootJar.enabled = false
+
+dependencies {
+//    compileOnly 'org.projectlombok:lombok'
+    compile project(':security:security-domain')
+    compile project(':user:user-domain')
+//    compile project(':core')
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+}

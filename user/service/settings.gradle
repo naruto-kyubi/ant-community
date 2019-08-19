@@ -1,0 +1,8 @@
+rootProject.name = 'user-service'
+includeFlat 'user-domain'
+includeFlat 'user-exception'
+includeFlat 'user-vo'
+includeFlat 'user-repository'
+include 'core'
+include 'common'
+include 'captcha'

@@ -1,0 +1,6 @@
+rootProject.name = 'article-repository'
+
+include 'core'
+include 'user'
+include 'user:domain'
+includeFlat 'article-domain'

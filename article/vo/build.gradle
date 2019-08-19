@@ -1,0 +1,11 @@
+archivesBaseName = 'article-vo'
+
+jar.enabled = true
+bootJar.enabled = false
+
+dependencies {
+    compile project(':article:article-domain')
+    compile project(':user:user-domain')
+//    implementation('javax.validation:validation-api')
+    compileOnly 'org.projectlombok:lombok'
+}

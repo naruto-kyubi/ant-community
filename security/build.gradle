@@ -1,0 +1,19 @@
+archivesBaseName = 'security'
+
+jar.enabled = true
+bootJar.enabled = false
+
+dependencies {
+    compile project(':security:security-domain')
+    compile project(':security:security-exception')
+    compile project(':security:security-repository')
+    compile project(':security:security-service')
+    compile project(':security:security-controller')
+
+    compile project(':user')
+    compile project(':user:user-domain')
+    compile project(':user:user-service')
+
+    compile project(':core')
+    compile project(':captcha')
+}

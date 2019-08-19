@@ -1,0 +1,8 @@
+rootProject.name = 'user'
+
+include 'user-domain'
+include 'user-exception'
+include 'user-vo'
+include 'user-repository'
+include 'user-service'
+include 'user-controller'

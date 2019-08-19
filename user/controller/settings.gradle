@@ -1,0 +1,8 @@
+rootProject.name = 'user-controller'
+
+include 'core'
+include 'common'
+includeFlat 'user-domain'
+includeFlat 'user-exception'
+includeFlat 'user-vo'
+includeFlat 'user-service'

@@ -1,0 +1,16 @@
+archivesBaseName = 'user-controller'
+
+jar.enabled = true
+bootJar.enabled = false
+
+dependencies {
+    compile project(':user:user-domain')
+    compile project(':user:user-exception')
+    compile project(':user:user-vo')
+    compile project(':user:user-service')
+    compile project(':core')
+    compile project(':common')
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.modelmapper:modelmapper:2.3.2'
+}

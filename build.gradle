@@ -1,0 +1,77 @@
+//plugins {
+//	id 'org.springframework.boot' version '2.1.4.RELEASE'
+//	id 'java'
+//}
+//
+//apply plugin: 'io.spring.dependency-management'
+//
+//group = 'org.naruto'
+//version = '0.0.1-SNAPSHOT'
+//sourceCompatibility = '1.8'
+//
+////repositories {
+////	mavenCentral()
+////}
+//allprojects {
+//	repositories {
+//		jcenter()
+//		mavenCentral()
+//	}
+//}
+//
+//dependencies {
+//	implementation 'org.springframework.boot:spring-boot-starter'
+//	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+//}
+buildscript {
+	ext {
+		springBootVersion = '2.1.4.RELEASE'
+	}
+	repositories {
+		mavenCentral()
+	}
+	dependencies {
+		classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+	}
+}
+
+subprojects {
+	apply plugin: 'java'
+	apply plugin: 'idea'
+	apply plugin: 'org.springframework.boot'
+	apply plugin: 'io.spring.dependency-management'
+
+	group = 'org.naruto'
+	version = '0.0.1-SNAPSHOT'
+	sourceCompatibility = 1.8
+	[compileJava, compileTestJava, javadoc]*.options*.encoding = 'UTF-8'
+
+	repositories {
+		mavenLocal()
+//		maven { url "http://maven.aliyun.com/nexus/content/groups/public/" }
+		mavenCentral()
+	}
+
+	jar {
+		manifest {
+			attributes("Implementation-Title": "Gradle")
+		}
+	}
+//    dependencies {
+//        ext.jarTree = fileTree(dir: 'libs', include: '**/*.jar')
+//        ext.rootProjectLibs = new File(rootProject.rootDir, 'libs').getAbsolutePath()
+//        ext.jarTree += fileTree(dir: rootProjectLibs, include: '**/*.jar')
+//        compile jarTree
+//    }
+//
+//    task listJars(description: 'Display all compile jars.') << {
+//        configurations.compile.each { File file -> println file.name }
+//    }
+
+}
+
+//dependencies{
+//	compile project('user')
+//	compile project('user:user-domain')
+//	compile project('user:user-repository')
+//}

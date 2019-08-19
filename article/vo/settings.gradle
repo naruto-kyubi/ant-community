@@ -1,0 +1,12 @@
+rootProject.name = 'article-vo'
+//
+//include 'article-domain'
+//include 'article-exception'
+////include 'user-vo'
+//include 'article-repository'
+//include 'article-service'
+//include 'article-controller'
+include 'user:user-domain'
+
+includeFlat 'article-domain'
+

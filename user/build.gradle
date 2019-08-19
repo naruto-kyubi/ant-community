@@ -1,0 +1,15 @@
+archivesBaseName = 'user'
+
+jar.enabled = true
+bootJar.enabled = false
+
+dependencies {
+    compile project('user-domain')
+    compile project('user-exception')
+    compile project('user-vo')
+    compile project('user-repository')
+    compile project('user-service')
+    compile project('user-controller')
+    implementation('org.springframework.boot:spring-boot-starter')
+    testImplementation('org.springframework.boot:spring-boot-starter-test')
+}

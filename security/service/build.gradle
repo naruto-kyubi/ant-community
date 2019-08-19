@@ -1,0 +1,23 @@
+
+archivesBaseName = 'security-service'
+
+jar.enabled = true
+bootJar.enabled = false
+
+dependencies {
+    compile project(':security:security-domain')
+    compile project(':security:security-exception')
+//    compile project(':security:security-vo')
+    compile project(':security:security-repository')
+    compile project(':core')
+    compile project(':captcha')
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.apache.shiro:shiro-spring-boot-web-starter:1.4.1'
+    implementation 'com.alibaba:fastjson:1.2.57'
+    implementation 'org.apache.commons:commons-lang3:3.7'
+    implementation 'com.auth0:java-jwt:3.2.0'
+    compile group: 'org.apache.httpcomponents', name: 'httpcore', version: '4.4.1'
+
+    compileOnly 'org.projectlombok:lombok'
+}

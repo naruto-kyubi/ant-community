@@ -1,0 +1,8 @@
+archivesBaseName = 'security-exception'
+
+jar.enabled = true
+bootJar.enabled = false
+
+dependencies {
+    compile project(':core')
+}

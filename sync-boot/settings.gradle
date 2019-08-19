@@ -1,0 +1,16 @@
+rootProject.name = 'sync-boot'
+includeFlat 'core'
+includeFlat 'common'
+includeFlat 'search'
+
+//includeFlat 'user'
+include 'user:user-domain'
+include 'user:user-exception'
+include 'user:user-vo'
+include 'user:user-service'
+//include 'user:user-domain'
+
+//includeFlat 'article'
+include 'article:article-domain'
+include 'article:article-vo'
+include 'article:article-service'

@@ -1,0 +1,4 @@
+rootProject.name = 'common'
+includeFlat 'user'
+includeFlat 'core'
+include 'user:user-domain'

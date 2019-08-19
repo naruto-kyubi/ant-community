@@ -1,0 +1,17 @@
+archivesBaseName = 'article-service'
+
+jar.enabled = true
+bootJar.enabled = false
+
+dependencies {
+    compile project(':article:article-domain')
+//    compile project(':article:article-exception')
+//    compile project(':article:article-vo')
+    compile project(':article:article-repository')
+    compile project(':core')
+    compile project(':common')
+//    compile project(':user:user-domain')
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+
+    compileOnly 'org.projectlombok:lombok'
+}

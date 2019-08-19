@@ -1,0 +1,11 @@
+rootProject.name = 'boot'
+includeFlat 'core'
+includeFlat 'common'
+
+includeFlat 'user'
+include 'user:user-domain'
+include 'user:user-exception'
+include 'user:user-vo'
+include 'user:user-service'
+include 'user:user-controller'
+//include 'user:user-domain'

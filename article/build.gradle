@@ -1,0 +1,19 @@
+archivesBaseName = 'article'
+
+jar.enabled = true
+bootJar.enabled = false
+
+dependencies {
+    compile project(':article:article-domain')
+    compile project(':article:article-repository')
+    compile project(':article:article-vo')
+    compile project(':article:article-service')
+    compile project(':article:article-controller')
+
+    compile project(':user')
+    compile project(':user:user-domain')
+    compile project(':user:user-service')
+
+    compile project(':core')
+    compile project(':common')
+}

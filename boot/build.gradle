@@ -1,0 +1,43 @@
+archivesBaseName = 'boot'
+
+jar.enabled = true
+bootJar.enabled = true
+
+dependencies {
+    compile project(':core')
+    compile project(':common')
+    compile project(':search')
+    compile project(':captcha')
+
+    compile project(':user')
+    compile project(':user:user-controller')
+    compile project(':user:user-domain')
+    compile project(':user:user-exception')
+    compile project(':user:user-vo')
+    compile project(':user:user-repository')
+    compile project(':user:user-service')
+
+    compile project(':security')
+    compile project(':security:security-controller')
+    compile project(':security:security-domain')
+    compile project(':security:security-exception')
+    compile project(':security:security-repository')
+    compile project(':security:security-service')
+
+    compile project(':article')
+    compile project(':article:article-controller')
+    compile project(':article:article-domain')
+    compile project(':article:article-vo')
+    compile project(':article:article-repository')
+    compile project(':article:article-service')
+
+    implementation 'org.modelmapper:modelmapper:2.3.2'
+//    implementation 'org.apache.commons:commons-lang3:3.7'
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    implementation 'mysql:mysql-connector-java:5.1.6'
+//    implementation group: 'org.springframework.data', name: 'spring-data-elasticsearch', version: '3.1.9.RELEASE'
+//    implementation 'org.apache.shiro:shiro-spring-boot-web-starter:1.4.1'
+//
+//    compileOnly 'org.projectlombok:lombok'
+}

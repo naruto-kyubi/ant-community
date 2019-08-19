@@ -1,0 +1,13 @@
+rootProject.name = 'search'
+
+//includeFlat 'user'
+//includeFlat 'article'
+includeFlat 'core'
+includeFlat 'common'
+
+include 'user:user-domain'
+include 'user:user-service'
+
+include 'article:article-domain'
+include 'article:article-vo'
+include 'article:article-service'

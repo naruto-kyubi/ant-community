@@ -1,0 +1,5 @@
+rootProject.name = 'user-repository'
+includeFlat 'user-domain'
+include 'core'
+//include 'security'
+

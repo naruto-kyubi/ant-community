@@ -1,0 +1,17 @@
+archivesBaseName = 'security-controller'
+
+jar.enabled = true
+bootJar.enabled = false
+
+dependencies {
+    compile project(':security:security-domain')
+    compile project(':security:security-exception')
+    compile project(':security:security-service')
+    compile project(':core')
+    compile project(':captcha')
+
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.apache.commons:commons-lang3:3.7'
+    compileOnly 'org.projectlombok:lombok'
+}

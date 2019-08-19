@@ -1,0 +1,4 @@
+rootProject.name = 'article-domain'
+
+//include 'user'
+include 'user:user-domain'

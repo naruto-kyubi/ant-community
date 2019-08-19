@@ -1,0 +1,11 @@
+rootProject.name = 'article-controller'
+
+include 'core'
+include 'common'
+includeFlat 'article-domain'
+includeFlat 'article-service'
+includeFlat 'article-vo'
+
+//include 'user'
+include 'user:user-domain'
+include 'user:user-service'

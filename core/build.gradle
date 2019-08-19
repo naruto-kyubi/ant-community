@@ -1,0 +1,17 @@
+archivesBaseName = 'core'
+
+jar.enabled = true
+bootJar.enabled = false
+
+dependencies {
+    compile project(':user:user-domain')
+    implementation 'org.apache.commons:commons-lang3:3.7'
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    implementation group: 'org.springframework.data', name: 'spring-data-elasticsearch', version: '3.1.9.RELEASE'
+//    implementation 'org.apache.shiro:shiro-spring-boot-web-starter:1.4.1'
+    implementation 'org.apache.commons:commons-lang3:3.7'
+    compile group: 'commons-beanutils', name: 'commons-beanutils', version: '1.9.3'
+
+    compileOnly 'org.projectlombok:lombok'
+}
