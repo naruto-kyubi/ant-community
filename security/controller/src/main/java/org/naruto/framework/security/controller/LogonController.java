@@ -4,10 +4,10 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.naruto.framework.captcha.CaptchaType;
 import org.naruto.framework.captcha.service.CaptchaService;
+import org.naruto.framework.core.security.ILogonService;
 import org.naruto.framework.core.security.LogonUser;
 import org.naruto.framework.core.security.SessionUtils;
 import org.naruto.framework.core.web.ResultEntity;
-import org.naruto.framework.security.service.LogonService;
 import org.naruto.framework.user.domain.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -21,7 +21,7 @@ import javax.servlet.http.HttpServletResponse;
 @Slf4j
 public class LogonController {
     @Autowired
-    LogonService logonService;
+    ILogonService logonService;
 
     @Autowired
     SessionUtils sessionUtils;
