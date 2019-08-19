@@ -1,14 +1,14 @@
 rootProject.name = 'security'
 
-include 'security-domain'
-include 'security-exception'
-include 'security-repository'
-include 'security-service'
-include 'security-controller'
-
-//includeFlat 'user'
-includeFlat 'core'
-includeFlat 'common'
-
-include 'user:user-domain'
-include 'user:user-service'
+//include 'security-domain'
+//include 'security-exception'
+//include 'security-repository'
+//include 'security-service'
+//include 'security-controller'
+//
+////includeFlat 'user'
+//includeFlat 'core'
+//includeFlat 'common'
+//
+//include 'user:user-domain'
+//include 'user:user-service'

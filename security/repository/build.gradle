@@ -6,5 +6,4 @@ bootJar.enabled = false
 dependencies {
     compile project(':security:security-domain')
     compile project(':user:user-domain')
-    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 }

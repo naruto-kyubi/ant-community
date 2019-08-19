@@ -1,4 +1,4 @@
 rootProject.name = 'user-repository'
-includeFlat 'user-domain'
-include 'core'
+//includeFlat 'user-domain'
+//include 'core'
 

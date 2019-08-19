@@ -3,7 +3,7 @@ package org.naruto.framework.search.article.service;
 import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.search.fetch.subphase.highlight.HighlightBuilder;
 import org.naruto.framework.article.vo.ArticleVo;
-import org.naruto.framework.core.elasticsearch.HighLightResultMapper;
+import org.naruto.framework.search.utils.HighLightResultMapper;
 import org.naruto.framework.core.utils.ObjUtils;
 import org.naruto.framework.core.utils.PageUtils;
 import org.naruto.framework.search.ElasticSearchHighlightConfig;

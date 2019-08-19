@@ -1,4 +1,4 @@
-package org.naruto.framework.core.elasticsearch;
+package org.naruto.framework.search.utils;
 
 import org.elasticsearch.common.text.Text;
 

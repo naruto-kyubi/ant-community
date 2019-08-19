@@ -28,7 +28,18 @@ subprojects {
     }
 
     dependencies {
+        implementation 'com.fasterxml.jackson.core:jackson-annotations'
+        implementation 'javax.validation:validation-api'
+
+        implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+        implementation 'mysql:mysql-connector-java:5.1.6'
+
+        implementation 'com.alibaba:fastjson:1.2.57'
         implementation 'org.modelmapper:modelmapper:2.3.2'
+        implementation 'org.apache.commons:commons-lang3:3.7'
+        implementation 'commons-beanutils:commons-beanutils:1.9.3'
+        
         compileOnly 'org.projectlombok:lombok'
+        testImplementation 'org.springframework.boot:spring-boot-starter-test'
     }
 }

@@ -1,4 +1,4 @@
-package org.naruto.framework.core.elasticsearch;
+package org.naruto.framework.search.utils;
 
 import com.fasterxml.jackson.core.JsonEncoding;
 import com.fasterxml.jackson.core.JsonFactory;

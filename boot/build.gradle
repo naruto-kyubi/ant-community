@@ -11,7 +11,4 @@ dependencies {
     compile project(':user')
     compile project(':security')
     compile project(':article')
-    implementation 'org.springframework.boot:spring-boot-starter-web'
-    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
-    implementation 'mysql:mysql-connector-java:5.1.6'
 }
