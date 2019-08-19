@@ -5,11 +5,9 @@ import org.naruto.framework.captcha.service.CaptchaService;
 import org.naruto.framework.core.encrpyt.IEncrpyt;
 import org.naruto.framework.core.exception.CommonError;
 import org.naruto.framework.core.exception.ServiceException;
-//import org.naruto.framework.search.user.service.UserEsService;
-//import org.naruto.framework.security.service.jwt.JwtUtils;
+import org.naruto.framework.core.file.FileService;
 import org.naruto.framework.user.domain.User;
 import org.naruto.framework.user.exception.UserError;
-import org.naruto.framework.user.repository.FollowRepository;
 import org.naruto.framework.user.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -33,11 +31,8 @@ public class UserService {
     private IEncrpyt encrpytService;
 
     @Autowired
-    private FollowRepository followRepository;
+    private FileService fileService;
 
-
-//    @Value("${naruto.encrpyt.salt}")
-//    private String salt;
 
     public User register(User user){
         if(user == null) {
@@ -50,10 +45,46 @@ public class UserService {
             throw new ServiceException(UserError.NICKNAME_EXIST_ERROR);
         }
         captchaService.validateCaptcha(user.getMobile(), CaptchaType.SINGUP,user.getCaptcha());
+
         String salt = UUID.randomUUID().toString().replaceAll("-","");
         user.setPassword(encrpytService.encrpyt(user.getPassword(),salt));
         user.setPasswordSalt(salt);
         return userRepository.save(user);
+    }
+
+    public User resetPassword(User user){
+        if(user == null || user.getPassword() == null) {
+            throw new ServiceException(CommonError.PARAMETER_VALIDATION_ERROR);
+        }
+        User current = userRepository.queryUserByMobile(user.getMobile());
+        if(null == current){
+            throw new ServiceException(UserError.USER_NOT_EXIST_ERROR);
+        }
+
+        captchaService.validateCaptcha(user.getMobile(), CaptchaType.FORGOTPASSWORD,user.getCaptcha());
+        current.setPassword(encrpytService.encrpyt(user.getPassword(),current.getPasswordSalt()));
+        return userRepository.save(current);
+    }
+
+//    public String setAvatar(MultipartFile file,String userid) throws Exception{
+//        String contentType = file.getContentType();
+//        String fileName = file.getOriginalFilename();
+//        String imageUrl = fileService.uploadFile(file);
+//        User user = this.queryUserById(userid);
+//        user.setAvatar(imageUrl);
+//        this.save(user);
+//        return user.getAvatar();
+//    }
+
+
+    public String setAvatar(String imageUrl,String userid) throws Exception{
+//        String contentType = file.getContentType();
+//        String fileName = file.getOriginalFilename();
+//        String imageUrl = fileService.uploadFile(file);
+        User user = this.queryUserById(userid);
+        user.setAvatar(imageUrl);
+        this.save(user);
+        return user.getAvatar();
     }
 
     public User save(User user){
@@ -64,25 +95,8 @@ public class UserService {
         return userRepository.queryUserByMobile(mobile);
     }
 
-    public User resetPassword(User user){
-        if(user == null) {
-            throw new ServiceException(CommonError.PARAMETER_VALIDATION_ERROR);
-        }
 
-        User current = userRepository.queryUserByMobile(user.getMobile());
-        if(null == current){
-            throw new ServiceException(UserError.USER_NOT_EXIST_ERROR);
-        }
 
-        captchaService.validateCaptcha(user.getMobile(), CaptchaType.FORGOTPASSWORD,user.getCaptcha());
-        current.setPassword(encrpytService.encrpyt(user.getPassword(),user.getPasswordSalt()));
-        return userRepository.save(current);
-    }
-
-//    @Transactional
-//    public Set<Role> getUserRoles(String id) {
-//        return userRepository.findById(id).get().getRoles();
-//    }
 
     @Transactional
     public User getUserById(String id){ return this.userRepository.findById(id).get(); }
@@ -130,9 +144,4 @@ public class UserService {
     public void increaseFollowCount(String userId,Long step){
         userRepository.increateCount(userId,"follow_count",step);
     }
-
-//    public Page<UserVo> search(Map map) {
-//
-//        return userEsService.search(map);
-//    }
 }

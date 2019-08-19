@@ -4,6 +4,7 @@ package org.naruto.framework.user.controller;
 import org.modelmapper.ModelMapper;
 import org.naruto.framework.captcha.CaptchaType;
 import org.naruto.framework.captcha.service.CaptchaService;
+import org.naruto.framework.core.file.FileService;
 import org.naruto.framework.core.security.ILogonService;
 import org.naruto.framework.core.security.SessionUtils;
 import org.naruto.framework.core.utils.PageUtils;
@@ -13,6 +14,7 @@ import org.naruto.framework.user.domain.User;
 import org.naruto.framework.user.service.ThirdPartyUserService;
 import org.naruto.framework.user.service.UserService;
 import org.naruto.framework.user.vo.RegisterRequest;
+import org.naruto.framework.user.vo.ResetPasswordRequest;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -27,8 +29,6 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.constraints.NotBlank;
-import java.io.File;
-import java.io.FileOutputStream;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
@@ -39,6 +39,9 @@ public class UserController {
 
     @Value("${img.location}")
     private String location;
+
+    @Value("${spring.mvc.static-path-pattern}")
+    private String staticPathPattern;
     @Autowired
     private UserService userService;
 
@@ -57,10 +60,13 @@ public class UserController {
     @Autowired
     private ModelMapper modelMapper;
 
+    @Autowired
+    private FileService fileService;
+
+
 
     @RequestMapping(value = "/v1/user/register", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
     public ResponseEntity<ResultEntity> register(@Validated @RequestBody RegisterRequest registerRequest){
-
         User user =  modelMapper.map(registerRequest,User.class);
         return ResponseEntity.ok(ResultEntity.ok(userService.register(user)));
     }
@@ -72,15 +78,32 @@ public class UserController {
     }
 
     @RequestMapping(value = "/v1/user/resetPassword", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
-    public ResponseEntity<ResultEntity> resetPassword(@Validated @RequestBody User user){
-
+    public ResponseEntity<ResultEntity> resetPassword(@Validated @RequestBody ResetPasswordRequest resetPasswordRequest){
+        User user =  modelMapper.map(resetPasswordRequest,User.class);
         return ResponseEntity.ok(ResultEntity.ok(userService.resetPassword(user)));
     }
 
     @RequestMapping(value = "/v1/user/forgotPasswordCaptcha", method = RequestMethod.GET, produces = "application/json;charset=UTF-8")
-    public ResponseEntity<ResultEntity> getForgotPasswordCaptcha(@Validated @RequestParam(name = "mobile") String mobile) {
+    public ResponseEntity<ResultEntity> getForgotPasswordCaptcha(@NotBlank(message = "mobie number is blank") @RequestParam(name = "mobile") String mobile) {
         captchaService.createCaptcha(mobile, CaptchaType.FORGOTPASSWORD);
         return ResponseEntity.ok(ResultEntity.ok(null));
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "/v1/user/currentUser", method = RequestMethod.GET)
+    public ResponseEntity<ResultEntity> getCurrentUser(
+            HttpServletRequest request, HttpServletResponse response) {
+        User sessionUser = sessionUtils.getCurrentUser(request);
+        User localUser = userService.queryUserById(sessionUser.getId());
+        return ResponseEntity.ok(ResultEntity.ok(localUser));
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "/v1/user/avatar", method = RequestMethod.POST)
+    public ResponseEntity<ResultEntity> setAvatar(@RequestParam("file") MultipartFile file, HttpServletRequest request, HttpServletResponse response) throws Exception{
+        String userId = sessionUtils.getCurrentUser(request).getId();
+        String imageUrl = fileService.uploadFile(file);
+        return ResponseEntity.ok(ResultEntity.ok(userService.setAvatar(imageUrl,userId)));
     }
 
     //多条件组合查询查询
@@ -137,50 +160,6 @@ public class UserController {
         return ResponseEntity.ok(ResultEntity.ok(null));
     }
 
-
-    @ResponseBody
-    @RequestMapping(value = "/v1/user/currentUser", method = RequestMethod.GET)
-    public ResponseEntity<ResultEntity> getCurrentUser(
-            HttpServletRequest request, HttpServletResponse response) {
-        User sessionUser = sessionUtils.getCurrentUser(request);
-        User localUser = userService.queryUserById(sessionUser.getId());
-        return ResponseEntity.ok(ResultEntity.ok(localUser));
-    }
-
-    @ResponseBody
-    @RequestMapping(value = "/v1/user/avatar", method = RequestMethod.POST)
-    public ResponseEntity<ResultEntity> uploadFile(@RequestParam("file") MultipartFile file, HttpServletRequest request, HttpServletResponse response) throws Exception{
-        //首先进行文件上传
-        String contentType = file.getContentType();
-        String fileName = file.getOriginalFilename();
-        uploadFile(file.getBytes(), location, fileName);
-
-        User sessionUser = sessionUtils.getCurrentUser(request);
-
-        User user = userService.queryUserById(sessionUser.getId());
-        String imageUrl = "/images/".concat(fileName);
-        user.setAvatar(imageUrl);
-        userService.save(user);
-        return ResponseEntity.ok(ResultEntity.ok(imageUrl));
-    }
-
-    /**
-     * 上传文件
-     * @param file  文件对应的byte数组流   使用file.getBytes()方法可以获取
-     * @param filePath  上传文件路径，不包含文件名
-     * @param fileName 上传文件名
-     * @throws Exception
-     */
-    public static void uploadFile(byte[] file, String filePath, String fileName) throws Exception {
-        File targetFile = new File(filePath);
-        if(!targetFile.exists()){
-            targetFile.mkdirs();
-        }
-        FileOutputStream out = new FileOutputStream(filePath+"/"+fileName);
-        out.write(file);
-        out.flush();
-        out.close();
-    }
 
     // bind with third party；
     @ResponseBody
