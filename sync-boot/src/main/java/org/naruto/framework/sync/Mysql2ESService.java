@@ -37,8 +37,8 @@ public class Mysql2ESService {
             connector.connect();
             connector.subscribe(".*\\..*");
             connector.rollback();
-            int totalEmptyCount = 12000;
-            while (emptyCount < totalEmptyCount) {
+//            int totalEmptyCount = 12000;
+            while (true) {
                 Message message = connector.getWithoutAck(batchSize); // 获取指定数量的数据
                 long batchId = message.getId();
                 int size = message.getEntries().size();
@@ -59,7 +59,7 @@ public class Mysql2ESService {
                 // connector.rollback(batchId); // 处理失败, 回滚数据
             }
 
-            System.out.println("empty too many times, exit");
+//            System.out.println("empty too many times, exit");
         } finally {
             connector.disconnect();
         }
