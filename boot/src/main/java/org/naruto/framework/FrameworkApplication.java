@@ -25,27 +25,4 @@ public class FrameworkApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(FrameworkApplication.class, args);
 	}
-
-	@Value("${uploadfile.tmp.location}")
-	private String uploadfilelocation;
-
-	//设置限制文件大小。
-	@Bean
-	public MultipartConfigElement multipartConfigElement() {
-		MultipartConfigFactory factory = new MultipartConfigFactory();
-		//  单个数据大小
-		factory.setMaxFileSize("10240KB"); // KB,MB
-		/// 总上传数据大小
-		factory.setMaxRequestSize("102400KB");
-
-		//文件上传临时目录
-		factory.setLocation(uploadfilelocation);
-		return factory.createMultipartConfig();
-	}
-
-	@Bean
-	public ModelMapper modelMapper() {
-		return new ModelMapper();
-	}
-
 }
