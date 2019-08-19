@@ -57,6 +57,9 @@ subprojects {
 			attributes("Implementation-Title": "Gradle")
 		}
 	}
+    dependencies {
+        compileOnly 'org.projectlombok:lombok'
+    }
 //    dependencies {
 //        ext.jarTree = fileTree(dir: 'libs', include: '**/*.jar')
 //        ext.rootProjectLibs = new File(rootProject.rootDir, 'libs').getAbsolutePath()
