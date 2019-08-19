@@ -101,29 +101,6 @@ public class Mysql2ESService {
                     userSyncService.sync(rowChage);
                 }
             }
-
-//            for (CanalEntry.RowData rowData : rowChage.getRowDatasList()) {
-//                if (eventType == CanalEntry.EventType.DELETE) {
-//
-//                    printColumn(rowData.getBeforeColumnsList());
-//                } else if (eventType == CanalEntry.EventType.INSERT) {
-//
-//                    printColumn(rowData.getAfterColumnsList());
-//                } else {
-//
-//                    System.out.println("-------&gt; before");
-//                    printColumn(rowData.getBeforeColumnsList());
-//                    System.out.println("-------&gt; after");
-//                    printColumn(rowData.getAfterColumnsList());
-//                }
-//            }
         }
     }
-
-
-//    private void printColumn(List<CanalEntry.Column> columns) {
-//        for (CanalEntry.Column column : columns) {
-//            System.out.println(column.getName() + " : " + column.getValue() + "    update=" + column.getUpdated());
-//        }
-//    }
 }
