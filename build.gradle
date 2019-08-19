@@ -27,6 +27,11 @@ subprojects {
 //        mavenCentral()
     }
 
+    jar {
+        manifest {
+            attributes("Implementation-Title": "Gradle")
+        }
+    }
     dependencies {
         implementation 'com.fasterxml.jackson.core:jackson-annotations'
         implementation 'javax.validation:validation-api'
