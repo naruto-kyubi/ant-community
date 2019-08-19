@@ -25,13 +25,13 @@ public class ArticleVo {
 
     private String contentHtml;
 
-    private int commentCount = 0;
+    private long commentCount = 0L;
 
-    private int viewCount = 0;
+    private long viewCount = 0L;
 
-    private int starCount= 0;
+    private long starCount= 0L;
 
-    private int likeCount = 0;
+    private long likeCount = 0L;
 
     private boolean deleted;
 

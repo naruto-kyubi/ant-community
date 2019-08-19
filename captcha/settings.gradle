@@ -1,7 +1,3 @@
 rootProject.name = 'captcha'
-//includeFlat 'security-domain'
-//includeFlat 'security-exception'
-////includeFlat 'user-vo'
-//includeFlat 'security-repository'
+
 include 'core'
-//include 'common'

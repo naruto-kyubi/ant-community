@@ -1,4 +1,5 @@
 rootProject.name = 'user-service'
+
 includeFlat 'user-domain'
 includeFlat 'user-exception'
 includeFlat 'user-vo'

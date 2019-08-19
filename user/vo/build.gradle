@@ -5,5 +5,4 @@ bootJar.enabled = false
 
 dependencies {
     implementation('javax.validation:validation-api')
-    compileOnly 'org.projectlombok:lombok'
 }

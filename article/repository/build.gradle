@@ -4,7 +4,6 @@ jar.enabled = true
 bootJar.enabled = false
 
 dependencies {
-//    compileOnly 'org.projectlombok:lombok'
     compile project(':article:article-domain')
     compile project(':user:user-domain')
     compile project(':core')

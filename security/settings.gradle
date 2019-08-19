@@ -2,12 +2,11 @@ rootProject.name = 'security'
 
 include 'security-domain'
 include 'security-exception'
-//include 'user-vo'
 include 'security-repository'
 include 'security-service'
 include 'security-controller'
 
-includeFlat 'user'
+//includeFlat 'user'
 includeFlat 'core'
 includeFlat 'common'
 
