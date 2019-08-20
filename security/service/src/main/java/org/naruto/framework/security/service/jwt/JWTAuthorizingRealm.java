@@ -22,7 +22,7 @@ import java.util.List;
 
 @Slf4j
 @Component
-public class JWTRealm extends AuthorizingRealm {
+public class JWTAuthorizingRealm extends AuthorizingRealm {
 
     @Autowired
     private UserService userService;
@@ -30,7 +30,7 @@ public class JWTRealm extends AuthorizingRealm {
     @Autowired
     private UserRoleService userRoleService;
 
-    public JWTRealm(){
+    public JWTAuthorizingRealm(){
         this.setCredentialsMatcher(new JWTCredentialsMatcher());
     }
 

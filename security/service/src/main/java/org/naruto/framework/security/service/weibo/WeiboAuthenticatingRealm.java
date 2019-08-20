@@ -11,7 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
-public class WeiboAuthorizingRealm extends AuthenticatingRealm {
+public class WeiboAuthenticatingRealm extends AuthenticatingRealm {
 
     @Autowired
     private ThirdPartyUserService thirdPartyUserService;

@@ -9,13 +9,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
-public class UserPasswordRealm extends AuthenticatingRealm {
+public class UserPasswordAuthenticatingRealm extends AuthenticatingRealm {
 
     @Autowired
     private UserService userService;
 
     @Autowired
-    public UserPasswordRealm(PasswordCredentialsMatcher passwordCredentialsMatcher){
+    public UserPasswordAuthenticatingRealm(PasswordCredentialsMatcher passwordCredentialsMatcher){
         this.setCredentialsMatcher(passwordCredentialsMatcher);
     }
 
