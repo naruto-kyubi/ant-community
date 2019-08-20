@@ -9,5 +9,6 @@ dependencies {
     compile project(':security:security-service')
     compile project(':core')
     compile project(':captcha')
+    compile project(':user:user-domain')
     implementation 'org.springframework.boot:spring-boot-starter-web'
 }

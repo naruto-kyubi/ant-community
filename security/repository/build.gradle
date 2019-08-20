@@ -6,4 +6,5 @@ bootJar.enabled = false
 dependencies {
     compile project(':security:security-domain')
     compile project(':user:user-domain')
+    compile project(':core')
 }
