@@ -24,7 +24,7 @@ public class AccessLogServiceImpl implements AccessLogService{
     }
 
     @Override
-    public Page<Map> queryMoreAccessLogs(Date fromDate, Pageable pageable) {
-        return accessLogRepository.queryMoreAccessLogs(fromDate,pageable);
+    public Page<Map> queryMoreAccessLogs(Date fromDate, String articleStatus ,Pageable pageable) {
+        return accessLogRepository.queryMoreAccessLogs(fromDate,articleStatus,pageable);
     }
 }

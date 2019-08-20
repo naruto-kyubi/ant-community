@@ -38,12 +38,11 @@ public class AccessLogController {
         Date beforeDate = c.getTime();
         format.format(currentDate);
         map.put("sorter","accessCount_desc");
-        map.put("status",ArticleStatus.PUBLISH.getValue());
 
         map = PageUtils.prepareQueryPageMap(map);
         Pageable pageable = PageUtils.createPageable(map);
 
-        Page page = accessLogService.queryMoreAccessLogs(beforeDate,pageable);
+        Page page = accessLogService.queryMoreAccessLogs(beforeDate,ArticleStatus.PUBLISH.getValue(),pageable);
         return ResponseEntity.ok(ResultEntity.ok(page.getContent(), PageUtils.wrapperPagination(page)));
     }
 

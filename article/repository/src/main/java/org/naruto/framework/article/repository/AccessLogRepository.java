@@ -12,9 +12,9 @@ import java.util.Map;
 
 public interface AccessLogRepository extends CustomRepository<AccessLog,String> {
 
-    @Query(value="select count(article) as accessCount,al.article as article from AccessLog al where al.createdAt>?1 group by al.article ",
-            countQuery = "select count(al) from AccessLog al where al.createdAt>?1 group by al.article",
+    @Query(value="select count(article) as accessCount,al.article as article from AccessLog al where al.createdAt>?1 and al.article.status=?2 group by al.article ",
+            countQuery = "select count(al) from AccessLog al where al.createdAt>?1  and al.article.status=?2 group by al.article",
             nativeQuery = false
     )
-    Page<Map> queryMoreAccessLogs(Date fromDate, Pageable pageable);
+    Page<Map> queryMoreAccessLogs(Date fromDate,String articleStatus,Pageable pageable);
 }

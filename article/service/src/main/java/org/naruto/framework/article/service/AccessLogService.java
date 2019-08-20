@@ -11,5 +11,5 @@ public interface AccessLogService {
 
     AccessLog save(AccessLog accessLog);
 
-    Page<Map> queryMoreAccessLogs(Date fromDate, Pageable pageable);
+    Page<Map> queryMoreAccessLogs(Date fromDate,String articleStatus ,Pageable pageable);
 }
