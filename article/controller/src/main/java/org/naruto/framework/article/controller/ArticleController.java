@@ -141,6 +141,7 @@ public class ArticleController {
 
         Map map = new HashMap();
         map.put("owner.id",userId);
+        map.put("status",ArticleStatus.PUBLISH.getValue());
         map.put("sorter","updatedAt_DESC");
         map.put("currentPage",1);
         map.put("pageSize",10);
