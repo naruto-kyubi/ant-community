@@ -26,11 +26,11 @@ import java.util.Date;
 
 @Component
 @Slf4j
-public class JwtAuthFilter extends AuthenticatingFilter {
+public class JwtAuthenticatingFilter extends AuthenticatingFilter {
 
     private static final int tokenRefreshInterval = 300;
 
-    public JwtAuthFilter(){
+    public JwtAuthenticatingFilter(){
         this.setLoginUrl("/v1/logon/account");
     }
 

@@ -17,7 +17,7 @@ import org.apache.shiro.web.mgt.DefaultWebSubjectFactory;
 import org.apache.shiro.web.servlet.SimpleCookie;
 import org.naruto.framework.security.domain.ResourceRole;
 import org.naruto.framework.security.repository.ResourceRoleReponsitory;
-import org.naruto.framework.security.service.jwt.JwtAuthFilter;
+import org.naruto.framework.security.service.jwt.JwtAuthenticatingFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
@@ -38,7 +38,7 @@ public class ShiroConfig {
     private ResourceRoleReponsitory resourceRoleReponsitory;
 
     @Autowired
-    private JwtAuthFilter jwtAuthFilter;
+    private JwtAuthenticatingFilter jwtAuthenticatingFilter;
 
     @Autowired
     private AnyRolesAuthorizationFilter anyRolesAuthorizationFilter;
@@ -134,7 +134,7 @@ public class ShiroConfig {
         factoryBean.setSecurityManager(securityManager);
         Map<String, Filter> filterMap = factoryBean.getFilters();
         //token权限验证；
-        filterMap.put("jwtAuthToken", jwtAuthFilter);
+        filterMap.put("jwtAuthToken", jwtAuthenticatingFilter);
 
         //角色验证。
         filterMap.put("anyRole", anyRolesAuthorizationFilter);
