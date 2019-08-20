@@ -21,13 +21,13 @@ import javax.servlet.http.HttpServletResponse;
 @Slf4j
 public class LogonController {
     @Autowired
-    ILogonService logonService;
+    private ILogonService logonService;
 
     @Autowired
-    SessionUtils sessionUtils;
+    private SessionUtils sessionUtils;
 
     @Autowired
-    CaptchaService captchaService;
+    private CaptchaService captchaService;
 
     @ResponseBody
     @RequestMapping(value = "/v1/logon/account", method = RequestMethod.POST ,produces ="application/json")
@@ -49,18 +49,6 @@ public class LogonController {
 
         User user = sessionUtils.getCurrentUser(request);
         sessionUtils.logout(user);
-
-//        logonService.logout(null);
-//        //在这里执行退出系统前需要清空的数据
-//        Subject subject= SecurityUtils.getSubject();
-////        ServletContext context= request.getServletContext();
-//        try {
-//            subject.logout();
-////            context.removeAttribute("error");
-//        }catch (SessionException e){
-//            log.error(e.getMessage());
-//            e.printStackTrace();
-//        }
         return ResponseEntity.ok(ResultEntity.ok(null));
     }
 
