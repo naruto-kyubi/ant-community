@@ -5,8 +5,8 @@ import org.apache.commons.lang3.StringUtils;
 import org.naruto.framework.captcha.CaptchaType;
 import org.naruto.framework.captcha.service.CaptchaService;
 import org.naruto.framework.core.security.ILogonService;
+import org.naruto.framework.core.security.ISessionService;
 import org.naruto.framework.core.security.LogonUser;
-import org.naruto.framework.core.security.SessionUtils;
 import org.naruto.framework.core.web.ResultEntity;
 import org.naruto.framework.user.domain.User;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,7 +24,7 @@ public class LogonController {
     private ILogonService logonService;
 
     @Autowired
-    private SessionUtils sessionUtils;
+    private ISessionService sessionService;
 
     @Autowired
     private CaptchaService captchaService;
@@ -47,8 +47,8 @@ public class LogonController {
     @RequestMapping(value = "/v1/logon/logout", method = RequestMethod.GET, produces = "application/json;charset=UTF-8")
     public ResponseEntity<ResultEntity> logout(HttpServletRequest request) {
 
-        User user = sessionUtils.getCurrentUser(request);
-        sessionUtils.logout(user);
+        User user = sessionService.getCurrentUser(request);
+        sessionService.logout(user);
         return ResponseEntity.ok(ResultEntity.ok(null));
     }
 
@@ -57,5 +57,4 @@ public class LogonController {
         captchaService.createCaptcha(mobile, CaptchaType.LOGON);
         return ResponseEntity.ok(ResultEntity.ok(null));
     }
-
 }

@@ -1,6 +1,6 @@
 package org.naruto.framework.security.controller;
 
-import org.naruto.framework.core.security.SessionUtils;
+import org.naruto.framework.core.security.ISessionService;
 import org.naruto.framework.core.web.ResultEntity;
 import org.naruto.framework.security.service.ResourceRoleService;
 import org.naruto.framework.user.domain.User;
@@ -23,12 +23,12 @@ public class PermissionController {
     private ResourceRoleService resourceRoleService;
 
     @Autowired
-    private SessionUtils sessionUtils;
+    private ISessionService sessionService;
 
     @RequestMapping(value = "/v1/logon/function", method = RequestMethod.GET, produces = "application/json;charset=UTF-8")
     public ResponseEntity<ResultEntity> queryFunctions() {
 
-        User user = sessionUtils.getCurrentUser(null);
+        User user = sessionService.getCurrentUser(null);
         List list = null;
         if(null!=user){
             list = resourceRoleService.queryUserFunctions(user.getId());

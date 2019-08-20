@@ -4,7 +4,7 @@ import org.naruto.framework.article.domain.Tag;
 import org.naruto.framework.article.domain.UserTag;
 import org.naruto.framework.article.service.TagService;
 import org.naruto.framework.article.vo.TagVo;
-import org.naruto.framework.core.security.SessionUtils;
+import org.naruto.framework.core.security.ISessionService;
 import org.naruto.framework.core.utils.ObjUtils;
 import org.naruto.framework.core.utils.PageUtils;
 import org.naruto.framework.core.web.ResultEntity;
@@ -29,7 +29,7 @@ public class TagController {
     private TagService tagService;
 
     @Autowired
-    private SessionUtils sessionUtils;
+    private ISessionService sessionService;
 
     @ResponseBody
     @RequestMapping(value = "/v1/tags/query", method = RequestMethod.GET, produces = {"application/json;charset=UTF-8"})
@@ -54,7 +54,7 @@ public class TagController {
         map.put("currentPage",currentPage);
         map.put("pageSize",pageSize);
 
-        User user = sessionUtils.getCurrentUser(request);
+        User user = sessionService.getCurrentUser(request);
         Page<Tag> page = tagService.queryUserTags(user.getId(),map);
         List<TagVo> voList = page.getContent().stream().map(item->{
             TagVo vo = (TagVo) ObjUtils.convert(item, TagVo.class);
@@ -75,7 +75,7 @@ public class TagController {
         map.put("currentPage",currentPage);
         map.put("pageSize",pageSize);
 
-        User user = sessionUtils.getCurrentUser(request);
+        User user = sessionService.getCurrentUser(request);
         Page page = tagService.queryTags(user.getId(),map);
 
         return ResponseEntity.ok(ResultEntity.ok(page.getContent(), PageUtils.wrapperPagination(page)));
@@ -101,7 +101,7 @@ public class TagController {
     @RequestMapping(value = "/v1/user/tag/subscribe", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
     public ResponseEntity<ResultEntity> addUserTag(@Validated @RequestBody UserTag userTag, HttpServletRequest request){
 
-        User user = sessionUtils.getCurrentUser(request);
+        User user = sessionService.getCurrentUser(request);
         userTag.setUserId(user.getId());
         UserTag ut = tagService.save(userTag);
 
@@ -112,7 +112,7 @@ public class TagController {
     @RequestMapping(value = "/v1/user/tag/{tagId}/unsubscribe", method = RequestMethod.GET, produces = {"application/json;charset=UTF-8"})
     public ResponseEntity<ResultEntity> deleteUserTags(@PathVariable("tagId") String tagId, HttpServletRequest request){
 
-        User user = sessionUtils.getCurrentUser(request);
+        User user = sessionService.getCurrentUser(request);
         tagService.deleteUserTags(user.getId(),tagId);
         return ResponseEntity.ok(ResultEntity.ok(null));
     }

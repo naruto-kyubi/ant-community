@@ -5,7 +5,7 @@ import org.naruto.framework.article.domain.Like;
 import org.naruto.framework.article.service.ArticleService;
 import org.naruto.framework.article.service.LikeService;
 import org.naruto.framework.article.vo.LikeVo;
-import org.naruto.framework.core.security.SessionUtils;
+import org.naruto.framework.core.security.ISessionService;
 import org.naruto.framework.core.web.ResultEntity;
 import org.naruto.framework.user.domain.User;
 import org.naruto.framework.user.service.UserService;
@@ -29,13 +29,13 @@ public class LikeController {
     private UserService userService;
 
     @Autowired
-    private SessionUtils sessionUtils;
+    private ISessionService sessionService;
 
     @ResponseBody
     @RequestMapping(value = "/v1/articles/{type}/{targetId}/likes", method = RequestMethod.GET, produces = {"application/json;charset=UTF-8"})
     public ResponseEntity<ResultEntity> queryLikeById(@PathVariable("type") String type, @PathVariable("targetId") String targetId, HttpServletRequest request){
 
-        User user = sessionUtils.getCurrentUser(request);
+        User user = sessionService.getCurrentUser(request);
         Like like = null;
         if(null!=user){
             like = likeService.queryLikeByUserIdAndTypeAndTargetId(user.getId(),type,targetId);
@@ -49,7 +49,7 @@ public class LikeController {
     @RequestMapping(value = "/v1/articles/likes/add", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
     public ResponseEntity<ResultEntity> addLike(@Validated @RequestBody Like like, HttpServletRequest request){
 
-        User user = sessionUtils.getCurrentUser(request);
+        User user = sessionService.getCurrentUser(request);
 
         articleService.increaseLikeCount(like.getTargetId(),1L);
         userService.increaseLikeCount(user.getId(),1L);
@@ -66,7 +66,7 @@ public class LikeController {
     @RequestMapping(value = "/v1/articles/{type}/{targetId}/likes/delete", method = RequestMethod.GET, produces = {"application/json;charset=UTF-8"})
     public ResponseEntity<ResultEntity> deleteLike(@PathVariable("type") String type, @PathVariable("targetId") String targetId, HttpServletRequest request){
 
-        User user = sessionUtils.getCurrentUser(request);
+        User user = sessionService.getCurrentUser(request);
         likeService.deleteLike(user.getId(),type,targetId);
         userService.increaseLikeCount(user.getId(),-1L);
 

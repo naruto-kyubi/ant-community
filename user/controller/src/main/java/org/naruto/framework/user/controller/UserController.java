@@ -6,7 +6,7 @@ import org.naruto.framework.captcha.CaptchaType;
 import org.naruto.framework.captcha.service.CaptchaService;
 import org.naruto.framework.core.file.FileService;
 import org.naruto.framework.core.security.ILogonService;
-import org.naruto.framework.core.security.SessionUtils;
+import org.naruto.framework.core.security.ISessionService;
 import org.naruto.framework.core.utils.PageUtils;
 import org.naruto.framework.core.web.ResultEntity;
 import org.naruto.framework.user.domain.ThirdPartyUser;
@@ -55,7 +55,7 @@ public class UserController {
     private CaptchaService captchaService;
 
     @Autowired
-    private SessionUtils sessionUtils;
+    private ISessionService sessionService;
 
     @Autowired
     private ModelMapper modelMapper;
@@ -93,7 +93,7 @@ public class UserController {
     @RequestMapping(value = "/v1/user/currentUser", method = RequestMethod.GET)
     public ResponseEntity<ResultEntity> getCurrentUser(
             HttpServletRequest request, HttpServletResponse response) {
-        User sessionUser = sessionUtils.getCurrentUser(request);
+        User sessionUser = sessionService.getCurrentUser(request);
         User localUser = userService.queryUserById(sessionUser.getId());
         return ResponseEntity.ok(ResultEntity.ok(localUser));
     }
@@ -101,7 +101,7 @@ public class UserController {
     @ResponseBody
     @RequestMapping(value = "/v1/user/avatar", method = RequestMethod.POST)
     public ResponseEntity<ResultEntity> setAvatar(@RequestParam("file") MultipartFile file, HttpServletRequest request, HttpServletResponse response) throws Exception{
-        String userId = sessionUtils.getCurrentUser(request).getId();
+        String userId = sessionService.getCurrentUser(request).getId();
         String imageUrl = fileService.uploadFile(file);
         return ResponseEntity.ok(ResultEntity.ok(userService.setAvatar(imageUrl,userId)));
     }
@@ -170,7 +170,7 @@ public class UserController {
             HttpServletRequest request,
             HttpServletResponse response) {
 
-        User sessionUser = sessionUtils.getCurrentUser(request);
+        User sessionUser = sessionService.getCurrentUser(request);
         ThirdPartyUser thirdPartyUser = logonService.bind(sessionUser,authType,authCode);
         return ResponseEntity.ok(ResultEntity.ok(thirdPartyUser));
     }
@@ -182,7 +182,7 @@ public class UserController {
             HttpServletRequest request,
             HttpServletResponse response) {
 
-        User sessionUser = sessionUtils.getCurrentUser(request);
+        User sessionUser = sessionService.getCurrentUser(request);
         logonService.unbind(sessionUser,authType);
         return ResponseEntity.ok(ResultEntity.ok(null));
     }
@@ -191,7 +191,7 @@ public class UserController {
     @RequestMapping(value = "/v1/user/queryBinds", method = RequestMethod.GET)
     public ResponseEntity<ResultEntity> queryBinds(HttpServletRequest request, HttpServletResponse response) {
 
-        User sessionUser = sessionUtils.getCurrentUser(request);
+        User sessionUser = sessionService.getCurrentUser(request);
         List<ThirdPartyUser> thirdPartyUserList = thirdPartyUserService.queryThirdPartyUsersByUser(sessionUser);
         return ResponseEntity.ok(ResultEntity.ok(thirdPartyUserList));
     }

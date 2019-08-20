@@ -1,7 +1,7 @@
 package org.naruto.framework.search.controller;
 
 import org.naruto.framework.article.vo.ArticleVo;
-import org.naruto.framework.core.security.SessionUtils;
+import org.naruto.framework.core.security.ISessionService;
 import org.naruto.framework.core.utils.ObjUtils;
 import org.naruto.framework.core.utils.PageUtils;
 import org.naruto.framework.core.web.ResultEntity;
@@ -46,7 +46,7 @@ public class SearchController {
     private SearchEsService searchEsService;
 
     @Autowired
-    private SessionUtils sessionUtils;
+    private ISessionService sessionService;
 
 
     //综合查询；
@@ -58,7 +58,7 @@ public class SearchController {
 
         Page<Map> page = searchEsService.searchMutiIndices(map);
 //        final String currentUserId = sessionUtils.getCurrentUser(request).getId();
-        final User currentUser = sessionUtils.getCurrentUser(request);
+        final User currentUser = sessionService.getCurrentUser(request);
 
         List<Object> list = page.getContent().stream().map(item->{
             String type = (String) item.get("_type");
@@ -113,7 +113,7 @@ public class SearchController {
 
         //query search users;
         Page<UserVo> page = userEsService.search(map);
-        User user =sessionUtils.getCurrentUser(request);
+        User user =sessionService.getCurrentUser(request);
         List<UserVo> list = page.getContent();
 
         List<FollowUserVo> followList = list.stream().map(item ->{

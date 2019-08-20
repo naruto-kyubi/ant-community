@@ -4,7 +4,7 @@ import org.naruto.framework.article.domain.Article;
 import org.naruto.framework.article.domain.ArticleStatus;
 import org.naruto.framework.article.domain.Comment;
 import org.naruto.framework.article.service.ArticleService;
-import org.naruto.framework.core.security.SessionUtils;
+import org.naruto.framework.core.security.ISessionService;
 import org.naruto.framework.core.utils.PageUtils;
 import org.naruto.framework.core.web.ResultEntity;
 import org.naruto.framework.user.domain.User;
@@ -27,7 +27,7 @@ import java.util.Map;
 public class ArticleController {
 
     @Autowired
-    private SessionUtils sessionUtils;
+    private ISessionService sessionService;
 
     @Autowired
     private ArticleService articleService;
@@ -38,7 +38,7 @@ public class ArticleController {
     @ResponseBody
     @RequestMapping(value = "/v1/articles/save", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
     public ResponseEntity<ResultEntity> add(@Validated @RequestBody Article article, HttpServletRequest request){
-        User user = sessionUtils.getCurrentUser(request);
+        User user = sessionService.getCurrentUser(request);
         userService.increaseArticleCount(user.getId(),1L);
 
         return ResponseEntity.ok(ResultEntity.ok(articleService.saveArticle(article)));
@@ -96,7 +96,7 @@ public class ArticleController {
     @RequestMapping(value = "/v1/articles/comment/add", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
     public ResponseEntity<ResultEntity> addComment(@Validated @RequestBody Comment comment, HttpServletRequest request){
 
-        User user = sessionUtils.getCurrentUser(request);
+        User user = sessionService.getCurrentUser(request);
         comment.setUserId(user);
 
         return ResponseEntity.ok(ResultEntity.ok(articleService.saveComment(comment)));
@@ -127,7 +127,7 @@ public class ArticleController {
     public ResponseEntity<ResultEntity> queryFollowArticles(
             @RequestParam(required = false) Map map,
             HttpServletRequest request, HttpServletResponse response) {
-        User user = sessionUtils.getCurrentUser(request);
+        User user = sessionService.getCurrentUser(request);
         map. put("currentUserId",user.getId());
         Page page = articleService.queryFollowArticles(map);
         return ResponseEntity.ok(ResultEntity.ok(page.getContent(), PageUtils.wrapperPagination(page)));

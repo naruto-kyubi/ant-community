@@ -5,7 +5,7 @@ import org.naruto.framework.article.domain.Star;
 import org.naruto.framework.article.service.ArticleService;
 import org.naruto.framework.article.service.StarService;
 import org.naruto.framework.article.vo.StarVo;
-import org.naruto.framework.core.security.SessionUtils;
+import org.naruto.framework.core.security.ISessionService;
 import org.naruto.framework.core.utils.PageUtils;
 import org.naruto.framework.core.web.ResultEntity;
 import org.naruto.framework.user.domain.User;
@@ -33,7 +33,7 @@ public class StarController {
     private UserService userService;
 
     @Autowired
-    private SessionUtils sessionUtils;
+    private ISessionService sessionService;
 
     @ResponseBody
     @RequestMapping(value = "/v1/articles/stars", method = RequestMethod.GET, produces = {"application/json;charset=UTF-8"})
@@ -49,7 +49,7 @@ public class StarController {
     @RequestMapping(value = "/v1/articles/{articleId}/stars", method = RequestMethod.GET, produces = {"application/json;charset=UTF-8"})
     public ResponseEntity<ResultEntity> queryStarById(@PathVariable("articleId") String articleId, HttpServletRequest request){
 
-        User user = sessionUtils.getCurrentUser(request);
+        User user = sessionService.getCurrentUser(request);
         Star star = null;
         if(null!=user) {
             star = starService.queryStarByUserIdAndArticleId(user.getId(), articleId);
@@ -64,7 +64,7 @@ public class StarController {
     @RequestMapping(value = "/v1/articles/stars/add", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
     public ResponseEntity<ResultEntity> addStar(@Validated @RequestBody Star star, HttpServletRequest request){
 
-        User user = sessionUtils.getCurrentUser(request);
+        User user = sessionService.getCurrentUser(request);
         star.setUserId(user.getId());
 
         articleService.increaseStarCount(star.getArticle().getId(),1L);
@@ -81,7 +81,7 @@ public class StarController {
     @RequestMapping(value = "/v1/articles/{id}/stars/delete", method = RequestMethod.GET, produces = {"application/json;charset=UTF-8"})
     public ResponseEntity<ResultEntity> deleteStar(@PathVariable("id") String id, HttpServletRequest request){
 
-        User user = sessionUtils.getCurrentUser(request);
+        User user = sessionService.getCurrentUser(request);
 
         articleService.increaseStarCount(id,-1L);
         userService.increaseStarCount(user.getId(),-1L);

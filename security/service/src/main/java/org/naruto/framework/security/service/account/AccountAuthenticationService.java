@@ -30,16 +30,16 @@ public class AccountAuthenticationService implements IAuthenticationService {
         }
         return (User) subject.getPrincipal();
     }
-
-    @Override
-    public User getCurrentUser() {
-        Subject subject = SecurityUtils.getSubject();
-        return (User) subject.getPrincipal();
-    }
-
-    @Override
-    public void logout(User user) {
-        Subject subject = SecurityUtils.getSubject();
-        subject.logout();;
-    }
+//
+//    @Override
+//    public User getCurrentUser() {
+//        Subject subject = SecurityUtils.getSubject();
+//        return (User) subject.getPrincipal();
+//    }
+//
+//    @Override
+//    public void logout(User user) {
+//        Subject subject = SecurityUtils.getSubject();
+//        subject.logout();;
+//    }
 }

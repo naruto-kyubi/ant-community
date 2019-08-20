@@ -1,6 +1,6 @@
 package org.naruto.framework.user.controller;
 
-import org.naruto.framework.core.security.SessionUtils;
+import org.naruto.framework.core.security.ISessionService;
 import org.naruto.framework.core.utils.PageUtils;
 import org.naruto.framework.core.web.ResultEntity;
 import org.naruto.framework.user.domain.Follow;
@@ -29,7 +29,7 @@ public class FollowController {
 
 
     @Autowired
-    private SessionUtils sessionUtils;
+    private ISessionService sessionService;
 
 //    用户之间关注（one - to -one）
     @ResponseBody
@@ -38,7 +38,7 @@ public class FollowController {
 
 //        Subject subject = SecurityUtils.getSubject();
 //        User sessionUser = (User) subject.getPrincipal();
-        User sessionUser = sessionUtils.getCurrentUser(null);
+        User sessionUser = sessionService.getCurrentUser(null);
         Follow follow = null;
         if(null!=sessionUser){
             follow = followService.query(sessionUser.getId(),id);
@@ -54,7 +54,7 @@ public class FollowController {
             BindingResult bindingResult,
             HttpServletRequest request,
             HttpServletResponse response) {
-        User user = sessionUtils.getCurrentUser(request);
+        User user = sessionService.getCurrentUser(request);
 
         userService.increaseFollowCount(user.getId(),1L);
         userService.increaseFanCount(follow.getFollowUser().getId(),1L);
@@ -72,7 +72,7 @@ public class FollowController {
             HttpServletRequest request,
             HttpServletResponse response) {
 
-        User sessionUser = sessionUtils.getCurrentUser(null);
+        User sessionUser = sessionService.getCurrentUser(null);
 
         userService.increaseFollowCount(sessionUser.getId(),-1L);
         userService.increaseFanCount(id,-1L);
@@ -88,7 +88,7 @@ public class FollowController {
             @RequestParam(required = false) Map map,
             HttpServletRequest request, HttpServletResponse response) {
 
-        User user =sessionUtils.getCurrentUser(request);
+        User user =sessionService.getCurrentUser(request);
         map.put("currentUserId",user.getId());
         Page page = followService.queryFollowUsers(map);
 
@@ -102,7 +102,7 @@ public class FollowController {
             @RequestParam(required = false) Map map,
             HttpServletRequest request, HttpServletResponse response) {
 
-        User user =sessionUtils.getCurrentUser(request);
+        User user =sessionService.getCurrentUser(request);
         map.put("currentUserId",user.getId());
 
         Page page = followService.queryFans(map);

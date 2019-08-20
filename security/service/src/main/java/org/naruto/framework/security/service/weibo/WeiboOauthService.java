@@ -19,14 +19,12 @@ import java.util.Map;
 
 @Service
 public class WeiboOauthService implements IOauthService{
+
     @Autowired
     private WeiboConfig weiboConfig;
 
     @Autowired
     private RestTemplate restTemplate;
-
-    @Autowired
-    private UserService userService;
 
     @Autowired
     private ThirdPartyUserService thirdPartyUserService;

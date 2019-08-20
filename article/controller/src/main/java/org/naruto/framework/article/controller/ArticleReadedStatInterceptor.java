@@ -4,7 +4,7 @@ import org.naruto.framework.article.domain.AccessLog;
 import org.naruto.framework.article.domain.Article;
 import org.naruto.framework.article.service.AccessLogService;
 import org.naruto.framework.article.service.ArticleService;
-import org.naruto.framework.core.security.SessionUtils;
+import org.naruto.framework.core.security.ISessionService;
 import org.naruto.framework.user.domain.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -28,7 +28,7 @@ public class ArticleReadedStatInterceptor implements HandlerInterceptor {
     private AccessLogService accessLogService;
 
     @Autowired
-    private SessionUtils sessionUtils;
+    private ISessionService sessionService;
 
 
     @Override
@@ -49,7 +49,7 @@ public class ArticleReadedStatInterceptor implements HandlerInterceptor {
 
                 AccessLog accessLog = new AccessLog();
 
-                User user = sessionUtils.getCurrentUser(request);
+                User user = sessionService.getCurrentUser(request);
                 String userId=null;
                 if(null!=user){
                     //login user access;
