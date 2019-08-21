@@ -42,11 +42,11 @@ public class ThirdPartyUserService {
 
     public ThirdPartyUser bind(User user , String bindType, String bindUid, String bindName){
 
-        return getOAuthService(bindType).bind(user,bindType,bindUid,bindName);
+        return (ThirdPartyUser)getOAuthService(bindType).bind(user,bindType,bindUid,bindName);
     }
 
     public ThirdPartyUser bind(User user , String authType, String authCode){
-        return getOAuthService(authType).bind(user,authType,authCode);
+        return (ThirdPartyUser) getOAuthService(authType).bind(user,authType,authCode);
     }
 
 //    public void unbind(User user , String authType){

@@ -46,9 +46,6 @@ public class UserController {
     private UserService userService;
 
     @Autowired
-    private ILogonService logonService;
-
-    @Autowired
     private ThirdPartyUserService thirdPartyUserService;
 
     @Autowired
@@ -93,7 +90,7 @@ public class UserController {
     @RequestMapping(value = "/v1/user/currentUser", method = RequestMethod.GET)
     public ResponseEntity<ResultEntity> getCurrentUser(
             HttpServletRequest request, HttpServletResponse response) {
-        User sessionUser = sessionService.getCurrentUser(request);
+        User sessionUser = (User) sessionService.getCurrentUser(request);
         User localUser = userService.queryUserById(sessionUser.getId());
         return ResponseEntity.ok(ResultEntity.ok(localUser));
     }
@@ -137,8 +134,6 @@ public class UserController {
             @RequestBody User user,
             HttpServletRequest request,
             HttpServletResponse response) {
-
-//        if (null == id || "".equals(id)) return null;
         if (null==user) return null;
         User dbUser = userService.queryUserById(id);
 
@@ -170,8 +165,8 @@ public class UserController {
             HttpServletRequest request,
             HttpServletResponse response) {
 
-        User sessionUser = sessionService.getCurrentUser(request);
-        ThirdPartyUser thirdPartyUser = logonService.bind(sessionUser,authType,authCode);
+        User sessionUser = (User) sessionService.getCurrentUser(request);
+        ThirdPartyUser thirdPartyUser = thirdPartyUserService.bind(sessionUser,authType,authCode);
         return ResponseEntity.ok(ResultEntity.ok(thirdPartyUser));
     }
 
@@ -182,8 +177,8 @@ public class UserController {
             HttpServletRequest request,
             HttpServletResponse response) {
 
-        User sessionUser = sessionService.getCurrentUser(request);
-        logonService.unbind(sessionUser,authType);
+        User sessionUser = (User) sessionService.getCurrentUser(request);
+        thirdPartyUserService.unbind(sessionUser,authType);
         return ResponseEntity.ok(ResultEntity.ok(null));
     }
 
@@ -191,7 +186,7 @@ public class UserController {
     @RequestMapping(value = "/v1/user/queryBinds", method = RequestMethod.GET)
     public ResponseEntity<ResultEntity> queryBinds(HttpServletRequest request, HttpServletResponse response) {
 
-        User sessionUser = sessionService.getCurrentUser(request);
+        User sessionUser = (User) sessionService.getCurrentUser(request);
         List<ThirdPartyUser> thirdPartyUserList = thirdPartyUserService.queryThirdPartyUsersByUser(sessionUser);
         return ResponseEntity.ok(ResultEntity.ok(thirdPartyUserList));
     }
@@ -202,14 +197,4 @@ public class UserController {
         User user = userService.getUserById(id);
         return ResponseEntity.ok(ResultEntity.ok(user));
     }
-
-//    @ResponseBody
-//    @RequestMapping(value = "/v1/users/search", method = RequestMethod.GET, produces = {"application/json;charset=UTF-8"})
-//    public ResponseEntity<ResultEntity> search(
-//            @RequestParam(required = false) Map map,
-//            HttpServletRequest request, HttpServletResponse response) {
-//
-//        Page page = userService.search(map);
-//        return ResponseEntity.ok(ResultEntity.ok(page.getContent(), PageUtils.wrapperPagination(page)));
-//    }
 }
