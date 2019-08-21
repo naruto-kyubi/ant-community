@@ -10,6 +10,5 @@ dependencies {
     compile project(':user:user-vo')
     compile project(':user:user-repository')
     compile project(':core')
-    compile project(':common')
     compile project(':captcha')
 }
