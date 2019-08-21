@@ -39,7 +39,7 @@ public class LogonController {
                 && StringUtils.isNotEmpty(logonUser.getBindUid())
                 && !logonUser.getAuthType().equals(logonUser.getBindType())
                 ){
-            logonService.bind(user,logonUser.getBindType(),logonUser.getBindUid(),logonUser.getBindName());
+//            logonService.bind(user,logonUser.getBindType(),logonUser.getBindUid(),logonUser.getBindName());
         }
         return ResponseEntity.ok(ResultEntity.ok(user));
     }

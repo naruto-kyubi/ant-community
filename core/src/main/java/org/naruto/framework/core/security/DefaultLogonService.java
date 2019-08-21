@@ -13,18 +13,18 @@ public class DefaultLogonService implements ILogonService {
         return null;
     }
 
-    @Override
-    public ThirdPartyUser bind(User user, String bindType, String bindUid, String bindName) {
-        return null;
-    }
-
-    @Override
-    public ThirdPartyUser bind(User user, String authType, String authCode) {
-        return null;
-    }
-
-    @Override
-    public void unbind(User user, String authType) {
-
-    }
+//    @Override
+//    public ThirdPartyUser bind(User user, String bindType, String bindUid, String bindName) {
+//        return null;
+//    }
+//
+//    @Override
+//    public ThirdPartyUser bind(User user, String authType, String authCode) {
+//        return null;
+//    }
+//
+//    @Override
+//    public void unbind(User user, String authType) {
+//
+//    }
 }
