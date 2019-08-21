@@ -33,7 +33,7 @@ import java.util.Random;
 public class CaptchaService {
 
     @Autowired
-    CaptchaRepository captchaRepository;
+    private CaptchaRepository captchaRepository;
 
     @Autowired
     private CaptchaConfig captchaConfig;

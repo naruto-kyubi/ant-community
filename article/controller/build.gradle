@@ -8,7 +8,6 @@ dependencies {
     compile project(':article:article-vo')
     compile project(':article:article-service')
     compile project(':core')
-    compile project(':common')
     compile project(':user:user-service')
     implementation 'org.springframework.boot:spring-boot-starter-web'
 }

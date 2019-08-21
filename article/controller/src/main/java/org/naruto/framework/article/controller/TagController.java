@@ -54,7 +54,7 @@ public class TagController {
         map.put("currentPage",currentPage);
         map.put("pageSize",pageSize);
 
-        User user = sessionService.getCurrentUser(request);
+        User user = (User) sessionService.getCurrentUser(request);
         Page<Tag> page = tagService.queryUserTags(user.getId(),map);
         List<TagVo> voList = page.getContent().stream().map(item->{
             TagVo vo = (TagVo) ObjUtils.convert(item, TagVo.class);
@@ -75,7 +75,7 @@ public class TagController {
         map.put("currentPage",currentPage);
         map.put("pageSize",pageSize);
 
-        User user = sessionService.getCurrentUser(request);
+        User user = (User) sessionService.getCurrentUser(request);
         Page page = tagService.queryTags(user.getId(),map);
 
         return ResponseEntity.ok(ResultEntity.ok(page.getContent(), PageUtils.wrapperPagination(page)));
@@ -101,7 +101,7 @@ public class TagController {
     @RequestMapping(value = "/v1/user/tag/subscribe", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
     public ResponseEntity<ResultEntity> addUserTag(@Validated @RequestBody UserTag userTag, HttpServletRequest request){
 
-        User user = sessionService.getCurrentUser(request);
+        User user = (User) sessionService.getCurrentUser(request);
         userTag.setUserId(user.getId());
         UserTag ut = tagService.save(userTag);
 
@@ -112,7 +112,7 @@ public class TagController {
     @RequestMapping(value = "/v1/user/tag/{tagId}/unsubscribe", method = RequestMethod.GET, produces = {"application/json;charset=UTF-8"})
     public ResponseEntity<ResultEntity> deleteUserTags(@PathVariable("tagId") String tagId, HttpServletRequest request){
 
-        User user = sessionService.getCurrentUser(request);
+        User user = (User) sessionService.getCurrentUser(request);
         tagService.deleteUserTags(user.getId(),tagId);
         return ResponseEntity.ok(ResultEntity.ok(null));
     }

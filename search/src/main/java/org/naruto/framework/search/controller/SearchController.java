@@ -58,7 +58,7 @@ public class SearchController {
 
         Page<Map> page = searchEsService.searchMutiIndices(map);
 //        final String currentUserId = sessionUtils.getCurrentUser(request).getId();
-        final User currentUser = sessionService.getCurrentUser(request);
+        final User currentUser = (User) sessionService.getCurrentUser(request);
 
         List<Object> list = page.getContent().stream().map(item->{
             String type = (String) item.get("_type");
@@ -113,7 +113,7 @@ public class SearchController {
 
         //query search users;
         Page<UserVo> page = userEsService.search(map);
-        User user =sessionService.getCurrentUser(request);
+        User user = (User) sessionService.getCurrentUser(request);
         List<UserVo> list = page.getContent();
 
         List<FollowUserVo> followList = list.stream().map(item ->{

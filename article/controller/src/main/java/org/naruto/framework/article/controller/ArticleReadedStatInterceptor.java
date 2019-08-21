@@ -49,7 +49,7 @@ public class ArticleReadedStatInterceptor implements HandlerInterceptor {
 
                 AccessLog accessLog = new AccessLog();
 
-                User user = sessionService.getCurrentUser(request);
+                User user = (User) sessionService.getCurrentUser(request);
                 String userId=null;
                 if(null!=user){
                     //login user access;

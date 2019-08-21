@@ -33,7 +33,7 @@ public class LogonController {
     @RequestMapping(value = "/v1/logon/account", method = RequestMethod.POST ,produces ="application/json")
     public ResponseEntity<ResultEntity> logon(@Validated @RequestBody LogonUser logonUser, HttpServletRequest request, HttpServletResponse response) {
 
-        User user = logonService.authenticate(logonUser);
+        User user = (User) logonService.authenticate(logonUser);
         //if exists thrid party user info. bind it(weixin/weibo/taobo etc);
         if(StringUtils.isNotEmpty(logonUser.getBindType())
                 && StringUtils.isNotEmpty(logonUser.getBindUid())
@@ -47,7 +47,7 @@ public class LogonController {
     @RequestMapping(value = "/v1/logon/logout", method = RequestMethod.GET, produces = "application/json;charset=UTF-8")
     public ResponseEntity<ResultEntity> logout(HttpServletRequest request) {
 
-        User user = sessionService.getCurrentUser(request);
+        User user = (User) sessionService.getCurrentUser(request);
         sessionService.logout(user);
         return ResponseEntity.ok(ResultEntity.ok(null));
     }

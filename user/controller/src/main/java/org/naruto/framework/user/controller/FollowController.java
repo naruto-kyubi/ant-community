@@ -38,7 +38,7 @@ public class FollowController {
 
 //        Subject subject = SecurityUtils.getSubject();
 //        User sessionUser = (User) subject.getPrincipal();
-        User sessionUser = sessionService.getCurrentUser(null);
+        User sessionUser = (User) sessionService.getCurrentUser(null);
         Follow follow = null;
         if(null!=sessionUser){
             follow = followService.query(sessionUser.getId(),id);
@@ -54,7 +54,7 @@ public class FollowController {
             BindingResult bindingResult,
             HttpServletRequest request,
             HttpServletResponse response) {
-        User user = sessionService.getCurrentUser(request);
+        User user = (User) sessionService.getCurrentUser(request);
 
         userService.increaseFollowCount(user.getId(),1L);
         userService.increaseFanCount(follow.getFollowUser().getId(),1L);
@@ -72,7 +72,7 @@ public class FollowController {
             HttpServletRequest request,
             HttpServletResponse response) {
 
-        User sessionUser = sessionService.getCurrentUser(null);
+        User sessionUser = (User) sessionService.getCurrentUser(null);
 
         userService.increaseFollowCount(sessionUser.getId(),-1L);
         userService.increaseFanCount(id,-1L);
@@ -88,7 +88,7 @@ public class FollowController {
             @RequestParam(required = false) Map map,
             HttpServletRequest request, HttpServletResponse response) {
 
-        User user =sessionService.getCurrentUser(request);
+        User user = (User) sessionService.getCurrentUser(request);
         map.put("currentUserId",user.getId());
         Page page = followService.queryFollowUsers(map);
 
@@ -102,7 +102,7 @@ public class FollowController {
             @RequestParam(required = false) Map map,
             HttpServletRequest request, HttpServletResponse response) {
 
-        User user =sessionService.getCurrentUser(request);
+        User user = (User) sessionService.getCurrentUser(request);
         map.put("currentUserId",user.getId());
 
         Page page = followService.queryFans(map);

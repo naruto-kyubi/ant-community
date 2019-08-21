@@ -45,8 +45,8 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-//    @Autowired
-//    private ILogonService logonService;
+    @Autowired
+    private ILogonService logonService;
 
     @Autowired
     private ThirdPartyUserService thirdPartyUserService;
@@ -171,7 +171,7 @@ public class UserController {
             HttpServletResponse response) {
 
         User sessionUser = sessionService.getCurrentUser(request);
-        ThirdPartyUser thirdPartyUser = thirdPartyUserService.bind(sessionUser,authType,authCode);
+        ThirdPartyUser thirdPartyUser = logonService.bind(sessionUser,authType,authCode);
         return ResponseEntity.ok(ResultEntity.ok(thirdPartyUser));
     }
 
@@ -183,7 +183,7 @@ public class UserController {
             HttpServletResponse response) {
 
         User sessionUser = sessionService.getCurrentUser(request);
-        thirdPartyUserService.unbind(sessionUser,authType);
+        logonService.unbind(sessionUser,authType);
         return ResponseEntity.ok(ResultEntity.ok(null));
     }
 
