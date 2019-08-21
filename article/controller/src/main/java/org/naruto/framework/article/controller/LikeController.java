@@ -35,7 +35,7 @@ public class LikeController {
     @RequestMapping(value = "/v1/articles/{type}/{targetId}/likes", method = RequestMethod.GET, produces = {"application/json;charset=UTF-8"})
     public ResponseEntity<ResultEntity> queryLikeById(@PathVariable("type") String type, @PathVariable("targetId") String targetId, HttpServletRequest request){
 
-        User user = sessionService.getCurrentUser(request);
+        User user = (User) sessionService.getCurrentUser(request);
         Like like = null;
         if(null!=user){
             like = likeService.queryLikeByUserIdAndTypeAndTargetId(user.getId(),type,targetId);
@@ -49,7 +49,7 @@ public class LikeController {
     @RequestMapping(value = "/v1/articles/likes/add", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
     public ResponseEntity<ResultEntity> addLike(@Validated @RequestBody Like like, HttpServletRequest request){
 
-        User user = sessionService.getCurrentUser(request);
+        User user = (User) sessionService.getCurrentUser(request);
 
         articleService.increaseLikeCount(like.getTargetId(),1L);
         userService.increaseLikeCount(user.getId(),1L);
@@ -66,7 +66,7 @@ public class LikeController {
     @RequestMapping(value = "/v1/articles/{type}/{targetId}/likes/delete", method = RequestMethod.GET, produces = {"application/json;charset=UTF-8"})
     public ResponseEntity<ResultEntity> deleteLike(@PathVariable("type") String type, @PathVariable("targetId") String targetId, HttpServletRequest request){
 
-        User user = sessionService.getCurrentUser(request);
+        User user = (User) sessionService.getCurrentUser(request);
         likeService.deleteLike(user.getId(),type,targetId);
         userService.increaseLikeCount(user.getId(),-1L);
 

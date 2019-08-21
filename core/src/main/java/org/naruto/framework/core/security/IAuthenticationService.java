@@ -1,6 +1,6 @@
 package org.naruto.framework.core.security;
 
-import org.naruto.framework.user.domain.User;
+import org.naruto.framework.core.user.User;
 
 public interface IAuthenticationService {
 

@@ -3,7 +3,7 @@ package org.naruto.framework.security.service;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.subject.Subject;
 import org.naruto.framework.core.security.ISessionService;
-import org.naruto.framework.user.domain.User;
+import org.naruto.framework.core.user.User;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Component;

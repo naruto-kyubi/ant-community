@@ -93,7 +93,7 @@ public class UserController {
     @RequestMapping(value = "/v1/user/currentUser", method = RequestMethod.GET)
     public ResponseEntity<ResultEntity> getCurrentUser(
             HttpServletRequest request, HttpServletResponse response) {
-        User sessionUser = sessionService.getCurrentUser(request);
+        User sessionUser = (User) sessionService.getCurrentUser(request);
         User localUser = userService.queryUserById(sessionUser.getId());
         return ResponseEntity.ok(ResultEntity.ok(localUser));
     }
@@ -170,8 +170,8 @@ public class UserController {
             HttpServletRequest request,
             HttpServletResponse response) {
 
-        User sessionUser = sessionService.getCurrentUser(request);
-        ThirdPartyUser thirdPartyUser = logonService.bind(sessionUser,authType,authCode);
+        User sessionUser = (User) sessionService.getCurrentUser(request);
+        ThirdPartyUser thirdPartyUser = (ThirdPartyUser) logonService.bind(sessionUser,authType,authCode);
         return ResponseEntity.ok(ResultEntity.ok(thirdPartyUser));
     }
 
@@ -182,7 +182,7 @@ public class UserController {
             HttpServletRequest request,
             HttpServletResponse response) {
 
-        User sessionUser = sessionService.getCurrentUser(request);
+        User sessionUser = (User) sessionService.getCurrentUser(request);
         logonService.unbind(sessionUser,authType);
         return ResponseEntity.ok(ResultEntity.ok(null));
     }
@@ -191,7 +191,7 @@ public class UserController {
     @RequestMapping(value = "/v1/user/queryBinds", method = RequestMethod.GET)
     public ResponseEntity<ResultEntity> queryBinds(HttpServletRequest request, HttpServletResponse response) {
 
-        User sessionUser = sessionService.getCurrentUser(request);
+        User sessionUser = (User) sessionService.getCurrentUser(request);
         List<ThirdPartyUser> thirdPartyUserList = thirdPartyUserService.queryThirdPartyUsersByUser(sessionUser);
         return ResponseEntity.ok(ResultEntity.ok(thirdPartyUserList));
     }
