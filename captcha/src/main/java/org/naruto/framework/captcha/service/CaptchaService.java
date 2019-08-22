@@ -104,6 +104,7 @@ public class CaptchaService {
             log.error(e.getErrMsg());
             throw new ServiceException(CaptchaError.CAPTCHA_SERVICE_ERROR);
         } catch (ClientException e) {
+            log.error(e.getErrMsg());
             throw new ServiceException(CaptchaError.CAPTCHA_SERVICE_ERROR);
         }
     }
