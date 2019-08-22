@@ -1,7 +1,7 @@
 package org.naruto.framework.search.controller;
 
 import org.naruto.framework.article.vo.ArticleVo;
-import org.naruto.framework.core.security.ISessionService;
+import org.naruto.framework.core.session.ISessionService;
 import org.naruto.framework.core.utils.ObjUtils;
 import org.naruto.framework.core.utils.PageUtils;
 import org.naruto.framework.core.web.ResultEntity;

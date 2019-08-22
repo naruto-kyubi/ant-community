@@ -5,10 +5,9 @@ import org.modelmapper.ModelMapper;
 import org.naruto.framework.captcha.CaptchaType;
 import org.naruto.framework.captcha.service.CaptchaService;
 import org.naruto.framework.core.file.FileService;
-import org.naruto.framework.core.security.ILogonService;
-import org.naruto.framework.core.security.ISessionService;
 import org.naruto.framework.core.utils.PageUtils;
 import org.naruto.framework.core.web.ResultEntity;
+import org.naruto.framework.core.session.ISessionService;
 import org.naruto.framework.user.domain.ThirdPartyUser;
 import org.naruto.framework.user.domain.User;
 import org.naruto.framework.user.service.ThirdPartyUserService;
@@ -98,7 +97,7 @@ public class UserController {
     @ResponseBody
     @RequestMapping(value = "/v1/user/avatar", method = RequestMethod.POST)
     public ResponseEntity<ResultEntity> setAvatar(@RequestParam("file") MultipartFile file, HttpServletRequest request, HttpServletResponse response) throws Exception{
-        String userId = sessionService.getCurrentUser(request).getId();
+        String userId = ((User)sessionService.getCurrentUser(request)).getId();
         String imageUrl = fileService.uploadFile(file);
         return ResponseEntity.ok(ResultEntity.ok(userService.setAvatar(imageUrl,userId)));
     }

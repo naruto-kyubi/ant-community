@@ -9,9 +9,9 @@ import java.util.List;
 
 public interface ThirdPartyUserRepository extends CustomRepository<ThirdPartyUser,String> {
 
-    public ThirdPartyUser queryThirdPartyUserByAuthTypeAndUid(String type, String uid);
+    ThirdPartyUser queryThirdPartyUserByAuthTypeAndUid(String type, String uid);
 
-    public List<ThirdPartyUser> queryThirdPartyUsersByUser(User user);
+    List<ThirdPartyUser> queryThirdPartyUsersByUser(User user);
 
-    public void deleteThirdPartyUsersByUserAndAuthType(User user, String authType);
+    void deleteThirdPartyUsersByUserAndAuthType(User user, String authType);
 }

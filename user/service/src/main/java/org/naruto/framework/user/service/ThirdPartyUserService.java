@@ -1,7 +1,5 @@
 package org.naruto.framework.user.service;
 
-import org.naruto.framework.core.exception.ServiceException;
-import org.naruto.framework.core.security.IOauthService;
 import org.naruto.framework.user.domain.ThirdPartyUser;
 import org.naruto.framework.user.domain.User;
 import org.naruto.framework.user.repository.ThirdPartyUserRepository;
@@ -13,8 +11,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
+@Transactional
 @Service
-public class ThirdPartyUserService {
+public class  ThirdPartyUserService {
 
     @Autowired
     private ThirdPartyUserRepository thirdPartyUserRepository;
@@ -27,15 +26,17 @@ public class ThirdPartyUserService {
     }
 
     public ThirdPartyUser queryThirdPartyUserByAuthTypeAndUid(String type, String uid){
+
         return thirdPartyUserRepository.queryThirdPartyUserByAuthTypeAndUid(type,uid);
     }
 
     public List<ThirdPartyUser> queryThirdPartyUsersByUser(User user){
+
         return  thirdPartyUserRepository.queryThirdPartyUsersByUser(user);
     }
 
-    @Transactional
     public void unbind(User user, String authType){
+
         thirdPartyUserRepository.deleteThirdPartyUsersByUserAndAuthType(user,authType);
     }
 
@@ -53,12 +54,12 @@ public class ThirdPartyUserService {
 //        getOAuthService(authType).unbind(user,authType);
 //    }
 
-//
+    //
     private IOauthService getOAuthService(String type){
 
-     //   if(null==type) throw new ServiceException(SecurityError.PARAMETER_VALIDATION_ERROR);
+        //   if(null==type) throw new ServiceException(SecurityError.PARAMETER_VALIDATION_ERROR);
         IOauthService oauthService = oAuthServiceMap.get(type.concat("OauthService"));
-     //   if(null==oauthService) throw new ServiceException(SecurityError.PARAMETER_VALIDATION_ERROR);
+        //   if(null==oauthService) throw new ServiceException(SecurityError.PARAMETER_VALIDATION_ERROR);
         return oauthService;
     }
 

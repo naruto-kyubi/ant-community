@@ -1,6 +1,6 @@
 package org.naruto.framework.security.controller;
 
-import org.naruto.framework.core.security.ISessionService;
+import org.naruto.framework.core.session.ISessionService;
 import org.naruto.framework.core.web.ResultEntity;
 import org.naruto.framework.security.service.ResourceRoleService;
 import org.naruto.framework.user.domain.User;

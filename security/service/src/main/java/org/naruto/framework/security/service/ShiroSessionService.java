@@ -2,8 +2,7 @@ package org.naruto.framework.security.service;
 
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.subject.Subject;
-import org.naruto.framework.core.security.ISessionService;
-import org.naruto.framework.core.user.User;
+import org.naruto.framework.core.session.ISessionService;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Component;
@@ -16,13 +15,13 @@ import javax.servlet.http.HttpServletRequest;
 public class ShiroSessionService implements ISessionService {
 
     @Override
-    public User getCurrentUser(HttpServletRequest request) {
+    public Object getCurrentUser(HttpServletRequest request) {
         Subject subject = SecurityUtils.getSubject();
-        return (User) subject.getPrincipal();
+        return subject.getPrincipal();
     }
 
     @Override
-    public void logout(User user) {
+    public void logout(Object user) {
         Subject subject = SecurityUtils.getSubject();
         if(null!=subject) subject.logout();
     }

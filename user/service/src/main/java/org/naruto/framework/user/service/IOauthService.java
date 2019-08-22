@@ -1,7 +1,7 @@
-package org.naruto.framework.core.security;
+package org.naruto.framework.user.service;
 
-import org.naruto.framework.core.user.ThirdPartyUser;
-import org.naruto.framework.core.user.User;
+import org.naruto.framework.user.domain.ThirdPartyUser;
+import org.naruto.framework.user.domain.User;
 
 public interface IOauthService {
 

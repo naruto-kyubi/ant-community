@@ -18,7 +18,7 @@ import java.io.Serializable;
 @AllArgsConstructor
 @EntityListeners(AuditingEntityListener.class)
 @ToString
-public class ThirdPartyUser implements org.naruto.framework.core.user.ThirdPartyUser, Serializable {
+public class ThirdPartyUser implements Serializable {
     @Id
     @GenericGenerator(name="idGenerator", strategy="uuid")
     @GeneratedValue(generator="idGenerator")

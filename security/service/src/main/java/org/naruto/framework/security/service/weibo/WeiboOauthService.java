@@ -1,10 +1,10 @@
 package org.naruto.framework.security.service.weibo;
 
 import com.alibaba.fastjson.JSONObject;
-import org.naruto.framework.core.security.IOauthService;
-import org.naruto.framework.core.security.OauthUserInfo;
-import org.naruto.framework.core.user.User;
-import org.naruto.framework.core.user.ThirdPartyUser;
+import org.naruto.framework.user.service.IOauthService;
+import org.naruto.framework.user.service.OauthUserInfo;
+import org.naruto.framework.user.domain.ThirdPartyUser;
+import org.naruto.framework.user.domain.User;
 import org.naruto.framework.user.service.ThirdPartyUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,6 +16,7 @@ import org.springframework.web.client.RestTemplate;
 import java.util.HashMap;
 import java.util.Map;
 
+@Transactional
 @Service
 public class WeiboOauthService implements IOauthService{
 
@@ -30,7 +31,7 @@ public class WeiboOauthService implements IOauthService{
 
     @Override
     public ThirdPartyUser bind(User user, String bindType, String bindUid, String bindName) {
-        org.naruto.framework.user.domain.ThirdPartyUser thirdPartyUser = new org.naruto.framework.user.domain.ThirdPartyUser(null,bindType,bindUid,bindName,(org.naruto.framework.user.domain.User)user);
+        ThirdPartyUser thirdPartyUser = new ThirdPartyUser(null,bindType,bindUid,bindName,(org.naruto.framework.user.domain.User)user);
         return thirdPartyUserService.save(thirdPartyUser);
     }
 
@@ -40,11 +41,10 @@ public class WeiboOauthService implements IOauthService{
         return this.bind(user,bindType,userInfo.getUid(),userInfo.getName());
     }
 
-    @Transactional
     @Override
     public void unbind(User user, String authType) {
 
-        thirdPartyUserService.unbind((org.naruto.framework.user.domain.User)user,authType);
+        thirdPartyUserService.unbind(user,authType);
     }
 
     @Override

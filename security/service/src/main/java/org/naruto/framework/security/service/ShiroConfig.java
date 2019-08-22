@@ -19,6 +19,7 @@ import org.naruto.framework.security.domain.ResourceRole;
 import org.naruto.framework.security.repository.ResourceRoleReponsitory;
 import org.naruto.framework.security.service.jwt.JwtAuthenticatingFilter;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -29,6 +30,7 @@ import java.util.List;
 import java.util.Map;
 
 @Configuration
+//@ConditionalOnProperty(value="security.module",havingValue = "shiro")
 public class ShiroConfig {
 
     @Autowired
@@ -42,14 +44,6 @@ public class ShiroConfig {
 
     @Autowired
     private AnyRolesAuthorizationFilter anyRolesAuthorizationFilter;
-
-//    @Bean
-//    public Authenticator authenticator() {
-//        ModularRealmAuthenticator authenticator = new ModularRealmAuthenticator();
-//        authenticator.setRealms(Arrays.asList(userPasswordRealm));
-//        authenticator.setAuthenticationStrategy(new FirstSuccessfulStrategy());
-//        return authenticator;
-//    }
 
     @Bean
     public DefaultWebSecurityManager securityManager() {

@@ -4,9 +4,10 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.naruto.framework.captcha.CaptchaType;
 import org.naruto.framework.captcha.service.CaptchaService;
-import org.naruto.framework.core.security.ILogonService;
-import org.naruto.framework.core.security.ISessionService;
-import org.naruto.framework.core.security.LogonUser;
+import org.naruto.framework.security.service.ILogonService;
+import org.naruto.framework.user.service.IOauthService;
+import org.naruto.framework.core.session.ISessionService;
+import org.naruto.framework.security.service.LogonUser;
 import org.naruto.framework.core.web.ResultEntity;
 import org.naruto.framework.user.domain.User;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,6 +30,7 @@ public class LogonController {
     @Autowired
     private CaptchaService captchaService;
 
+
     @ResponseBody
     @RequestMapping(value = "/v1/logon/account", method = RequestMethod.POST ,produces ="application/json")
     public ResponseEntity<ResultEntity> logon(@Validated @RequestBody LogonUser logonUser, HttpServletRequest request, HttpServletResponse response) {
@@ -39,7 +41,8 @@ public class LogonController {
                 && StringUtils.isNotEmpty(logonUser.getBindUid())
                 && !logonUser.getAuthType().equals(logonUser.getBindType())
                 ){
-//            logonService.bind(user,logonUser.getBindType(),logonUser.getBindUid(),logonUser.getBindName());
+            IOauthService oauthService = logonService.getOAuthService(logonUser.getBindType());
+            oauthService.bind(user,logonUser.getBindType(),logonUser.getBindUid(),logonUser.getBindName());
         }
         return ResponseEntity.ok(ResultEntity.ok(user));
     }

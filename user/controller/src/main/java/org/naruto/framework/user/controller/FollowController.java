@@ -1,8 +1,8 @@
 package org.naruto.framework.user.controller;
 
-import org.naruto.framework.core.security.ISessionService;
 import org.naruto.framework.core.utils.PageUtils;
 import org.naruto.framework.core.web.ResultEntity;
+import org.naruto.framework.core.session.ISessionService;
 import org.naruto.framework.user.domain.Follow;
 import org.naruto.framework.user.domain.User;
 import org.naruto.framework.user.service.FollowService;
