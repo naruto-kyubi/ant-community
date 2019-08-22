@@ -2,12 +2,10 @@ package org.naruto.framework.captcha;
 
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Component;
 
 @Component
-@PropertySource(value = "classpath:captcha.properties")
-@ConfigurationProperties(prefix = "aliyuncs")
+@ConfigurationProperties(prefix = "captcha.aliyuncs")
 @Data
 public class CaptchaConfig {
     private String regionId;

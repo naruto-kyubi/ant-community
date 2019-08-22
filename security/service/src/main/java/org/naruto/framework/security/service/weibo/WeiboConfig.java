@@ -1,11 +1,11 @@
 package org.naruto.framework.security.service.weibo;
 
 import lombok.Data;
-import org.springframework.context.annotation.PropertySource;
+import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
 
 @Component
-@PropertySource(value = "classpath:weibo.properties")
+@ConfigurationProperties(prefix = "weibo")
 @Data
 public class WeiboConfig {
     private String tokenUrl;
