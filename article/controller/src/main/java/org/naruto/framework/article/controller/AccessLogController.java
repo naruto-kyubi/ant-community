@@ -1,6 +1,5 @@
 package org.naruto.framework.article.controller;
 
-import lombok.extern.log4j.Log4j;
 import lombok.extern.slf4j.Slf4j;
 import org.naruto.framework.article.domain.ArticleStatus;
 import org.naruto.framework.article.service.AccessLogService;

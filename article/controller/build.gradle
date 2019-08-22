@@ -9,6 +9,5 @@ dependencies {
     compile project(':article:article-service')
     compile project(':core')
     compile project(':user:user-service')
-    compile project(':security:security-service')
     implementation 'org.springframework.boot:spring-boot-starter-web'
 }
