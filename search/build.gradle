@@ -6,10 +6,9 @@ bootJar.enabled = false
 dependencies {
 
     compile project(':core')
-    compile project(':user:user-domain')
+    compile project(':user:user-controller')
     compile project(':user:user-service')
-    compile project(':article:article-domain')
-    compile project(':article:article-vo')
+    compile project(':article:article-controller')
     compile project(':article:article-service')
     implementation group: 'org.springframework.data', name: 'spring-data-elasticsearch', version: '3.1.9.RELEASE'
     implementation 'org.springframework.boot:spring-boot-starter-web'

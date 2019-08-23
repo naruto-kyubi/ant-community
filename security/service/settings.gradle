@@ -1,6 +1,5 @@
 rootProject.name = 'security-service'
 //includeFlat 'security-domain'
-//includeFlat 'security-exception'
 //includeFlat 'security-repository'
 //include 'core'
 //include 'captcha'

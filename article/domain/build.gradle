@@ -1,8 +1,0 @@
-archivesBaseName = 'article-domain'
-
-jar.enabled = true
-bootJar.enabled = false
-
-dependencies {
-    compile project(':user:user-domain')
-}

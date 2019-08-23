@@ -1,7 +1,0 @@
-archivesBaseName = 'user-vo'
-
-jar.enabled = true
-bootJar.enabled = false
-
-dependencies {
-}
