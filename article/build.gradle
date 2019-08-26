@@ -5,9 +5,7 @@ bootJar.enabled = false
 
 dependencies {
 
-    compile project(':article:article-domain')
     compile project(':article:article-repository')
-    compile project(':article:article-vo')
     compile project(':article:article-service')
     compile project(':article:article-controller')
 

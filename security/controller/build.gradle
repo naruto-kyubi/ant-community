@@ -4,10 +4,9 @@ jar.enabled = true
 bootJar.enabled = false
 
 dependencies {
-    compile project(':security:security-domain')
     compile project(':security:security-service')
     compile project(':core')
     compile project(':captcha')
-    compile project(':user:user-domain')
+    compile project(':user:user-repository')
     implementation 'org.springframework.boot:spring-boot-starter-web'
 }

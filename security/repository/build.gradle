@@ -4,7 +4,6 @@ jar.enabled = true
 bootJar.enabled = false
 
 dependencies {
-    compile project(':security:security-domain')
     compile project(':user:user-repository')
     compile project(':core')
 }

@@ -7,14 +7,9 @@ dependencies {
     compile project(':core')
     compile project(':search')
 
-    compile project(':user:user-domain')
-    compile project(':user:user-exception')
-    compile project(':user:user-vo')
     compile project(':user:user-repository')
     compile project(':user:user-service')
 
-    compile project(':article:article-domain')
-    compile project(':article:article-vo')
     compile project(':article:article-repository')
     compile project(':article:article-service')
 

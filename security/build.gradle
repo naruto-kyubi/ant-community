@@ -6,8 +6,6 @@ bootJar.enabled = false
 dependencies {
     compile project(':core')
     compile project(':captcha')
-    compile project(':security:security-domain')
-    compile project(':security:security-exception')
     compile project(':security:security-repository')
     compile project(':security:security-service')
     compile project(':security:security-controller')
