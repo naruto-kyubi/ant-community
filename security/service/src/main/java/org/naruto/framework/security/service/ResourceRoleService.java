@@ -17,11 +17,9 @@ import java.util.Map;
 @Service
 @Slf4j
 public class ResourceRoleService {
+
     @Autowired
     private ResourceRoleReponsitory resourceRoleReponsitory;
-
-//    @Autowired
-//    private ShiroFilterFactoryBean shiroFilterFactoryBean;
 
     @Autowired
     private ShiroFilterFactoryBean shiroFilter;
@@ -72,13 +70,13 @@ public class ResourceRoleService {
         return chainDefinition;
     }
 
-    public List queryUserFunctions(String userId){
-        List<Map> list = resourceRoleReponsitory.queryUserFunctions(userId);
+    public List queryFunctionsByUserId(String userId){
+        List<Map> list = resourceRoleReponsitory.queryFunctionsByUserId(userId);
         return list;
     }
 
-    public List queryRoleFunctions(String roleId){
-        List<Map> list = resourceRoleReponsitory.queryRoleFunctions(roleId);
+    public List queryFunctionsByRoleId(String roleId){
+        List<Map> list = resourceRoleReponsitory.queryFunctionsByRoleId(roleId);
         return list;
     }
 }

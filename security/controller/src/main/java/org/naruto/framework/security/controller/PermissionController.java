@@ -25,15 +25,19 @@ public class PermissionController {
     @Autowired
     private ISessionService sessionService;
 
+    /**
+     * 获取当前登录用户的功能列表。
+     * @return
+     */
     @RequestMapping(value = "/v1/logon/function", method = RequestMethod.GET, produces = "application/json;charset=UTF-8")
     public ResponseEntity<ResultEntity> queryFunctions() {
 
         User user = (User) sessionService.getCurrentUser(null);
         List list = null;
         if(null!=user){
-            list = resourceRoleService.queryUserFunctions(user.getId());
+            list = resourceRoleService.queryFunctionsByUserId(user.getId());
         }else{
-            list = resourceRoleService.queryRoleFunctions("guest");
+            list = resourceRoleService.queryFunctionsByRoleId("guest");
         }
         list = buildMenuMap(list,"-1");
 
@@ -48,11 +52,8 @@ public class PermissionController {
             String _pId = (String)_map.get("parent_id");
             String _type = (String)_map.get("type");
 
-//            String _hideInMenu = (String)_map.get("hide_in_menu");
-//            if("true".equals(_hideInMenu))  continue;
             if (null != _pId && _pId.equals(parentId)) {
                 Map _menuMap = new HashMap();
-//                _menuMap.put("hideInMenu", _map.get("hideInMenu"));
                 _menuMap.put("id", _map.get("id"));
                 _menuMap.put("parent_id", _map.get("parent_id"));
                 _menuMap.put("path", _map.get("path"));
@@ -63,16 +64,18 @@ public class PermissionController {
                 _menuMap.put("type", _map.get("type"));
                 _menuMap.put("seq", _map.get("seq"));
                 _list.add(_menuMap);
-//                if ("MENU".equals(_type)) {
                 List<Map> _rtnList = buildMenuMap(menuList, _id);
                 if(null!=_rtnList && _rtnList.size()>0)
                     _menuMap.put("children", _rtnList);
-//                }
             }
         }
         return _list;
     }
 
+    /**
+     * 从数据库中，重新加载角色功能列表权限；
+     * @return
+     */
     @GetMapping(value = "/v1/perm/reloadFilterChains")
     public ResponseEntity<String> reloadFilterChains() {
 

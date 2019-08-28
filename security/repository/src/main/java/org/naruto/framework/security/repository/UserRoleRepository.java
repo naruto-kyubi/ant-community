@@ -9,6 +9,11 @@ import java.util.List;
 
 public interface UserRoleRepository extends CustomRepository<UserRole,String>{
 
+    /**
+     * 查询用户角色数据
+     * @param userId
+     * @return
+     */
     @Query(value="select role from UserRole ur where ur.user.id=?1")
     List<Role> queryRolesByUserId(String userId);
 }

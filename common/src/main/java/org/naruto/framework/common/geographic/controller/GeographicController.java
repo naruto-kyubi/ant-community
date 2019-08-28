@@ -1,9 +1,6 @@
 package org.naruto.framework.common.geographic.controller;
 
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONArray;
-import com.alibaba.fastjson.JSONObject;
-//import org.apache.commons.io.IOUtils;
+
 import org.naruto.framework.common.geographic.domain.City;
 import org.naruto.framework.common.geographic.domain.Province;
 import org.naruto.framework.common.geographic.repository.CityRepository;
@@ -16,12 +13,8 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
+
 
 @RestController
 public class GeographicController {

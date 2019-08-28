@@ -20,10 +20,20 @@ public class LogonService implements ILogonService {
     @Autowired
     private Map<String, IOauthService> oAuthServiceMap = new ConcurrentHashMap<>();
 
+    /**
+     * 用户身份认证
+     * @param logonUser
+     * @return
+     */
     public User authenticate(LogonUser logonUser){
         return getAuthenticationService(logonUser.getAuthType()).authenticate(logonUser);
     }
 
+    /**
+     * 依据type，获取IAuthenticationService接口实现类（包括用户密码、手机短信、微博等）。
+     * @param type
+     * @return
+     */
     private IAuthenticationService getAuthenticationService(String type){
 
         if(null==type) throw new ServiceException(SecurityError.PARAMETER_VALIDATION_ERROR);
@@ -31,7 +41,12 @@ public class LogonService implements ILogonService {
         if(null==authenticationService) throw new ServiceException(SecurityError.PARAMETER_VALIDATION_ERROR);
         return authenticationService;
     }
-//
+
+    /**
+     * 依据type,获取OAuthService服务类型（weibo）。
+     * @param type
+     * @return
+     */
     public IOauthService getOAuthService(String type){
 
         if(null==type) throw new ServiceException(SecurityError.PARAMETER_VALIDATION_ERROR);

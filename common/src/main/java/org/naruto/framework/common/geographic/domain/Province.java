@@ -17,8 +17,6 @@ import javax.persistence.*;
 @ToString
 public class Province {
     @Id
-//    @GenericGenerator(name="idGenerator", strategy="uuid")
-//    @GeneratedValue(generator="idGenerator")
     @Column(length=40)
     private String id;
 

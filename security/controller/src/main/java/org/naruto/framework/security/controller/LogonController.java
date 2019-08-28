@@ -21,6 +21,7 @@ import javax.servlet.http.HttpServletResponse;
 @RestController
 @Slf4j
 public class LogonController {
+
     @Autowired
     private ILogonService logonService;
 
@@ -31,6 +32,13 @@ public class LogonController {
     private CaptchaService captchaService;
 
 
+    /**
+     * 用户身份认证（支持用户名密码、短信验证码、微博）
+     * @param logonUser
+     * @param request
+     * @param response
+     * @return
+     */
     @ResponseBody
     @RequestMapping(value = "/v1/logon/account", method = RequestMethod.POST ,produces ="application/json")
     public ResponseEntity<ResultEntity> logon(@Validated @RequestBody LogonUser logonUser, HttpServletRequest request, HttpServletResponse response) {
@@ -47,6 +55,11 @@ public class LogonController {
         return ResponseEntity.ok(ResultEntity.ok(user));
     }
 
+    /**
+     * 登录用户注销
+     * @param request
+     * @return
+     */
     @RequestMapping(value = "/v1/logon/logout", method = RequestMethod.GET, produces = "application/json;charset=UTF-8")
     public ResponseEntity<ResultEntity> logout(HttpServletRequest request) {
 
@@ -55,6 +68,11 @@ public class LogonController {
         return ResponseEntity.ok(ResultEntity.ok(null));
     }
 
+    /**
+     * 获取登录captcha。
+     * @param mobile
+     * @return
+     */
     @RequestMapping(value = "/v1/logon/captcha", method = RequestMethod.GET, produces = "application/json;charset=UTF-8")
     public ResponseEntity<ResultEntity> getCaptcha(@Validated @RequestParam(name = "mobile") String mobile) {
         captchaService.createCaptcha(mobile, CaptchaType.LOGON);

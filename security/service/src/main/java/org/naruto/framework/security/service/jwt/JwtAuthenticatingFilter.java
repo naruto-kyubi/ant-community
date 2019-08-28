@@ -28,15 +28,6 @@ import java.util.Date;
 @Component
 @Slf4j
 public class JwtAuthenticatingFilter extends AuthenticatingFilter {
-//
-//    //token刷新时间间隔；
-//    private static final int tokenRefreshInterval = 300;
-//
-//    //cookies 存活时间；
-//    private static final int tokenCookiesMaxAge = 259200;
-//
-//    //token过期时间；
-//    private static final int tokenExpire = 3600;
 
     @Autowired
     private JWTTokenConfigProperties jwtTokenConfigProperties;
@@ -73,6 +64,7 @@ public class JwtAuthenticatingFilter extends AuthenticatingFilter {
         request.setAttribute("jwtShiroFilter.FILTERED", true);
     }
 
+    //使用JWTtoken或RememberMe方式，验证用户是否允许访问资源（URL）。
     @Override
     public boolean isAccessAllowed(ServletRequest request, ServletResponse response, Object mappedValue) {
         //判断是否是登录的URL页面；
@@ -91,19 +83,18 @@ public class JwtAuthenticatingFilter extends AuthenticatingFilter {
         }
 
         boolean isRememberMe =false;
-//        boolean isAnon = false;
         if(null!=mappedValue){
-
+            //用户RememberMe登录情况下，是否可以访问该资源.
             isRememberMe = Arrays.asList(mappedValue).contains("RememberMe");
         }
 
         if(!allowed && isRememberMe) {
-            //
+            //没有token或token存在问题的情况下，并且是允许RememberMe访问的状态下，获取用户信息。
             Subject subject = SecurityUtils.getSubject();
+            //rememberme状态下是否允许访问；
             allowed = null!= subject.getPrincipals();
         }
 
-//        if(!allowed && isAnon)  allowed = true;
         return allowed || super.isPermissive(mappedValue);
     }
 

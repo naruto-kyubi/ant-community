@@ -29,24 +29,49 @@ public class WeiboOauthService implements IOauthService{
     @Autowired
     private ThirdPartyUserService thirdPartyUserService;
 
+    /**
+     * 用户与微博账户绑定
+     * @param user
+     * @param bindType
+     * @param bindUid
+     * @param bindName
+     * @return
+     */
     @Override
     public ThirdPartyUser bind(User user, String bindType, String bindUid, String bindName) {
         ThirdPartyUser thirdPartyUser = new ThirdPartyUser(null,bindType,bindUid,bindName,(org.naruto.framework.user.domain.User)user);
         return thirdPartyUserService.save(thirdPartyUser);
     }
 
+    /**
+     * user与微博账号绑定
+     * @param user
+     * @param bindType
+     * @param authCode
+     * @return
+     */
     @Override
     public ThirdPartyUser bind(User user, String bindType, String authCode) {
         OauthUserInfo userInfo = this.getOAuthUserInfo(authCode);
         return this.bind(user,bindType,userInfo.getUid(),userInfo.getName());
     }
 
+    /**
+     * 解除用户与微博账号的绑定
+     * @param user
+     * @param authType
+     */
     @Override
     public void unbind(User user, String authType) {
 
         thirdPartyUserService.unbind(user,authType);
     }
 
+    /**
+     * 访问微博服务，获取微博账户信息。
+     * @param authCode
+     * @return
+     */
     @Override
     public OauthUserInfo getOAuthUserInfo(String authCode) {
         MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
