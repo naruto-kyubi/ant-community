@@ -9,9 +9,4 @@ dependencies {
     compile project(':article:article-service')
     compile project(':article:article-controller')
 
-//    compile project(':user:user-domain')
-//    compile project(':user:user-service')
-
-//    compile project(':core')
-//    compile project(':common')
 }
