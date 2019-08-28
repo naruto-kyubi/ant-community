@@ -4,5 +4,5 @@ jar.enabled = true
 bootJar.enabled = false
 
 dependencies {
-    compile project(':boot')
+//    compile project(':boot')
 }
