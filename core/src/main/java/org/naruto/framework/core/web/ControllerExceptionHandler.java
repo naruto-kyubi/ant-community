@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.validation.ConstraintViolationException;
+
 @Slf4j
 @ControllerAdvice
 public class ControllerExceptionHandler {
@@ -31,6 +33,15 @@ public class ControllerExceptionHandler {
     public ResultEntity serviceExceptionHandler(ServiceException ex) {
         log.error(ex.toString());
         return ResultEntity.fail(ex);
+    }
+
+    @ResponseBody
+    @ExceptionHandler(value = ConstraintViolationException.class)
+    public ResultEntity constraintViolationExceptionHandler(ConstraintViolationException ex) {
+        log.error(ex.toString());
+        ServiceException serviceException = new ServiceException(CommonError.PARAMETER_VALIDATION_ERROR);
+        serviceException.setErrMsg(ex.toString());
+        return ResultEntity.fail(serviceException);
     }
 
 
