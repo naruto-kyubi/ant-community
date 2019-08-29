@@ -2,7 +2,7 @@ package org.naruto.framework.common.catalog.service;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.naruto.framework.FrameworkApplication;
+import org.naruto.framework.FrameworkApplicationTest;
 import org.naruto.framework.common.catalog.domain.Catalog;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -13,7 +13,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @RunWith(SpringRunner.class)
-@SpringBootTest(classes = FrameworkApplication.class)
+@SpringBootTest(classes = FrameworkApplicationTest.class)
 public class CatalogServiceTest {
 
     @Autowired

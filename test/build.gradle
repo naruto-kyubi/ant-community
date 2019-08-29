@@ -1,8 +1,14 @@
 archivesBaseName = 'test'
 
-jar.enabled = true
+jar.enabled = false
 bootJar.enabled = false
 
 dependencies {
-//    compile project(':boot')
+    compile project(':core')
+    compile project(':common')
+    compile project(':search')
+    compile project(':captcha')
+    compile project(':user')
+    compile project(':security')
+    compile project(':article')
 }
