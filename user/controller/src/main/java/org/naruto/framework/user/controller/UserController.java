@@ -14,6 +14,7 @@ import org.naruto.framework.user.service.ThirdPartyUserService;
 import org.naruto.framework.user.service.UserService;
 import org.naruto.framework.user.vo.RegisterRequest;
 import org.naruto.framework.user.vo.ResetPasswordRequest;
+import org.naruto.framework.user.vo.UpdateUserRequest;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -130,13 +131,13 @@ public class UserController {
     @RequestMapping(value = "/v1/user/update/{id}", method = RequestMethod.PUT)
     public ResponseEntity<ResultEntity> update(
             @PathVariable("id") String id,
-            @RequestBody User user,
+            @Validated @RequestBody UpdateUserRequest updateUserRequest,
             HttpServletRequest request,
             HttpServletResponse response) {
-        if (null==user) return null;
+        if (null==updateUserRequest) return null;
         User dbUser = userService.queryUserById(id);
 
-        BeanUtils.copyProperties(user,dbUser,"mobile","password","passwordSalt","avatar","weibo","roles");
+        modelMapper.map(updateUserRequest,dbUser);
         return ResponseEntity.ok(ResultEntity.ok(userService.save(dbUser)));
     }
 

@@ -10,12 +10,12 @@ import javax.validation.constraints.NotBlank;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ResetPasswordRequest {
-    @NotBlank(message ="password is blank")
+    @NotBlank(message ="password must not be empty")
     private String password;
 
-    @NotBlank(message ="mobile is blank")
+    @NotBlank(message ="mobile must not be empty")
     private String mobile;
 
-    @NotBlank(message ="captcha is blank")
+    @NotBlank(message ="captcha must not be empty")
     private String captcha;
 }

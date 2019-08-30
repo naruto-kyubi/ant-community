@@ -11,15 +11,15 @@ import javax.validation.constraints.NotBlank;
 @NoArgsConstructor
 public class RegisterRequest {
 
-    @NotBlank(message ="mobile is blank")
+    @NotBlank(message ="mobile must not be empty")
     private String mobile;
 
-    @NotBlank(message ="nick name is blank")
+    @NotBlank(message ="nick name must not be empty")
     private String nickname;
 
-    @NotBlank(message ="password is blank")
+    @NotBlank(message ="password must not be empty")
     private String password;
 
-    @NotBlank(message ="captcha is blank")
+    @NotBlank(message ="captcha must not be empty")
     private String captcha;
 }
