@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.Assert;
 
 import java.util.List;
 import java.util.Map;
@@ -66,21 +67,8 @@ public class UserService {
         return userRepository.save(current);
     }
 
-//    public String setAvatar(MultipartFile file,String userid) throws Exception{
-//        String contentType = file.getContentType();
-//        String fileName = file.getOriginalFilename();
-//        String imageUrl = fileService.uploadFile(file);
-//        User user = this.queryUserById(userid);
-//        user.setAvatar(imageUrl);
-//        this.save(user);
-//        return user.getAvatar();
-//    }
-
 
     public String setAvatar(String imageUrl,String userid) throws Exception{
-//        String contentType = file.getContentType();
-//        String fileName = file.getOriginalFilename();
-//        String imageUrl = fileService.uploadFile(file);
         User user = this.queryUserById(userid);
         user.setAvatar(imageUrl);
         this.save(user);
@@ -88,6 +76,11 @@ public class UserService {
     }
 
     public User save(User user){
+        Assert.notNull(user,"user can not be null");
+        User userWithNickName = userRepository.isNicknameExist(user.getNickname(),user.getId());
+        if(userWithNickName!=null){
+            throw new ServiceException(UserError.NICKNAME_EXIST_ERROR);
+        }
         return userRepository.save(user);
     }
 
