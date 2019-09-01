@@ -7,6 +7,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.FileOutputStream;
+import java.util.UUID;
 
 @Service
 public class FileService {
@@ -21,7 +22,9 @@ public class FileService {
 
     public String uploadFile(MultipartFile file) throws Exception {
         String contentType = file.getContentType();
-        String fileName = file.getOriginalFilename();
+
+        String orginalFileName = file.getOriginalFilename();
+        String fileName = StringUtils.substringBefore(orginalFileName,".").concat(UUID.randomUUID().toString()).concat(orginalFileName.substring(orginalFileName.lastIndexOf(".")));
 
         File targetFile = new File(location);
         if(!targetFile.exists()){
