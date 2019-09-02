@@ -46,6 +46,9 @@ public class ShiroConfig {
     @Autowired
     private AnyRolesAuthorizationFilter anyRolesAuthorizationFilter;
 
+    @Autowired
+    private HttpMethodAuthorizationFilter httpMethodAuthorizationFilter;
+
     //创建securityManager bean
     @Bean
     public DefaultWebSecurityManager securityManager() {
@@ -136,6 +139,8 @@ public class ShiroConfig {
         //token权限验证；
         filterMap.put("jwtAuthToken", jwtAuthenticatingFilter);
 
+        //token权限验证；
+        filterMap.put("httpmethod", httpMethodAuthorizationFilter);
         //角色验证。
         filterMap.put("anyRole", anyRolesAuthorizationFilter);
 

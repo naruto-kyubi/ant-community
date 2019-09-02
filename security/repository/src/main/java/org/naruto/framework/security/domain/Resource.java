@@ -35,6 +35,4 @@ public class Resource implements Serializable {
     @Column(length = 500)
     private String filter;
 
-
-
 }

@@ -80,8 +80,6 @@ public class ArticleController {
         return ResponseEntity.ok(ResultEntity.ok(article));
     }
 
-
-
     @ResponseBody
     @RequestMapping(value = "/v1/articles/comments", method = RequestMethod.GET, produces = {"application/json;charset=UTF-8"})
     public ResponseEntity<ResultEntity> queryComments(
