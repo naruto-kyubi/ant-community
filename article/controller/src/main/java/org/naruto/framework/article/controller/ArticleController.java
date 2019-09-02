@@ -99,26 +99,6 @@ public class ArticleController {
         return ResponseEntity.ok(ResultEntity.ok(articleService.saveComment(comment)));
     }
 
-//    @ResponseBody
-//    @RequestMapping(value = "/v1/articles/hot", method = RequestMethod.GET, produces = {"application/json;charset=UTF-8"})
-//    public ResponseEntity<ResultEntity> queryHotList(
-//            @RequestParam(required = false) Map map,
-//            HttpServletRequest request, HttpServletResponse response) {
-//
-//        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-//        Calendar c = Calendar.getInstance();
-//        Date currentDate = c.getTime();
-//        c.add(Calendar.DATE, - 7);
-//        Date beforeDate = c.getTime();
-//        format.format(currentDate);
-//        map.put("sorter","viewCount_desc,updatedAt_desc");
-//        map.put("status_equal", ArticleStatus.PUBLISH.toString());
-//        map.put("updatedAt_between",format.format(beforeDate) + "," + format.format(currentDate));
-//
-//        Page page = articleService.queryArticleByPage(map);
-//        return ResponseEntity.ok(ResultEntity.ok(page.getContent(), PageUtils.wrapperPagination(page)));
-//    }
-
     @ResponseBody
     @RequestMapping(value = "/v1/follows/articles", method = RequestMethod.GET, produces = {"application/json;charset=UTF-8"})
     public ResponseEntity<ResultEntity> queryFollowArticles(
@@ -130,18 +110,22 @@ public class ArticleController {
         return ResponseEntity.ok(ResultEntity.ok(page.getContent(), PageUtils.wrapperPagination(page)));
     }
 
+    /**
+     * 用户的文章；
+     * @param userId
+     * @param request
+     * @param response
+     * @return
+     */
     @ResponseBody
     @RequestMapping(value = "/v1/users/{userId}/articles", method = RequestMethod.GET, produces = {"application/json;charset=UTF-8"})
-    public ResponseEntity<ResultEntity> queryUser10Articles(
-            @PathVariable("userId") String userId,
+    public ResponseEntity<ResultEntity> queryUser2Articles(
+            @PathVariable("userId") String userId,@RequestParam(required = false) Map map,
             HttpServletRequest request, HttpServletResponse response) {
-
-        Map map = new HashMap();
         map.put("owner.id",userId);
         map.put("status",ArticleStatus.PUBLISH.getValue());
         map.put("sorter","updatedAt_DESC");
-        map.put("currentPage",1);
-        map.put("pageSize",10);
+
         Page page = articleService.queryArticleByPage(map);
         return ResponseEntity.ok(ResultEntity.ok(page.getContent(), PageUtils.wrapperPagination(page)));
     }
