@@ -32,7 +32,7 @@ public class StarController {
     @Autowired
     private UserService userService;
 
-    @Autowired
+    @Autowired(required = false)
     private ISessionService sessionService;
 
     @ResponseBody

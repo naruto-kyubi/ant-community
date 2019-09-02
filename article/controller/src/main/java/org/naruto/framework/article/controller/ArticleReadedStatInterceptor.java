@@ -27,7 +27,7 @@ public class ArticleReadedStatInterceptor implements HandlerInterceptor {
     @Autowired
     private AccessLogService accessLogService;
 
-    @Autowired
+    @Autowired(required = false)
     private ISessionService sessionService;
 
 

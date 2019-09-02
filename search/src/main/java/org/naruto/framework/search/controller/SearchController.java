@@ -45,7 +45,7 @@ public class SearchController {
     @Autowired
     private SearchEsService searchEsService;
 
-    @Autowired
+    @Autowired(required = false)
     private ISessionService sessionService;
 
 

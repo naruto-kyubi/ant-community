@@ -18,7 +18,7 @@ public class  ThirdPartyUserService {
     @Autowired
     private ThirdPartyUserRepository thirdPartyUserRepository;
 
-    @Autowired
+    @Autowired(required = false)
     private Map<String, IOauthService> oAuthServiceMap = new ConcurrentHashMap<>();
 
     public ThirdPartyUser save(ThirdPartyUser thirdPartyUser){

@@ -28,7 +28,7 @@ public class TagController {
     @Autowired
     private TagService tagService;
 
-    @Autowired
+    @Autowired(required = false)
     private ISessionService sessionService;
 
     @ResponseBody

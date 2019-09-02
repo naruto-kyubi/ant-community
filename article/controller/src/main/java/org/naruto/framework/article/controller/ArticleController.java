@@ -23,7 +23,7 @@ import java.util.Map;
 @RestController
 public class ArticleController {
 
-    @Autowired
+    @Autowired(required = false)
     private ISessionService sessionService;
 
     @Autowired
