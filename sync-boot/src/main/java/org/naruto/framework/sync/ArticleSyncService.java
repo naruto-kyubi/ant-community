@@ -2,6 +2,7 @@ package org.naruto.framework.sync;
 
 import com.alibaba.otter.canal.protocol.CanalEntry;
 import org.naruto.framework.article.domain.Article;
+import org.naruto.framework.article.domain.ArticleStatus;
 import org.naruto.framework.article.service.ArticleService;
 import org.naruto.framework.core.utils.ObjUtils;
 import org.naruto.framework.search.article.domain.EsArticle;
@@ -30,6 +31,10 @@ public class ArticleSyncService {
 
                 String value = CanalUtils.getColumnValue(rowData.getAfterColumnsList(),"id");
                 Article article =articleService.queryArticleById(value);
+
+                //草稿不同步；
+                if(ArticleStatus.DRAFT.getValue().equals(article.getStatus())) continue;
+
                 EsArticle esArticle = (EsArticle) ObjUtils.convert(article,EsArticle.class);
                 esArticle.setUserId(esArticle.getOwner().getId());
                 articleEsService.save(esArticle);
