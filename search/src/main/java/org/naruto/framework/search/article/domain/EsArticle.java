@@ -21,7 +21,7 @@ import java.util.List;
 @AllArgsConstructor
 @ToString
 @EntityListeners(AuditingEntityListener.class)
-@Document(indexName = "naruto", type = "article")
+@Document(indexName = "article", type = "article")
 public class EsArticle {
 
     @Id

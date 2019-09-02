@@ -19,16 +19,15 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @EnableTransactionManagement(proxyTargetClass = true)
 @EnableJpaRepositories(repositoryFactoryBeanClass = CustomRepositoryFactoryBean.class)
 @ComponentScan(excludeFilters={
-        @ComponentScan.Filter(type= FilterType.ANNOTATION,classes={Controller.class})
-    })
-public class Mysql2EsSyncApplication implements CommandLineRunner {
-
+        @ComponentScan.Filter(type= FilterType.ANNOTATION,classes={SpringBootApplication.class, Controller.class}),
+})
+public class IncrementSyncApplication implements CommandLineRunner {
 
     @Autowired
     private Mysql2ESService mysql2ESService;
 
     public static void main(String[] args) throws Exception{
-        new SpringApplicationBuilder(Mysql2EsSyncApplication.class)
+        new SpringApplicationBuilder(IncrementSyncApplication.class)
                 .web(WebApplicationType.NONE)
                 .run(args);
     }

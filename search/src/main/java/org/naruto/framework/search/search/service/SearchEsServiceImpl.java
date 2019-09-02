@@ -55,7 +55,7 @@ public class SearchEsServiceImpl implements SearchEsService{
 
 
         SearchQuery searchQuery = new NativeSearchQueryBuilder().
-                withIndices("naruto","user").
+                withIndices("article","user").
                 withFields("id","nickname","profile","title","contentHtml","avatar","userId","updatedAt","tags").
                 withQuery(QueryBuilders.multiMatchQuery(keyWord, "nickname","profile","title","contentHtml")).
                 withHighlightFields(
@@ -102,11 +102,11 @@ public class SearchEsServiceImpl implements SearchEsService{
 //        QueryBuilders.moreLikeThisQuery(new MoreLikeThisQueryBuilder.Item[]{new MoreLikeThisQueryBuilder.Item("naruto","article",articleId)});
 
         SearchQuery searchQuery = new NativeSearchQueryBuilder().
-                withIndices("naruto").
+                withIndices("article").
                 withFields("id","title","contentHtml","updatedAt","userId").
                 withQuery(QueryBuilders.moreLikeThisQuery(
                         new MoreLikeThisQueryBuilder.Item[]{
-                                new MoreLikeThisQueryBuilder.Item("naruto","article",articleId)}).
+                                new MoreLikeThisQueryBuilder.Item("article","article",articleId)}).
                         minimumShouldMatch("1").
                         minDocFreq(4)).
                 build();
