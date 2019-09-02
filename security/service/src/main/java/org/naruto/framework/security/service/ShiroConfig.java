@@ -19,7 +19,6 @@ import org.naruto.framework.security.domain.ResourceRole;
 import org.naruto.framework.security.repository.ResourceRoleReponsitory;
 import org.naruto.framework.security.service.jwt.JwtAuthenticatingFilter;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -30,25 +29,29 @@ import java.util.List;
 import java.util.Map;
 
 @Configuration
-//@ConditionalOnProperty(value="security.module",havingValue = "shiro")
 public class ShiroConfig {
 
+    //自动感知平台所有实现Ream的Bean；
     @Autowired
     private List<Realm> authorizingRealmList;
 
     @Autowired
     private ResourceRoleReponsitory resourceRoleReponsitory;
 
+    //web页面访问时，身份认证的Filter
     @Autowired
     private JwtAuthenticatingFilter jwtAuthenticatingFilter;
 
+    //web页面访问时，身份权限验证的Filter
     @Autowired
     private AnyRolesAuthorizationFilter anyRolesAuthorizationFilter;
 
+    //创建securityManager bean
     @Bean
     public DefaultWebSecurityManager securityManager() {
 
         DefaultWebSecurityManager  securityManager = new DefaultWebSecurityManager ();
+        //设置shiro的Realm处理实现类；
         securityManager.setRealms(authorizingRealmList);
 
         securityManager.setSessionManager(new DefaultSessionManager() {
@@ -63,10 +66,12 @@ public class ShiroConfig {
                 return super.createSubject(context);
             }
         });
+
         securityManager.setSubjectDAO(new DefaultSubjectDAO() {
             {
                 setSessionStorageEvaluator(new DefaultWebSessionStorageEvaluator() {
                     {
+                        //session不存储；
                         setSessionStorageEnabled(false);
                     }
                 });
@@ -84,7 +89,6 @@ public class ShiroConfig {
      */
     @Bean
     public SimpleCookie rememberMeCookie(){
-        //System.out.println("ShiroConfiguration.rememberMeCookie()");
         //这个参数是cookie的名称，对应前端的checkbox的name = rememberMe
         SimpleCookie simpleCookie = new SimpleCookie("rememberMe");
         //<!-- 记住我cookie生效时间30天 ,单位秒;-->
@@ -93,13 +97,13 @@ public class ShiroConfig {
     }
 
     /**
-     * cookie管理对象;
+     * RememberMe cookie管理对象;
      * rememberMeManager()方法是生成rememberMe管理器，而且要将这个rememberMe管理器设置到securityManager中
      * @return
      */
     @Bean
     public CookieRememberMeManager rememberMeManager(){
-        //System.out.println("ShiroConfiguration.rememberMeManager()");
+        //平台自定义NarutoCookieRememberMeManager，
         CookieRememberMeManager cookieRememberMeManager = new NarutoCookieRememberMeManager();
         cookieRememberMeManager.setCookie(rememberMeCookie());
         //rememberMe cookie加密的密钥 建议每个项目都不一样 默认AES算法 密钥长度(128 256 512 位)
@@ -107,6 +111,7 @@ public class ShiroConfig {
         return cookieRememberMeManager;
     }
 
+    //springboot使用FilterRegistrationBean注册shiroFilter()返回的Filter对象.
     @Bean
     public FilterRegistrationBean<Filter> filterRegistrationBean(SecurityManager securityManager) throws Exception{
         FilterRegistrationBean<Filter> filterRegistration = new FilterRegistrationBean<Filter>();
@@ -121,6 +126,7 @@ public class ShiroConfig {
         return filterRegistration;
     }
 
+    //给过滤器(jwtAuthenticatingFilter,anyRolesAuthorizationFilter)，初始化过滤资源对象列表；
     @Bean("shiroFilter")
     public ShiroFilterFactoryBean shiroFilter(SecurityManager securityManager) {
 
@@ -139,6 +145,7 @@ public class ShiroConfig {
         return factoryBean;
     }
 
+    //数据库中加载权限相关数据，返回DefaultShiroFilterChainDefinition对象。
     @Bean
     public  ShiroFilterChainDefinition shiroFilterChainDefinition() {
 
