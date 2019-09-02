@@ -124,7 +124,6 @@ public class ArticleController {
             HttpServletRequest request, HttpServletResponse response) {
         map.put("owner.id",userId);
         map.put("status",ArticleStatus.PUBLISH.getValue());
-        map.put("sorter","updatedAt_DESC");
 
         Page page = articleService.queryArticleByPage(map);
         return ResponseEntity.ok(ResultEntity.ok(page.getContent(), PageUtils.wrapperPagination(page)));
