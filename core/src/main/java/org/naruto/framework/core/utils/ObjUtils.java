@@ -1,9 +1,16 @@
 package org.naruto.framework.core.utils;
 
+import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.collections.ListUtils;
+import org.apache.commons.collections.Transformer;
+
 import java.lang.reflect.Field;
 import java.util.*;
 
+@Slf4j
 public class ObjUtils {
+
     public static Object copyMap2Obj(Map map, Class clazz){
         try {
             Object obj = clazz.newInstance();
@@ -16,39 +23,88 @@ public class ObjUtils {
         return null;
     }
 
-    public static Object copyMap2Obj(Map map, Object obj){
-        Iterator<Map.Entry<String, Object>> entries = map.entrySet().iterator();
-        while (entries.hasNext()) {
-            Map.Entry entry = (Map.Entry) entries.next();
-            String key = (String)entry.getKey();
-            Object value = entry.getValue();
+    public static Object copyMap2Obj(Map map, Object target){
+
+        Set set = map.keySet();
+        List<String> tList = getPropertyList(target);
+        Collection collection = CollectionUtils.intersection(set,tList);
+
+        log.info("same property {}",collection.toString());
+        for (Object o : collection) {
+            String property = (String)o;
+            Object value = map.get(property);
             try {
-                Field f = obj.getClass().getDeclaredField(key);
+                Field f = target.getClass().getDeclaredField(property);
                 if(f.getType() == Date.class){
                     value = new Date((long)value);
                 }
                 f.setAccessible(true);
-                f.set(obj, value);
+                f.set(target, value);
             } catch (NoSuchFieldException e) {
                 e.printStackTrace();
             } catch (IllegalAccessException e) {
                 e.printStackTrace();
             }
+
         }
-        return obj;
+        return target;
+//
+//        Iterator<Map.Entry<String, Object>> entries = map.entrySet().iterator();
+//        while (entries.hasNext()) {
+//            Map.Entry entry = (Map.Entry) entries.next();
+//            String key = (String)entry.getKey();
+//            Object value = entry.getValue();
+//            try {
+//                Field f = obj.getClass().getDeclaredField(key);
+//                if(f.getType() == Date.class){
+//                    value = new Date((long)value);
+//                }
+//                f.setAccessible(true);
+//                f.set(obj, value);
+//            } catch (NoSuchFieldException e) {
+//                e.printStackTrace();
+//            } catch (IllegalAccessException e) {
+//                e.printStackTrace();
+//            }
+//        }
+//        return obj;
+    }
+
+    private static List<String> getPropertyList(Object obj){
+        Field[] fields = obj.getClass().getDeclaredFields();
+        List fieldList = Arrays.asList(fields);
+        List<String> pList = (List<String>) CollectionUtils.collect(fieldList, new Transformer() {
+            @Override
+            public Object transform(Object o) {
+                Field user = (Field) o;
+                return user.getName();
+            }
+        });
+        log.info("same property {}",pList.toString());
+        return pList;
+    }
+
+    private static List<String> getSamePropertyList(Object obj1,Object obj2){
+        List<String> srcPList = getPropertyList(obj1);
+        List<String> targetPList = getPropertyList(obj2);
+        List<String> pList = ListUtils.intersection(srcPList,targetPList);
+        return pList;
     }
 
     public static void copyProperties(Object src,Object target)  {
-        Field[] fields = target.getClass().getDeclaredFields();
-        for (Field field : fields) {
+        List<String> pList =  getSamePropertyList(src,target);
+        for (String property : pList) {
             try {
-                Field sField = src.getClass().getDeclaredField(field.getName());
+                Field sField = src.getClass().getDeclaredField(property);
                 sField.setAccessible(true);
                 Object value = sField.get(src);
+                Field tField = target.getClass().getDeclaredField(property);
+                tField.setAccessible(true);
+                tField.set(target,value);
 
-                field.setAccessible(true);
-                field.set(target,value);
-            } catch (Exception e) {
+            } catch (NoSuchFieldException e) {
+                e.printStackTrace();
+            } catch (IllegalAccessException e) {
                 e.printStackTrace();
             }
         }
