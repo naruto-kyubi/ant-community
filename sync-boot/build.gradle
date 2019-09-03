@@ -19,7 +19,7 @@ dependencies {
 }
 
 //允许模块中存在多个main程序，通过在命令行运行java -jar 时指定启动类；
-//如：java -jar -Dloader.main=org.naruto.framework.IncrementSyncApplication /Users/liuhy/Documents/naruto/naruto-server/build/libs/framework-0.0.1-SNAPSHOT.jar
+//如：java -jar -Dloader.main=org.naruto.framework.IncrementSyncApplication /Users/liuhy/Documents/ant-community/ant-community-server/sync-boot/build/libs/sync-0.0.1-SNAPSHOT.jar
 bootJar {
     manifest {
         attributes 'Start-Class': '${start-class}'

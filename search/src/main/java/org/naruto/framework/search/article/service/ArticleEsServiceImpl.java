@@ -55,7 +55,7 @@ public class ArticleEsServiceImpl implements ArticleEsService{
         withHighlightFields(
             new HighlightBuilder.Field("title").preTags(elasticSearchHighlightConfig.getPreTag()).postTags(elasticSearchHighlightConfig.getPostTag()),
             new HighlightBuilder.Field("contentHtml").preTags(elasticSearchHighlightConfig.getPreTag()).postTags(elasticSearchHighlightConfig.getPostTag())
-        ).withMinScore(0.9F).
+        ).withMinScore(0.4F).
                         build();
         searchQuery.setPageable(pageable);
         Page<EsArticle> page = elasticsearchTemplate.queryForPage(searchQuery, EsArticle.class, highLightResultMapper);
