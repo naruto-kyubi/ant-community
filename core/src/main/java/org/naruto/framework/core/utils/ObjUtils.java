@@ -48,26 +48,6 @@ public class ObjUtils {
 
         }
         return target;
-//
-//        Iterator<Map.Entry<String, Object>> entries = map.entrySet().iterator();
-//        while (entries.hasNext()) {
-//            Map.Entry entry = (Map.Entry) entries.next();
-//            String key = (String)entry.getKey();
-//            Object value = entry.getValue();
-//            try {
-//                Field f = obj.getClass().getDeclaredField(key);
-//                if(f.getType() == Date.class){
-//                    value = new Date((long)value);
-//                }
-//                f.setAccessible(true);
-//                f.set(obj, value);
-//            } catch (NoSuchFieldException e) {
-//                e.printStackTrace();
-//            } catch (IllegalAccessException e) {
-//                e.printStackTrace();
-//            }
-//        }
-//        return obj;
     }
 
     private static List<String> getPropertyList(Object obj){
