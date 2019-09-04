@@ -28,6 +28,10 @@ public class Resource implements Serializable {
     @Column(length = 500)
     private String path;
 
+    //httpmethod = POST/GET/PUT/DELETE/.etc.
+    @Column(length = 50)
+    private String httpMethod;
+
 
     @Column(length = 500)
     private String description;

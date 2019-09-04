@@ -38,6 +38,9 @@ public class ShiroConfig {
     @Autowired
     private ResourceRoleReponsitory resourceRoleReponsitory;
 
+    @Autowired
+    private HttpMethodNoSessionCreationFilter httpMethodNoSessionCreationFilter;
+
     //web页面访问时，身份认证的Filter
     @Autowired
     private JwtAuthenticatingFilter jwtAuthenticatingFilter;
@@ -136,6 +139,10 @@ public class ShiroConfig {
         ShiroFilterFactoryBean factoryBean = new ShiroFilterFactoryBean();
         factoryBean.setSecurityManager(securityManager);
         Map<String, Filter> filterMap = factoryBean.getFilters();
+
+
+
+        filterMap.put("httpMethodNoSessionCreation", httpMethodNoSessionCreationFilter);
         //token权限验证；
         filterMap.put("jwtAuthToken", jwtAuthenticatingFilter);
 
