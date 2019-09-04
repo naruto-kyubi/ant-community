@@ -49,8 +49,6 @@ public class ShiroConfig {
     @Autowired
     private AnyRolesAuthorizationFilter anyRolesAuthorizationFilter;
 
-    @Autowired
-    private HttpMethodAuthorizationFilter httpMethodAuthorizationFilter;
 
     //创建securityManager bean
     @Bean
@@ -141,13 +139,9 @@ public class ShiroConfig {
         Map<String, Filter> filterMap = factoryBean.getFilters();
 
 
-
         filterMap.put("httpMethodNoSessionCreation", httpMethodNoSessionCreationFilter);
         //token权限验证；
         filterMap.put("jwtAuthToken", jwtAuthenticatingFilter);
-
-        //token权限验证；
-        filterMap.put("httpmethod", httpMethodAuthorizationFilter);
         //角色验证。
         filterMap.put("anyRole", anyRolesAuthorizationFilter);
 
@@ -168,10 +162,10 @@ public class ShiroConfig {
             chainDefinition.addPathDefinition(permission.getResourceUrl(), permission.getPermission());
         }
         chainDefinition.addPathDefinition("/v1/user/currentUser","jwtAuthToken[RememberMe]");
-        chainDefinition.addPathDefinition("/v1/logon/function","noSessionCreation,jwtAuthToken[RememberMe,permissive]");
+        chainDefinition.addPathDefinition("/v1/logon/function","httpMethodNoSessionCreation,jwtAuthToken[RememberMe,permissive]");
 
         chainDefinition.addPathDefinition("/v1/logon/account","jwtAuthToken");
-        chainDefinition.addPathDefinition("/**","noSessionCreation,anon");
+        chainDefinition.addPathDefinition("/**","httpMethodNoSessionCreation,anon");
 
         return chainDefinition;
     }

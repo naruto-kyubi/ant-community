@@ -29,10 +29,15 @@ public class AnyRolesAuthorizationFilter  extends AuthorizationFilter {
             return true;
 
         Subject subject = getSubject(servletRequest, servletResponse);
+
+        //没有经过认证，匿名用户（permissive）
+        if(null==subject.getPrincipal()) return true;
+
         String[] rolesArray = (String[]) mappedValue;
         if (rolesArray == null || rolesArray.length == 0) { //没有角色限制，有权限访问
             return true;
         }
+
         for (String role : rolesArray) {
             if (subject.hasRole(role)) //若当前用户是rolesArray中的任何一个，则有权限访问
                 return true;

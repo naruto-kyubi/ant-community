@@ -41,4 +41,9 @@ public class Function implements Serializable {
     private String type;
 
     private Integer seq;
+
+    //系统
+    @Column(length = 50)
+    private String system;
+
 }
