@@ -21,7 +21,7 @@ public class CatalogController {
     @Autowired
     private CatalogService catalogService;
 
-    @RequestMapping(value = "/v1/catalogs/add", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+    @RequestMapping(value = "/v1/catalogs", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
 
     public ResponseEntity<ResultEntity> add(@Validated @RequestBody Catalog catalog){
 
@@ -29,7 +29,7 @@ public class CatalogController {
     }
 
     @ResponseBody
-    @RequestMapping(value = "/v1/catalogs/query", method = RequestMethod.GET, produces = {"application/json;charset=UTF-8"})
+    @RequestMapping(value = "/v1/catalogs", method = RequestMethod.GET, produces = {"application/json;charset=UTF-8"})
     public ResponseEntity<ResultEntity> query(
             @RequestParam(required = false) Map map,
             HttpServletRequest request, HttpServletResponse response) {

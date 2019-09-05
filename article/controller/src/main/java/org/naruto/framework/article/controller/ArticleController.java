@@ -54,7 +54,7 @@ public class ArticleController {
     }
 
     @ResponseBody
-    @RequestMapping(value = "/v1/articles/draft/query", method = RequestMethod.GET, produces = {"application/json;charset=UTF-8"})
+    @RequestMapping(value = "/v1/articles/draft", method = RequestMethod.GET, produces = {"application/json;charset=UTF-8"})
     public ResponseEntity<ResultEntity> queryDraft(
             @RequestParam(required = false) Map map,
             HttpServletRequest request, HttpServletResponse response) {
@@ -90,7 +90,7 @@ public class ArticleController {
     }
 
     @ResponseBody
-    @RequestMapping(value = "/v1/articles/comment/add", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+    @RequestMapping(value = "/v1/articles/comments", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
     public ResponseEntity<ResultEntity> addComment(@Validated @RequestBody Comment comment, HttpServletRequest request){
 
         User user = (User) sessionService.getCurrentUser(request);
