@@ -33,7 +33,7 @@ public class ArticleController {
     private UserService userService;
 
     @ResponseBody
-    @RequestMapping(value = "/v1/articles/save", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+    @RequestMapping(value = "/v1/articles", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
     public ResponseEntity<ResultEntity> add(@Validated @RequestBody Article article, HttpServletRequest request){
 
 //        重构时放到service里面实现
@@ -44,7 +44,7 @@ public class ArticleController {
     }
 
     @ResponseBody
-    @RequestMapping(value = "/v1/articles/query", method = RequestMethod.GET, produces = {"application/json;charset=UTF-8"})
+    @RequestMapping(value = "/v1/articles", method = RequestMethod.GET, produces = {"application/json;charset=UTF-8"})
     public ResponseEntity<ResultEntity> query(
             @RequestParam(required = false) Map map,
             HttpServletRequest request, HttpServletResponse response) {
