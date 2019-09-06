@@ -46,9 +46,23 @@ public class FollowController {
         return ResponseEntity.ok(ResultEntity.ok(follow));
     }
 
+    //关注了
+    @ResponseBody
+    @RequestMapping(value = "/v1/user/follows", method = RequestMethod.GET, produces = {"application/json;charset=UTF-8"})
+    public ResponseEntity<ResultEntity> queryUsers(
+            @RequestParam(required = false) Map map,
+            HttpServletRequest request, HttpServletResponse response) {
+
+        User user = (User) sessionService.getCurrentUser(request);
+        map.put("currentUserId",user.getId());
+        Page page = followService.queryFollowUsers(map);
+
+        return ResponseEntity.ok(ResultEntity.ok(page.getContent(), PageUtils.wrapperPagination(page)));
+    }
+
 //    新增关注
     @ResponseBody
-    @RequestMapping(value = "/v1/user/follows/add", method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
+    @RequestMapping(value = "/v1/user/follows", method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
     public ResponseEntity<ResultEntity> add(
             @Validated @RequestBody Follow follow,
             BindingResult bindingResult,
@@ -66,7 +80,7 @@ public class FollowController {
 
     // 取消关注
     @ResponseBody
-    @RequestMapping(value = "/v1/user/follows/delete/{id}", method = RequestMethod.GET)
+    @RequestMapping(value = "/v1/user/follows/{id}", method = RequestMethod.DELETE)
     public ResponseEntity<ResultEntity> delete(
             @PathVariable("id") String id,
             HttpServletRequest request,
@@ -81,19 +95,7 @@ public class FollowController {
         return ResponseEntity.ok(ResultEntity.ok(null));
     }
 
-    //关注了
-    @ResponseBody
-    @RequestMapping(value = "/v1/user/follows", method = RequestMethod.GET, produces = {"application/json;charset=UTF-8"})
-    public ResponseEntity<ResultEntity> queryUsers(
-            @RequestParam(required = false) Map map,
-            HttpServletRequest request, HttpServletResponse response) {
 
-        User user = (User) sessionService.getCurrentUser(request);
-        map.put("currentUserId",user.getId());
-        Page page = followService.queryFollowUsers(map);
-
-        return ResponseEntity.ok(ResultEntity.ok(page.getContent(), PageUtils.wrapperPagination(page)));
-    }
 
     //用户粉丝
     @ResponseBody

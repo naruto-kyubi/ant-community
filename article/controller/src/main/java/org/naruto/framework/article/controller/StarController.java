@@ -46,22 +46,7 @@ public class StarController {
     }
 
     @ResponseBody
-    @RequestMapping(value = "/v1/articles/{articleId}/stars", method = RequestMethod.GET, produces = {"application/json;charset=UTF-8"})
-    public ResponseEntity<ResultEntity> queryStarById(@PathVariable("articleId") String articleId, HttpServletRequest request){
-
-        User user = (User) sessionService.getCurrentUser(request);
-        Star star = null;
-        if(null!=user) {
-            star = starService.queryStarByUserIdAndArticleId(user.getId(), articleId);
-        }
-        Article article = articleService.queryArticleById(articleId);
-        StarVo vo = new StarVo(star,article.getStarCount());
-
-        return ResponseEntity.ok(ResultEntity.ok(vo));
-    }
-
-    @ResponseBody
-    @RequestMapping(value = "/v1/articles/stars/add", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+    @RequestMapping(value = "/v1/articles/stars", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
     public ResponseEntity<ResultEntity> addStar(@Validated @RequestBody Star star, HttpServletRequest request){
 
         User user = (User) sessionService.getCurrentUser(request);
@@ -78,7 +63,24 @@ public class StarController {
     }
 
     @ResponseBody
-    @RequestMapping(value = "/v1/articles/{id}/stars/delete", method = RequestMethod.GET, produces = {"application/json;charset=UTF-8"})
+    @RequestMapping(value = "/v1/articles/{articleId}/stars", method = RequestMethod.GET, produces = {"application/json;charset=UTF-8"})
+    public ResponseEntity<ResultEntity> queryStarById(@PathVariable("articleId") String articleId, HttpServletRequest request){
+
+        User user = (User) sessionService.getCurrentUser(request);
+        Star star = null;
+        if(null!=user) {
+            star = starService.queryStarByUserIdAndArticleId(user.getId(), articleId);
+        }
+        Article article = articleService.queryArticleById(articleId);
+        StarVo vo = new StarVo(star,article.getStarCount());
+
+        return ResponseEntity.ok(ResultEntity.ok(vo));
+    }
+
+
+
+    @ResponseBody
+    @RequestMapping(value = "/v1/articles/{id}/stars", method = RequestMethod.DELETE, produces = {"application/json;charset=UTF-8"})
     public ResponseEntity<ResultEntity> deleteStar(@PathVariable("id") String id, HttpServletRequest request){
 
         User user = (User) sessionService.getCurrentUser(request);

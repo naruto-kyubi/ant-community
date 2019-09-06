@@ -46,7 +46,7 @@ public class LikeController {
     }
 
     @ResponseBody
-    @RequestMapping(value = "/v1/articles/likes/add", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+    @RequestMapping(value = "/v1/articles/likes", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
     public ResponseEntity<ResultEntity> addLike(@Validated @RequestBody Like like, HttpServletRequest request){
 
         User user = (User) sessionService.getCurrentUser(request);
@@ -63,7 +63,7 @@ public class LikeController {
     }
 
     @ResponseBody
-    @RequestMapping(value = "/v1/articles/{type}/{targetId}/likes/delete", method = RequestMethod.GET, produces = {"application/json;charset=UTF-8"})
+    @RequestMapping(value = "/v1/articles/{type}/{targetId}/likes", method = RequestMethod.DELETE, produces = {"application/json;charset=UTF-8"})
     public ResponseEntity<ResultEntity> deleteLike(@PathVariable("type") String type, @PathVariable("targetId") String targetId, HttpServletRequest request){
 
         User user = (User) sessionService.getCurrentUser(request);
