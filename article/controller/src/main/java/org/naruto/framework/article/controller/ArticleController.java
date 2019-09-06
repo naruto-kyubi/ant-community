@@ -17,9 +17,11 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.validation.constraints.NotBlank;
 import java.util.HashMap;
 import java.util.Map;
 
+@Validated
 @RestController
 public class ArticleController {
 
@@ -29,8 +31,6 @@ public class ArticleController {
     @Autowired
     private ArticleService articleService;
 
-    @Autowired
-    private UserService userService;
 
     @ResponseBody
     @RequestMapping(value = "/v1/articles", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
@@ -56,7 +56,8 @@ public class ArticleController {
             @RequestParam(required = false) Map map,
             HttpServletRequest request, HttpServletResponse response) {
 
-      //  User user = sessionUtils.getCurrentUser(request);
+        User user = (User)sessionService.getCurrentUser(request);
+        map.put("owner.id_equal",user.getId());
         Page page = articleService.queryArticleByPage(map);
         return ResponseEntity.ok(ResultEntity.ok(page.getContent(), PageUtils.wrapperPagination(page)));
     }
@@ -65,7 +66,7 @@ public class ArticleController {
 
     @ResponseBody
     @RequestMapping(value = "/v1/articles/draft/{id}", method = RequestMethod.GET, produces = {"application/json;charset=UTF-8"})
-    public ResponseEntity<ResultEntity> queryDraftById(@PathVariable("id") String id){
+    public ResponseEntity<ResultEntity> queryDraftById(@NotBlank(message = "id must not be empty") @PathVariable("id") String id){
         Article draft = articleService.queryDraftById(id);
         return ResponseEntity.ok(ResultEntity.ok(draft));
     }
