@@ -9,12 +9,16 @@ import org.naruto.framework.article.repository.CommentRepository;
 import org.naruto.framework.core.exception.CommonError;
 import org.naruto.framework.core.exception.ServiceException;
 import org.naruto.framework.core.utils.PageUtils;
+import org.naruto.framework.security.exception.SecurityError;
+import org.naruto.framework.user.domain.User;
+import org.naruto.framework.user.service.UserService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.Assert;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,20 +34,19 @@ public class ArticleServiceImpl implements ArticleService {
     @Autowired
     private CommentRepository commentRepository;
 
-//    @Autowired
-//    private ArticleEsService articleEsService;
+    @Autowired
+    private UserService userService;
 
-
-    public Article saveArticle(Article article){
-
-        if(article == null) {
-                throw new ServiceException(CommonError.PARAMETER_VALIDATION_ERROR);
-        }
+    public Article saveArticle(Article article,User user){
+        Assert.notNull(article,"article can not be null");
         String id = article.getId();
-        if(id==null)
-         return articleRepository.save(article);
-
-
+        if(id==null) {
+            if (null == user)
+               throw new ServiceException(SecurityError.USER_HAS_BEEN_LOGOUT);
+            if(user.getId() != article.getOwner().getId())
+                throw new ServiceException(SecurityError.EXCEED_AUTHORITY_ERROR);
+            return articleRepository.save(article);
+        }
         else {
             Article lastVersion = null;
             if(article.getPublishedVersion()!=null && article.getStatus().equals(ArticleStatus.PUBLISH.toString())){
@@ -51,6 +54,7 @@ public class ArticleServiceImpl implements ArticleService {
                 articleRepository.deleteById(article.getId());
             }else {
                 lastVersion = articleRepository.findById(id).get();
+                userService.increaseArticleCount(user.getId(),1L);
             }
             lastVersion.setCatalogId(article.getCatalogId());
             lastVersion.setContent(article.getContent());
@@ -125,11 +129,6 @@ public class ArticleServiceImpl implements ArticleService {
         articleRepository.increateCount(articleId,"star_count",step);
     }
 
-//    @Override
-//    public Page<ArticleVo> search(Map map) {
-//
-//       return articleEsService.search(map);
-//    }
 
     @Override
     public Page<Article> queryHotList(Map map) {

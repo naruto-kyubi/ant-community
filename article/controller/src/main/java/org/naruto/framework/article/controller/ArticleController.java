@@ -36,11 +36,8 @@ public class ArticleController {
     @RequestMapping(value = "/v1/articles", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
     public ResponseEntity<ResultEntity> add(@Validated @RequestBody Article article, HttpServletRequest request){
 
-//        重构时放到service里面实现
-//        User user = (User) sessionService.getCurrentUser(request);
-//        userService.increaseArticleCount(user.getId(),1L);
-
-        return ResponseEntity.ok(ResultEntity.ok(articleService.saveArticle(article)));
+        User user = (User) sessionService.getCurrentUser(request);
+        return ResponseEntity.ok(ResultEntity.ok(articleService.saveArticle(article,user)));
     }
 
     @ResponseBody

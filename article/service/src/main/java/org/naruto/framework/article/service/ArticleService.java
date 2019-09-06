@@ -2,13 +2,14 @@ package org.naruto.framework.article.service;
 
 import org.naruto.framework.article.domain.Article;
 import org.naruto.framework.article.domain.Comment;
+import org.naruto.framework.user.domain.User;
 import org.springframework.data.domain.Page;
 
 import java.util.Map;
 
 public interface ArticleService {
 
-    Article saveArticle(Article article);
+    Article saveArticle(Article article,User user);
 
     Page<Article> queryArticleByPage(Map map);
 
