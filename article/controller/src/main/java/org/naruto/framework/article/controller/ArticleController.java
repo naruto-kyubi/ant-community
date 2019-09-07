@@ -73,7 +73,7 @@ public class ArticleController {
 
     @ResponseBody
     @RequestMapping(value = "/v1/articles/{id}", method = RequestMethod.GET, produces = {"application/json;charset=UTF-8"})
-    public ResponseEntity<ResultEntity> queryById(@PathVariable("id") String id){
+    public ResponseEntity<ResultEntity> queryById(@NotBlank(message = "id must not be empty") @PathVariable("id") String id){
         Article article = articleService.queryArticleById(id);
         return ResponseEntity.ok(ResultEntity.ok(article));
     }

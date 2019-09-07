@@ -72,10 +72,12 @@ public class ArticleServiceImpl implements ArticleService {
     }
 
     public Article queryArticleById(String id){
+        Assert.notNull(id,"id can not be null");
         return  articleRepository.findById(id).get();
     }
 
     public Article queryDraftById(String id){
+        Assert.notNull(id,"id can not be null");
         Article article =  articleRepository.findArticleByPublishedVersion(id);
         if(null != article){
             return article;
@@ -95,13 +97,12 @@ public class ArticleServiceImpl implements ArticleService {
 
     @Override
     public void deleteArticleById(String id) {
+        Assert.notNull(id,"id can not be null");
         articleRepository.deleteById(id);
     }
 
     public Comment saveComment(Comment comment){
-        if(comment == null) {
-            throw new ServiceException(CommonError.PARAMETER_VALIDATION_ERROR);
-        }
+        Assert.notNull(comment,"comment can not be null");
 
         return commentRepository.save(comment);
     }
@@ -113,19 +114,19 @@ public class ArticleServiceImpl implements ArticleService {
 
     @Override
     public void increaseViewCount(String articleId) {
-
+        Assert.notNull(articleId,"articleId can not be null");
         articleRepository.increateCount(articleId,"view_count",1L);
     }
 
     @Override
     public void increaseLikeCount(String articleId,Long step) {
-
+        Assert.notNull(articleId,"articleId can not be null");
         articleRepository.increateCount(articleId,"like_count",step);
     }
 
     @Override
     public void increaseStarCount(String articleId,Long step) {
-
+        Assert.notNull(articleId,"articleId can not be null");
         articleRepository.increateCount(articleId,"star_count",step);
     }
 
