@@ -22,7 +22,6 @@ public class CustomerSpecs {
 
                 EntityType<T> type = root.getModel();
 
-
                 for (SearchItem item : searchItems) {
                     String key = item.getKey();
 

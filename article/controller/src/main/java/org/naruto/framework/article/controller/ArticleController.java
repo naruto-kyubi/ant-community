@@ -3,6 +3,7 @@ package org.naruto.framework.article.controller;
 import org.naruto.framework.article.domain.Article;
 import org.naruto.framework.article.domain.ArticleStatus;
 import org.naruto.framework.article.domain.Comment;
+import org.naruto.framework.article.service.ArticleSearchRequest;
 import org.naruto.framework.article.service.ArticleService;
 import org.naruto.framework.core.utils.PageUtils;
 import org.naruto.framework.core.web.ResultEntity;
@@ -41,12 +42,12 @@ public class ArticleController {
     }
 
     @ResponseBody
-    @RequestMapping(value = "/v1/articles", method = RequestMethod.GET, produces = {"application/json;charset=UTF-8"})
+    @RequestMapping(value = "/v1/articles", method = RequestMethod.GET)
     public ResponseEntity<ResultEntity> query(
-            @RequestParam(required = false) Map map,
+            ArticleSearchRequest searchRequest,
             HttpServletRequest request, HttpServletResponse response) {
 
-        Page page = articleService.queryArticleByPage(map);
+        Page page = articleService.queryArticles(searchRequest);
         return ResponseEntity.ok(ResultEntity.ok(page.getContent(), PageUtils.wrapperPagination(page)));
     }
 

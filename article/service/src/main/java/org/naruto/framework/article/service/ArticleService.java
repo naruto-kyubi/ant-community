@@ -4,6 +4,7 @@ import org.naruto.framework.article.domain.Article;
 import org.naruto.framework.article.domain.Comment;
 import org.naruto.framework.user.domain.User;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 
 import java.util.Map;
 
@@ -11,7 +12,10 @@ public interface ArticleService {
 
     Article saveArticle(Article article,User user);
 
+    @Deprecated
     Page<Article> queryArticleByPage(Map map);
+
+    Page<Article> queryArticles(ArticleSearchRequest searchRequest);
 
     Article queryArticleById(String id);
 
