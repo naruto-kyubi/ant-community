@@ -13,12 +13,12 @@ public class PageUtils {
     public static Map prepareQueryPageMap(Map map) {
         if (null == map) map = new HashMap();
 
-        Integer currentPage = 1;
-        if(null!=map.get("currentPage")){
-            if(map.get("currentPage").getClass()==String.class){
-                currentPage = Integer.valueOf((String)map.get("currentPage"));
+        Integer current = 1;
+        if(null!=map.get("current")){
+            if(map.get("current").getClass()==String.class){
+                current = Integer.valueOf((String)map.get("current"));
             }else{
-                currentPage = (Integer) map.get("currentPage");
+                current = (Integer) map.get("current");
             }
         }
 
@@ -30,18 +30,18 @@ public class PageUtils {
                 pageSize = (Integer) map.get("pageSize");
             }
         }
-        currentPage = currentPage - 1;
-        map.put("currentPage", currentPage);
+        current = current - 1;
+        map.put("current", current);
         map.put("pageSize", pageSize);
         return map;
     }
 
     public static Pageable createPageable(Map map) {
-        Integer currentPage  = (Integer) map.get("currentPage");
+        Integer current  = (Integer) map.get("current");
         Integer pageSize  = (Integer) map.get("pageSize");
         String sorter = (String) map.get("sorter");
         //分页信息
-        Pageable pageable = PageRequest.of(currentPage, pageSize);
+        Pageable pageable = PageRequest.of(current, pageSize);
 
         if (StringUtils.isNotEmpty(sorter)) {
             String[] sorters = sorter.split(",");
@@ -58,7 +58,7 @@ public class PageUtils {
                 Sort.Direction direction ="ascend".equalsIgnoreCase(s)? Sort.Direction.ASC : Sort.Direction.DESC;
                 sort = null==sort?new Sort(direction, column) : sort.and(new Sort(direction, column));
             }
-            pageable = PageRequest.of(currentPage, pageSize, sort);
+            pageable = PageRequest.of(current, pageSize, sort);
         }
         return pageable;
     }
@@ -85,7 +85,7 @@ public class PageUtils {
     }
 
     public static Map clearPaginationArgs(Map map){
-        if(map.containsKey("currentPage")) map.remove("currentPage");
+        if(map.containsKey("current")) map.remove("current");
         if(map.containsKey("pageSize")) map.remove("pageSize");
         if(map.containsKey("sorter")) map.remove("sorter");
         return map;

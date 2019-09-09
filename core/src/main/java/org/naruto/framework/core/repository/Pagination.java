@@ -9,21 +9,21 @@ import org.springframework.data.domain.Sort;
 @Data
 public class Pagination {
     private String sorter;
-    private int currentPage = 0;
+    private int current = 0;
     private int pageSize =0;
 
     public Pageable getPageable(){
-        int currentPage = this.getCurrentPage();
+        int current = this.getCurrent();
 
-        if(currentPage==0) currentPage=1;
-        currentPage = currentPage - 1;
+        if(current==0) current=1;
+        current = current - 1;
 
         int pageSize = this.getPageSize();
         String sorter = this.getSorter();
 
         if(pageSize<1) pageSize = 10;
         //分页信息
-        Pageable pageable = PageRequest.of(currentPage, pageSize);
+        Pageable pageable = PageRequest.of(current, pageSize);
 
         if (StringUtils.isNotEmpty(sorter)) {
             String[] sorters = sorter.split(",");
@@ -40,7 +40,7 @@ public class Pagination {
                 Sort.Direction direction ="ascend".equalsIgnoreCase(s)? Sort.Direction.ASC : Sort.Direction.DESC;
                 sort = null==sort?new Sort(direction, column) : sort.and(new Sort(direction, column));
             }
-            pageable = PageRequest.of(currentPage, pageSize, sort);
+            pageable = PageRequest.of(current, pageSize, sort);
         }
         return pageable;
     }

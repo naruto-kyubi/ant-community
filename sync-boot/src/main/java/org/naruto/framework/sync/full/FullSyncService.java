@@ -42,11 +42,11 @@ public class FullSyncService {
         log.info("remove elasticsearch article data ok!");
 
         Map map = new HashMap();
-        int currentPage = 1;
+        int current = 1;
         int pageSize = 5;
         int totalPage = 1;
 
-        map.put("currentPage",currentPage);
+        map.put("current",current);
         map.put("pageSize",pageSize);
         map.put("status", ArticleStatus.PUBLISH.getValue());
 
@@ -54,19 +54,19 @@ public class FullSyncService {
         totalPage = page.getTotalPages();
 
         log.info("export article data to elasticsearch,total-elements={}",page.getTotalElements());
-        while(currentPage <= totalPage){
+        while(current <= totalPage){
             List<Article> articleList =  page.getContent();
             List<EsArticle> esArticleList = ObjUtils.transformerClass(articleList,EsArticle.class);
-            log.info("export article data....,pageSize={},totalPage={},currentPage={}",pageSize,totalPage,currentPage);
+            log.info("export article data....,pageSize={},totalPage={},current={}",pageSize,totalPage,current);
             for (EsArticle esArticle : esArticleList) {
                 esArticle.setUserId(esArticle.getOwner().getId());
                 articleEsRepository.save(esArticle);
             }
-            currentPage++;
-            map.put("currentPage",currentPage);
+            current++;
+            map.put("current",current);
             map.put("pageSize",pageSize);
             map.put("status", ArticleStatus.PUBLISH.getValue());
-            if(currentPage<=totalPage) page = articleRepository.queryPageByCondition(map);
+            if(current<=totalPage) page = articleRepository.queryPageByCondition(map);
         }
     }
 

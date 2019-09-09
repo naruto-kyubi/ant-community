@@ -35,13 +35,13 @@ public class TagController {
     @ResponseBody
     @RequestMapping(value = "/v1/users/tags/subscribed", method = RequestMethod.GET, produces = {"application/json;charset=UTF-8"})
     public ResponseEntity<ResultEntity> queryUserTags(
-                @RequestParam(required = false) Integer currentPage,
+                @RequestParam(required = false) Integer current,
                 @RequestParam(required = false) Integer pageSize,
                 HttpServletRequest request,
                 HttpServletResponse response
             ) {
         Map map = new HashMap();
-        map.put("currentPage",currentPage);
+        map.put("current",current);
         map.put("pageSize",pageSize);
 
         User user = (User) sessionService.getCurrentUser(request);
@@ -57,12 +57,12 @@ public class TagController {
     @ResponseBody
     @RequestMapping(value = "/v1/tags/all", method = RequestMethod.GET, produces = {"application/json;charset=UTF-8"})
     public ResponseEntity<ResultEntity> queryAllTags(
-            @RequestParam(required = false) Integer currentPage,
+            @RequestParam(required = false) Integer current,
             @RequestParam(required = false) Integer pageSize,
             HttpServletRequest request
     ) {
         Map map = new HashMap();
-        map.put("currentPage",currentPage);
+        map.put("current",current);
         map.put("pageSize",pageSize);
 
         User user = (User) sessionService.getCurrentUser(request);
