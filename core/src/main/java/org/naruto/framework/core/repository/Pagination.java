@@ -6,14 +6,13 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 
-
 @Data
-public class SearchRequest {
+public class Pagination {
     private String sorter;
-    private int currentPage;
-    private int pageSize;
+    private int currentPage = 0;
+    private int pageSize =0;
 
-    public  Pageable getPageable(){
+    public Pageable getPageable(){
         int currentPage = this.getCurrentPage();
 
         if(currentPage==0) currentPage=1;

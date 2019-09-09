@@ -7,11 +7,7 @@ import org.naruto.framework.article.domain.Comment;
 import org.naruto.framework.article.domain.Tag;
 import org.naruto.framework.article.repository.ArticleRepository;
 import org.naruto.framework.article.repository.CommentRepository;
-import org.naruto.framework.core.exception.CommonError;
 import org.naruto.framework.core.exception.ServiceException;
-import org.naruto.framework.core.repository.CustomerSpecs;
-import org.naruto.framework.core.repository.SearchItem;
-import org.naruto.framework.core.repository.SearchRequest;
 import org.naruto.framework.core.utils.PageUtils;
 import org.naruto.framework.security.exception.SecurityError;
 import org.naruto.framework.user.domain.User;
@@ -19,9 +15,7 @@ import org.naruto.framework.user.service.UserService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -32,7 +26,6 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -86,6 +79,8 @@ public class ArticleServiceImpl implements ArticleService {
     @Override
     public Page<Article> queryArticles(ArticleSearchRequest searchRequest) {
 
+        searchRequest.setStatus(ArticleStatus.PUBLISH.getValue());
+
         Specification<Article> specification=new Specification<Article>() {
             @Override
             public Predicate toPredicate(Root<Article> root, CriteriaQuery<?> query, CriteriaBuilder criteriaBuilder) {
@@ -100,7 +95,7 @@ public class ArticleServiceImpl implements ArticleService {
             }
         };
 
-        return articleRepository.findAll(specification,searchRequest.getPageable());
+        return articleRepository.findAll(specification,searchRequest.getPagination().getPageable());
     }
 
     public Article queryArticleById(String id){
