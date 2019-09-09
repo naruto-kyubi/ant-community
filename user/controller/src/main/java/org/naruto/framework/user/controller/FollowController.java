@@ -33,7 +33,7 @@ public class FollowController {
 
 //    用户之间关注（one - to -one）
     @ResponseBody
-    @RequestMapping(value = "/v1/user/follow/{id}", method = RequestMethod.GET)
+    @RequestMapping(value = "/v1/users/follow/{id}", method = RequestMethod.GET)
     public ResponseEntity<ResultEntity> query(@PathVariable("id") String id) {
 
 //        Subject subject = SecurityUtils.getSubject();
@@ -48,7 +48,7 @@ public class FollowController {
 
     //关注了
     @ResponseBody
-    @RequestMapping(value = "/v1/user/follows", method = RequestMethod.GET, produces = {"application/json;charset=UTF-8"})
+    @RequestMapping(value = "/v1/users/follows", method = RequestMethod.GET, produces = {"application/json;charset=UTF-8"})
     public ResponseEntity<ResultEntity> queryUsers(
             @RequestParam(required = false) Map map,
             HttpServletRequest request, HttpServletResponse response) {
@@ -62,7 +62,7 @@ public class FollowController {
 
 //    新增关注
     @ResponseBody
-    @RequestMapping(value = "/v1/user/follows", method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
+    @RequestMapping(value = "/v1/users/follows", method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
     public ResponseEntity<ResultEntity> add(
             @Validated @RequestBody Follow follow,
             BindingResult bindingResult,
@@ -80,7 +80,7 @@ public class FollowController {
 
     // 取消关注
     @ResponseBody
-    @RequestMapping(value = "/v1/user/follows/{id}", method = RequestMethod.DELETE)
+    @RequestMapping(value = "/v1/users/follows/{id}", method = RequestMethod.DELETE)
     public ResponseEntity<ResultEntity> delete(
             @PathVariable("id") String id,
             HttpServletRequest request,
@@ -99,7 +99,7 @@ public class FollowController {
 
     //用户粉丝
     @ResponseBody
-    @RequestMapping(value = "/v1/user/fans", method = RequestMethod.GET, produces = {"application/json;charset=UTF-8"})
+    @RequestMapping(value = "/v1/users/fans", method = RequestMethod.GET, produces = {"application/json;charset=UTF-8"})
     public ResponseEntity<ResultEntity> queryFans(
             @RequestParam(required = false) Map map,
             HttpServletRequest request, HttpServletResponse response) {

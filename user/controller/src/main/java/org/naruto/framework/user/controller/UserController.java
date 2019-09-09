@@ -62,32 +62,32 @@ public class UserController {
 
 
 
-    @RequestMapping(value = "/v1/user/register", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+    @RequestMapping(value = "/v1/users/register", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
     public ResponseEntity<ResultEntity> register(@Validated @RequestBody RegisterRequest registerRequest){
         User user =  modelMapper.map(registerRequest,User.class);
         return ResponseEntity.ok(ResultEntity.ok(userService.register(user)));
     }
 
-    @RequestMapping(value = "/v1/user/registerCaptcha", method = RequestMethod.GET, produces = "application/json;charset=UTF-8")
+    @RequestMapping(value = "/v1/users/registerCaptcha", method = RequestMethod.GET, produces = "application/json;charset=UTF-8")
     public ResponseEntity<ResultEntity> getRegisterCaptcha(@NotBlank(message = "mobie number is blank") @RequestParam(name = "mobile") String mobile) {
         captchaService.createCaptcha(mobile, CaptchaType.SINGUP);
         return ResponseEntity.ok(ResultEntity.ok(null));
     }
 
-    @RequestMapping(value = "/v1/user/resetPassword", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+    @RequestMapping(value = "/v1/users/resetPassword", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
     public ResponseEntity<ResultEntity> resetPassword(@Validated @RequestBody ResetPasswordRequest resetPasswordRequest){
         User user =  modelMapper.map(resetPasswordRequest,User.class);
         return ResponseEntity.ok(ResultEntity.ok(userService.resetPassword(user)));
     }
 
-    @RequestMapping(value = "/v1/user/forgotPasswordCaptcha", method = RequestMethod.GET, produces = "application/json;charset=UTF-8")
+    @RequestMapping(value = "/v1/users/forgotPasswordCaptcha", method = RequestMethod.GET, produces = "application/json;charset=UTF-8")
     public ResponseEntity<ResultEntity> getForgotPasswordCaptcha(@NotBlank(message = "mobie number is blank") @RequestParam(name = "mobile") String mobile) {
         captchaService.createCaptcha(mobile, CaptchaType.FORGOTPASSWORD);
         return ResponseEntity.ok(ResultEntity.ok(null));
     }
 
     @ResponseBody
-    @RequestMapping(value = "/v1/user/currentUser", method = RequestMethod.GET)
+    @RequestMapping(value = "/v1/users/currentUser", method = RequestMethod.GET)
     public ResponseEntity<ResultEntity> getCurrentUser(
             HttpServletRequest request, HttpServletResponse response) {
         User sessionUser = (User) sessionService.getCurrentUser(request);
@@ -96,7 +96,7 @@ public class UserController {
     }
 
     @ResponseBody
-    @RequestMapping(value = "/v1/user/avatar", method = RequestMethod.POST)
+    @RequestMapping(value = "/v1/users/avatar", method = RequestMethod.POST)
     public ResponseEntity<ResultEntity> setAvatar(@RequestParam("file") MultipartFile file, HttpServletRequest request, HttpServletResponse response) throws Exception{
         String userId = ((User)sessionService.getCurrentUser(request)).getId();
         String imageUrl = fileService.uploadFile(file);
@@ -105,7 +105,7 @@ public class UserController {
 
     //多条件组合查询查询
     @ResponseBody
-    @RequestMapping(value = "/v1/user/query", method = RequestMethod.GET, produces = {"application/json;charset=UTF-8"})
+    @RequestMapping(value = "/v1/users", method = RequestMethod.GET, produces = {"application/json;charset=UTF-8"})
     public ResponseEntity<ResultEntity> query(
             @RequestParam(required = false) Map map,
             HttpServletRequest request, HttpServletResponse response) {
@@ -117,7 +117,7 @@ public class UserController {
 
     // 新增记录；
     @ResponseBody
-    @RequestMapping(value = "/v1/user/create", method = RequestMethod.POST)
+    @RequestMapping(value = "/v1/users", method = RequestMethod.POST)
     public ResponseEntity<ResultEntity> create(
             @Validated @RequestBody User user,
             BindingResult bindingResult,
@@ -128,7 +128,7 @@ public class UserController {
 
     // 修改记录；
     @ResponseBody
-    @RequestMapping(value = "/v1/user/update/{id}", method = RequestMethod.PUT)
+    @RequestMapping(value = "/v1/users/{id}", method = RequestMethod.PUT)
     public ResponseEntity<ResultEntity> update(
             @PathVariable("id") String id,
             @Validated @RequestBody UpdateUserRequest updateUserRequest,
@@ -143,7 +143,7 @@ public class UserController {
 
     // 删除记录；
     @ResponseBody
-    @RequestMapping(value = "/v1/user/delete/{ids}", method = RequestMethod.DELETE)
+    @RequestMapping(value = "/v1/users/{ids}", method = RequestMethod.DELETE)
     public ResponseEntity<ResultEntity> delete(
             @PathVariable("ids") String ids,
             HttpServletRequest request,
@@ -158,7 +158,7 @@ public class UserController {
 
     // bind with third party；
     @ResponseBody
-    @RequestMapping(value = "/v1/user/bind", method = RequestMethod.GET)
+    @RequestMapping(value = "/v1/users/bind", method = RequestMethod.GET)
     public ResponseEntity<ResultEntity> bind(
             @RequestParam("authType") String authType,
             @RequestParam("authCode") String authCode,
@@ -171,7 +171,7 @@ public class UserController {
     }
 
     @ResponseBody
-    @RequestMapping(value = "/v1/user/unbind", method = RequestMethod.GET)
+    @RequestMapping(value = "/v1/users/unbind", method = RequestMethod.GET)
     public ResponseEntity<ResultEntity> unbind(
             @RequestParam("authType") String authType,
             HttpServletRequest request,
@@ -183,7 +183,7 @@ public class UserController {
     }
 
     @ResponseBody
-    @RequestMapping(value = "/v1/user/queryBinds", method = RequestMethod.GET)
+    @RequestMapping(value = "/v1/users/queryBinds", method = RequestMethod.GET)
     public ResponseEntity<ResultEntity> queryBinds(HttpServletRequest request, HttpServletResponse response) {
 
         User sessionUser = (User) sessionService.getCurrentUser(request);

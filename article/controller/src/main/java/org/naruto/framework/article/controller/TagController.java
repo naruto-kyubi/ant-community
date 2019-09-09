@@ -43,7 +43,7 @@ public class TagController {
     }
 
     @ResponseBody
-    @RequestMapping(value = "/v1/user/tags/subscribed", method = RequestMethod.GET, produces = {"application/json;charset=UTF-8"})
+    @RequestMapping(value = "/v1/users/tags/subscribed", method = RequestMethod.GET, produces = {"application/json;charset=UTF-8"})
     public ResponseEntity<ResultEntity> queryUserTags(
                 @RequestParam(required = false) Integer currentPage,
                 @RequestParam(required = false) Integer pageSize,
@@ -98,7 +98,7 @@ public class TagController {
     }
 
     @ResponseBody
-    @RequestMapping(value = "/v1/user/tag/subscribe", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+    @RequestMapping(value = "/v1/users/tag/subscribe", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
     public ResponseEntity<ResultEntity> addUserTag(@Validated @RequestBody UserTag userTag, HttpServletRequest request){
 
         User user = (User) sessionService.getCurrentUser(request);
@@ -109,7 +109,7 @@ public class TagController {
     }
 
     @ResponseBody
-    @RequestMapping(value = "/v1/user/tag/{tagId}/unsubscribe", method = RequestMethod.GET, produces = {"application/json;charset=UTF-8"})
+    @RequestMapping(value = "/v1/users/tag/{tagId}/unsubscribe", method = RequestMethod.GET, produces = {"application/json;charset=UTF-8"})
     public ResponseEntity<ResultEntity> deleteUserTags(@PathVariable("tagId") String tagId, HttpServletRequest request){
 
         User user = (User) sessionService.getCurrentUser(request);

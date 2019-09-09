@@ -161,7 +161,7 @@ public class ShiroConfig {
         for (ResourceRole permission : permissions) {
             chainDefinition.addPathDefinition(permission.getResourceUrl(), permission.getPermission());
         }
-        chainDefinition.addPathDefinition("/v1/user/currentUser","jwtAuthToken[RememberMe]");
+        chainDefinition.addPathDefinition("/v1/users/currentUser","jwtAuthToken[RememberMe]");
         chainDefinition.addPathDefinition("/v1/logon/function","httpMethodNoSessionCreation,jwtAuthToken[RememberMe,permissive]");
 
         chainDefinition.addPathDefinition("/v1/logon/account","jwtAuthToken");
