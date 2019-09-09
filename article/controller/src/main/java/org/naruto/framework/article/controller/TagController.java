@@ -31,16 +31,6 @@ public class TagController {
     @Autowired(required = false)
     private ISessionService sessionService;
 
-    @ResponseBody
-    @RequestMapping(value = "/v1/tags/query", method = RequestMethod.GET, produces = {"application/json;charset=UTF-8"})
-    public ResponseEntity<ResultEntity> query(
-            @RequestParam(required = false) Map map,
-            HttpServletRequest request, HttpServletResponse response) {
-
-        Page page = tagService.queryByPage(map);
-
-        return ResponseEntity.ok(ResultEntity.ok(page.getContent(), PageUtils.wrapperPagination(page)));
-    }
 
     @ResponseBody
     @RequestMapping(value = "/v1/users/tags/subscribed", method = RequestMethod.GET, produces = {"application/json;charset=UTF-8"})
@@ -79,13 +69,6 @@ public class TagController {
         Page page = tagService.queryTags(user.getId(),map);
 
         return ResponseEntity.ok(ResultEntity.ok(page.getContent(), PageUtils.wrapperPagination(page)));
-    }
-
-    @ResponseBody
-    @RequestMapping(value = "/v1/articles/tags/add", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
-    public ResponseEntity<ResultEntity> addComment(@Validated @RequestBody Tag tag, HttpServletRequest request){
-
-        return ResponseEntity.ok(ResultEntity.ok(tagService.saveTag(tag)));
     }
 
     @ResponseBody
