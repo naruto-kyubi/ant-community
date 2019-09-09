@@ -55,7 +55,7 @@ public class ArticleServiceImpl implements ArticleService {
         if(id==null) {
             if (null == user)
                throw new ServiceException(SecurityError.USER_HAS_BEEN_LOGOUT);
-            if(user.getId() != article.getOwner().getId())
+            if(!user.getId().equals(article.getOwner().getId()))
                 throw new ServiceException(SecurityError.EXCEED_AUTHORITY_ERROR);
             return articleRepository.save(article);
         }
