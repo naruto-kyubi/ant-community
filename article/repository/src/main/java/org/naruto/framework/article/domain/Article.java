@@ -61,7 +61,7 @@ public class Article implements Serializable {
 
     private boolean deleted;
 
-    private boolean recommend;
+    private int recommend=0;
 
 
     @ManyToMany(fetch= FetchType.EAGER)

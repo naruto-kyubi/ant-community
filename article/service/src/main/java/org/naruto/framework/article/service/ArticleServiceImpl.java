@@ -8,6 +8,7 @@ import org.naruto.framework.article.domain.Tag;
 import org.naruto.framework.article.repository.ArticleRepository;
 import org.naruto.framework.article.repository.CommentRepository;
 import org.naruto.framework.core.exception.ServiceException;
+import org.naruto.framework.core.repository.Pagination;
 import org.naruto.framework.core.utils.PageUtils;
 import org.naruto.framework.security.exception.SecurityError;
 import org.naruto.framework.user.domain.User;
@@ -80,6 +81,10 @@ public class ArticleServiceImpl implements ArticleService {
     public Page<Article> queryArticles(ArticleSearchRequest searchRequest) {
 
         searchRequest.setStatus(ArticleStatus.PUBLISH.getValue());
+
+        Pagination pagination =  searchRequest.getPagination();
+        pagination.setSorter("recommend_desc,updatedAt_desc");
+        searchRequest.setPagination(pagination);
 
         Specification<Article> specification=new Specification<Article>() {
             @Override
