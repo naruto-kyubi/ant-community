@@ -12,10 +12,10 @@ public interface ArticleService {
 
     Article saveArticle(Article article,User user);
 
-    @Deprecated
-    Page<Article> queryArticleByPage(Map map);
 
     Page<Article> queryArticles(ArticleSearchRequest searchRequest);
+
+    Page<Article> queryUser2Articles(User2ArticleSearchRequest searchRequest);
 
     Page<Article> queryDrafts(User user);
 

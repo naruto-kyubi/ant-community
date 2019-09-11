@@ -73,10 +73,6 @@ public class ArticleServiceImpl implements ArticleService {
         }
     }
 
-    public Page<Article> queryArticleByPage(Map map) {
-        return articleRepository.queryPageByCondition(map);
-    }
-
     @Override
     public Page<Article> queryArticles(ArticleSearchRequest searchRequest) {
 
@@ -94,6 +90,22 @@ public class ArticleServiceImpl implements ArticleService {
                     predicates.add(criteriaBuilder.equal(root.get("status"), searchRequest.getStatus()));
                 }
                 return criteriaBuilder.and(predicates.toArray(new Predicate[predicates.size()]));
+            }
+        };
+
+        return articleRepository.findAll(specification,searchRequest.getPagination().getPageable());
+    }
+
+    @Override
+    public Page<Article> queryUser2Articles(User2ArticleSearchRequest searchRequest) {
+
+        searchRequest.setStatus(ArticleStatus.PUBLISH.getValue());
+        searchRequest.getPagination().setSorter("updatedAt_desc");
+
+        Specification<Article> specification=new Specification<Article>() {
+            @Override
+            public Predicate toPredicate(Root<Article> root, CriteriaQuery<?> query, CriteriaBuilder criteriaBuilder) {
+                return criteriaBuilder.equal(root.get("owner").get("id"),searchRequest.getUserId());
             }
         };
 

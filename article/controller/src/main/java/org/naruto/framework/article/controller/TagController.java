@@ -92,7 +92,7 @@ public class TagController {
     }
 
     @ResponseBody
-    @RequestMapping(value = "/v1/users/tags/{tagId}/unsubscribe", method = RequestMethod.GET, produces = {"application/json;charset=UTF-8"})
+    @RequestMapping(value = "/v1/users/tags/{tagId}/unsubscribe", method = RequestMethod.DELETE, produces = {"application/json;charset=UTF-8"})
     public ResponseEntity<ResultEntity> deleteUserTags(@PathVariable("tagId") String tagId, HttpServletRequest request){
 
         User user = (User) sessionService.getCurrentUser(request);

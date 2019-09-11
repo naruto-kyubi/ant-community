@@ -5,6 +5,7 @@ import org.naruto.framework.article.domain.ArticleStatus;
 import org.naruto.framework.article.domain.Comment;
 import org.naruto.framework.article.service.ArticleSearchRequest;
 import org.naruto.framework.article.service.ArticleService;
+import org.naruto.framework.article.service.User2ArticleSearchRequest;
 import org.naruto.framework.core.utils.PageUtils;
 import org.naruto.framework.core.web.ResultEntity;
 import org.naruto.framework.core.session.ISessionService;
@@ -117,12 +118,11 @@ public class ArticleController {
     @ResponseBody
     @RequestMapping(value = "/v1/users/{userId}/articles", method = RequestMethod.GET, produces = {"application/json;charset=UTF-8"})
     public ResponseEntity<ResultEntity> queryUser2Articles(
-            @PathVariable("userId") String userId,@RequestParam(required = false) Map map,
+            @PathVariable("userId") String userId,User2ArticleSearchRequest searchRequest,
             HttpServletRequest request, HttpServletResponse response) {
-        map.put("owner.id",userId);
-        map.put("status",ArticleStatus.PUBLISH.getValue());
 
-        Page page = articleService.queryArticleByPage(map);
+        searchRequest.setUserId(userId);
+        Page page = articleService.queryUser2Articles(searchRequest);
         return ResponseEntity.ok(ResultEntity.ok(page.getContent(), PageUtils.wrapperPagination(page)));
     }
 
