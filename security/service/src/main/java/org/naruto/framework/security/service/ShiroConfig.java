@@ -22,7 +22,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-
 import javax.servlet.DispatcherType;
 import javax.servlet.Filter;
 import java.util.List;
@@ -151,10 +150,13 @@ public class ShiroConfig {
         return factoryBean;
     }
 
-    //数据库中加载权限相关数据，返回DefaultShiroFilterChainDefinition对象。
+    /**
+     * 数据库中加载权限相关数据，返回DefaultShiroFilterChainDefinition对象。
+     */
     @Bean
     public  ShiroFilterChainDefinition shiroFilterChainDefinition() {
 
+        //加载数据库视图（v_resource_roles）中存储的RequestMethod、URL的访问权限数据；
         List<ResourceRole> permissions = (List)resourceRoleReponsitory.findAll();
 
         DefaultShiroFilterChainDefinition chainDefinition = new DefaultShiroFilterChainDefinition();
@@ -165,10 +167,8 @@ public class ShiroConfig {
         chainDefinition.addPathDefinition("/v1/logon/function","httpMethodNoSessionCreation,jwtAuthToken[RememberMe,permissive]");
 
         chainDefinition.addPathDefinition("/v1/logon/account","jwtAuthToken");
-//        chainDefinition.addPathDefinition("/**","httpMethodNoSessionCreation,anon");
-        //没有配置的路径均需要身份认证；
+        //未配置的URL，均需要身份认证；
         chainDefinition.addPathDefinition("/**","httpMethodNoSessionCreation,jwtAuthToken[RememberMe]");
-
 
         return chainDefinition;
     }
