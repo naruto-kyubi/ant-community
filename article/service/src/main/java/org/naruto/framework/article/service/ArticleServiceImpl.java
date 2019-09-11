@@ -81,10 +81,7 @@ public class ArticleServiceImpl implements ArticleService {
     public Page<Article> queryArticles(ArticleSearchRequest searchRequest) {
 
         searchRequest.setStatus(ArticleStatus.PUBLISH.getValue());
-
-        Pagination pagination =  searchRequest.getPagination();
-        pagination.setSorter("recommend_desc,updatedAt_desc");
-        searchRequest.setPagination(pagination);
+        searchRequest.getPagination().setSorter("recommend_desc,updatedAt_desc");
 
         Specification<Article> specification=new Specification<Article>() {
             @Override
