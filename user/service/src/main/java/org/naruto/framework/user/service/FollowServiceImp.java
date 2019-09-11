@@ -64,12 +64,10 @@ public class FollowServiceImp implements FollowService {
     }
 
     @Override
-    public Page queryFans(Map map) {
+    public Page queryFans(FanSearchRequest searchRequest) {
 
-        String followUserId = (String) map.get("followUserId");
-        String currentUserId = (String) map.get("currentUserId");
-        Map _map = PageUtils.prepareQueryPageMap(map);
-        Pageable pageable = PageUtils.createPageable(_map);
-        return followRepository.queryFans(followUserId,currentUserId,pageable);
+        searchRequest.getPagination().setSorter("updated_at_desc");
+        Pageable pageable = searchRequest.getPagination().getPageable();
+        return followRepository.queryFans(searchRequest.getFollowUserId(),searchRequest.getCurrentUserId(),pageable);
     }
 }

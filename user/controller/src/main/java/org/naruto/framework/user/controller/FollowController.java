@@ -5,6 +5,7 @@ import org.naruto.framework.core.web.ResultEntity;
 import org.naruto.framework.core.session.ISessionService;
 import org.naruto.framework.user.domain.Follow;
 import org.naruto.framework.user.domain.User;
+import org.naruto.framework.user.service.FanSearchRequest;
 import org.naruto.framework.user.service.FollowSearchRequest;
 import org.naruto.framework.user.service.FollowService;
 import org.naruto.framework.user.service.UserService;
@@ -100,13 +101,12 @@ public class FollowController {
     @ResponseBody
     @RequestMapping(value = "/v1/users/fans", method = RequestMethod.GET, produces = {"application/json;charset=UTF-8"})
     public ResponseEntity<ResultEntity> queryFans(
-            @RequestParam(required = false) Map map,
+            FanSearchRequest searchRequest,
             HttpServletRequest request, HttpServletResponse response) {
 
         User user = (User) sessionService.getCurrentUser(request);
-        map.put("currentUserId",user.getId());
-
-        Page page = followService.queryFans(map);
+        searchRequest.setCurrentUserId(user.getId());
+        Page page = followService.queryFans(searchRequest);
         return ResponseEntity.ok(ResultEntity.ok(page.getContent(), PageUtils.wrapperPagination(page)));
     }
 }

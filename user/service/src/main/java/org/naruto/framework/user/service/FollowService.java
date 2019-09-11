@@ -20,5 +20,8 @@ public interface FollowService {
 
 //    Page queryFollowUsers(Map map);
 
-    Page queryFans(Map map);
+//    Page queryFans(Map map);
+
+    Page queryFans(FanSearchRequest searchRequest);
+
 }
