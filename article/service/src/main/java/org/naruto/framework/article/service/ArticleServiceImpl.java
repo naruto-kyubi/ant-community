@@ -103,6 +103,25 @@ public class ArticleServiceImpl implements ArticleService {
         return articleRepository.findAll(specification,searchRequest.getPagination().getPageable());
     }
 
+    @Override
+    public Page<Article> queryDrafts(User user) {
+
+        Pagination pagination = new Pagination();
+        pagination.setSorter("updatedAt_desc");
+
+        Specification<Article> specification=new Specification<Article>() {
+            @Override
+            public Predicate toPredicate(Root<Article> root, CriteriaQuery<?> query, CriteriaBuilder criteriaBuilder) {
+                List<Predicate> predicates = new ArrayList<>();
+                predicates.add(criteriaBuilder.equal(root.get("status"), ArticleStatus.DRAFT.getValue()));
+                predicates.add(criteriaBuilder.equal(root.get("owner").get("id"), user.getId()));
+                return criteriaBuilder.and(predicates.toArray(new Predicate[predicates.size()]));
+            }
+        };
+
+        return articleRepository.findAll(specification,pagination.getPageable());
+    }
+
     public Article queryArticleById(String id){
         Assert.notNull(id,"id can not be null");
         return  articleRepository.findById(id).get();

@@ -17,6 +17,8 @@ public interface ArticleService {
 
     Page<Article> queryArticles(ArticleSearchRequest searchRequest);
 
+    Page<Article> queryDrafts(User user);
+
     Article queryArticleById(String id);
 
     Article queryDraftById(String id);

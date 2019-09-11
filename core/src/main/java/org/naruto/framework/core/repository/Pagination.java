@@ -1,12 +1,14 @@
 package org.naruto.framework.core.repository;
 
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 
 @Data
+@NoArgsConstructor
 public class Pagination {
     private String sorter;
     private int current = 0;
