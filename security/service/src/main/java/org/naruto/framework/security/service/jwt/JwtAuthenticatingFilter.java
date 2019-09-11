@@ -1,6 +1,7 @@
 package org.naruto.framework.security.service.jwt;
 
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.http.HttpStatus;
@@ -23,7 +24,9 @@ import javax.servlet.http.HttpServletResponse;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.Date;
+import java.util.List;
 
 @Component
 @Slf4j
@@ -85,7 +88,13 @@ public class JwtAuthenticatingFilter extends AuthenticatingFilter {
         boolean isRememberMe =false;
         if(null!=mappedValue){
             //用户RememberMe登录情况下，是否可以访问该资源.
-            isRememberMe = Arrays.asList(mappedValue).contains("RememberMe");
+            List<String> list = Arrays.asList((String[])mappedValue);
+            for (String str : list) {
+                if("rememberme".equalsIgnoreCase(str)){
+                    isRememberMe = true;
+                    break;
+                };
+            }
         }
 
         if(!allowed && isRememberMe) {
