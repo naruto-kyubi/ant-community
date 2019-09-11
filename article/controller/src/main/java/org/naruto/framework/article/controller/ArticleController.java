@@ -54,12 +54,10 @@ public class ArticleController {
     @ResponseBody
     @RequestMapping(value = "/v1/articles/draft", method = RequestMethod.GET, produces = {"application/json;charset=UTF-8"})
     public ResponseEntity<ResultEntity> queryDraft(
-            @RequestParam(required = false) Map map,
             HttpServletRequest request, HttpServletResponse response) {
 
         User user = (User)sessionService.getCurrentUser(request);
-        map.put("owner.id_equal",user.getId());
-        Page page = articleService.queryArticleByPage(map);
+        Page page = articleService.queryDrafts(user);
         return ResponseEntity.ok(ResultEntity.ok(page.getContent(), PageUtils.wrapperPagination(page)));
     }
 
