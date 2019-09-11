@@ -5,6 +5,7 @@ import org.naruto.framework.core.web.ResultEntity;
 import org.naruto.framework.core.session.ISessionService;
 import org.naruto.framework.user.domain.Follow;
 import org.naruto.framework.user.domain.User;
+import org.naruto.framework.user.service.FollowSearchRequest;
 import org.naruto.framework.user.service.FollowService;
 import org.naruto.framework.user.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,8 +37,6 @@ public class FollowController {
     @RequestMapping(value = "/v1/users/follow/{id}", method = RequestMethod.GET)
     public ResponseEntity<ResultEntity> query(@PathVariable("id") String id) {
 
-//        Subject subject = SecurityUtils.getSubject();
-//        User sessionUser = (User) subject.getPrincipal();
         User sessionUser = (User) sessionService.getCurrentUser(null);
         Follow follow = null;
         if(null!=sessionUser){
@@ -48,14 +47,14 @@ public class FollowController {
 
     //关注了
     @ResponseBody
-    @RequestMapping(value = "/v1/users/follows", method = RequestMethod.GET, produces = {"application/json;charset=UTF-8"})
+    @RequestMapping(value = "/v1/users/follows", method = RequestMethod.GET)
     public ResponseEntity<ResultEntity> queryUsers(
-            @RequestParam(required = false) Map map,
+            FollowSearchRequest searchRequest,
             HttpServletRequest request, HttpServletResponse response) {
 
         User user = (User) sessionService.getCurrentUser(request);
-        map.put("currentUserId",user.getId());
-        Page page = followService.queryFollowUsers(map);
+        searchRequest.setCurrentUserId(user.getId());
+        Page page = followService.queryFollowUsers(searchRequest);
 
         return ResponseEntity.ok(ResultEntity.ok(page.getContent(), PageUtils.wrapperPagination(page)));
     }

@@ -16,7 +16,9 @@ public interface FollowService {
 
     void delete(String userId, String followUserId);
 
-    Page queryFollowUsers(Map map);
+    Page queryFollowUsers(FollowSearchRequest searchRequest);
+
+//    Page queryFollowUsers(Map map);
 
     Page queryFans(Map map);
 }
