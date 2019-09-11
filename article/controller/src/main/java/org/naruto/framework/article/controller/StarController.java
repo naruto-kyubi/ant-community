@@ -3,6 +3,7 @@ package org.naruto.framework.article.controller;
 import org.naruto.framework.article.domain.Article;
 import org.naruto.framework.article.domain.Star;
 import org.naruto.framework.article.service.ArticleService;
+import org.naruto.framework.article.service.StarSearchRequest;
 import org.naruto.framework.article.service.StarService;
 import org.naruto.framework.article.vo.StarVo;
 import org.naruto.framework.core.utils.PageUtils;
@@ -36,12 +37,12 @@ public class StarController {
     private ISessionService sessionService;
 
     @ResponseBody
-    @RequestMapping(value = "/v1/articles/stars", method = RequestMethod.GET, produces = {"application/json;charset=UTF-8"})
+    @RequestMapping(value = "/v1/articles/stars", method = RequestMethod.GET)
     public ResponseEntity<ResultEntity> queryStar(
-            @RequestParam(required = false) Map map,
+            StarSearchRequest searchRequest,
             HttpServletRequest request, HttpServletResponse response) {
 
-        Page page = starService.queryStarByPage(map);
+        Page page = starService.queryStarByPage(searchRequest);
         return ResponseEntity.ok(ResultEntity.ok(page.getContent(), PageUtils.wrapperPagination(page)));
     }
 
