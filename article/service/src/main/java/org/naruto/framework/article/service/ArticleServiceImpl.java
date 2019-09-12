@@ -167,9 +167,20 @@ public class ArticleServiceImpl implements ArticleService {
         return commentRepository.save(comment);
     }
 
-    public Page<Comment> queryCommentByPage(Map map) {
+    public Page<Comment> queryCommentByPage(CommentSearchRequest searchRequest) {
 
-        return commentRepository.queryPageByCondition(map);
+        searchRequest.getPagination().setSorter("updatedAt_desc");
+
+        Specification<Comment> specification=new Specification<Comment>() {
+            @Override
+            public Predicate toPredicate(Root<Comment> root, CriteriaQuery<?> query, CriteriaBuilder criteriaBuilder) {
+                List<Predicate> predicates = new ArrayList<>();
+                predicates.add(criteriaBuilder.equal(root.get("articleId"), searchRequest.getArticleId()));
+                return criteriaBuilder.and(predicates.toArray(new Predicate[predicates.size()]));
+            }
+        };
+
+        return commentRepository.findAll(specification,searchRequest.getPagination().getPageable());
     }
 
     @Override
