@@ -27,7 +27,7 @@ public interface ArticleService {
 
     Comment saveComment(Comment comment);
 
-    Page<Comment> queryCommentByPage(Map map);
+    Page<Comment> queryCommentByPage(CommentSearchRequest searchRequest);
 
     void increaseViewCount(String articleId);
 
