@@ -28,14 +28,15 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 
-@Component
+//@Component
 @Slf4j
 public class JwtAuthenticatingFilter extends AuthenticatingFilter {
     private static final String DEFAULT_PATH_SEPARATOR = "/";
-    @Autowired
+//    @Autowired
     private JWTTokenConfigProperties jwtTokenConfigProperties;
 
-    public JwtAuthenticatingFilter(){
+    public JwtAuthenticatingFilter(JWTTokenConfigProperties jwtTokenConfigProperties){
+        this.jwtTokenConfigProperties =jwtTokenConfigProperties;
         this.setLoginUrl("/v1/logon/account");
     }
 
@@ -215,7 +216,10 @@ public class JwtAuthenticatingFilter extends AuthenticatingFilter {
 
     @Override
     protected boolean pathsMatch(String path, ServletRequest request) {
+
+
         String requestURI = this.getPathWithinApplication(request);
+        log.info("path={};url={}",path,requestURI);
         if (requestURI != null && requestURI.endsWith(DEFAULT_PATH_SEPARATOR)) {
             requestURI = requestURI.substring(0, requestURI.length() - 1);
         }
@@ -226,13 +230,16 @@ public class JwtAuthenticatingFilter extends AuthenticatingFilter {
         if (paths.length>1 && paths[1] != null && paths[1].endsWith(DEFAULT_PATH_SEPARATOR)) {
             paths[1] = paths[1].substring(0 , paths[0].length() - 1);
         }
+        boolean ret = false;
         if (paths.length <= 1) {
             //标准URL
-            return this.pathsMatch(paths[0], requestURI);
+            ret= this.pathsMatch(paths[0], requestURI);
         } else {
             //httpMethod
             String httpMethod = WebUtils.toHttp(request).getMethod().toUpperCase();
-            return httpMethod.equals(paths[0].toUpperCase()) && this.pathsMatch(paths[1], requestURI);
+            ret =  httpMethod.equals(paths[0].toUpperCase()) && this.pathsMatch(paths[1], requestURI);
         }
+        log.info("path={};url={};ret={}",path,requestURI,ret);
+        return ret;
     }
 }

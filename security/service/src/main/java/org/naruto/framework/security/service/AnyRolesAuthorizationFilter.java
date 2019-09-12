@@ -13,7 +13,7 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-@Component
+//@Component
 public class AnyRolesAuthorizationFilter  extends AuthorizationFilter {
     private static final String DEFAULT_PATH_SEPARATOR = "/";
 

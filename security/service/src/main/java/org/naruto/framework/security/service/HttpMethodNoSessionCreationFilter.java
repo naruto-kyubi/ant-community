@@ -6,7 +6,7 @@ import org.springframework.stereotype.Component;
 
 import javax.servlet.ServletRequest;
 
-@Component
+//@Component
 public class HttpMethodNoSessionCreationFilter extends NoSessionCreationFilter {
 
     private static final String DEFAULT_PATH_SEPARATOR = "/";

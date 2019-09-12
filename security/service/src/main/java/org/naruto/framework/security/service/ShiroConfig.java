@@ -17,6 +17,7 @@ import org.apache.shiro.web.mgt.DefaultWebSubjectFactory;
 import org.apache.shiro.web.servlet.SimpleCookie;
 import org.naruto.framework.security.domain.ResourceRole;
 import org.naruto.framework.security.repository.ResourceRoleReponsitory;
+import org.naruto.framework.security.service.jwt.JWTTokenConfigProperties;
 import org.naruto.framework.security.service.jwt.JwtAuthenticatingFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
@@ -38,15 +39,18 @@ public class ShiroConfig {
     private ResourceRoleReponsitory resourceRoleReponsitory;
 
     @Autowired
-    private HttpMethodNoSessionCreationFilter httpMethodNoSessionCreationFilter;
+    private JWTTokenConfigProperties jwtTokenConfigProperties;
 
-    //web页面访问时，身份认证的Filter
-    @Autowired
-    private JwtAuthenticatingFilter jwtAuthenticatingFilter;
-
-    //web页面访问时，身份权限验证的Filter
-    @Autowired
-    private AnyRolesAuthorizationFilter anyRolesAuthorizationFilter;
+//    @Autowired
+//    private HttpMethodNoSessionCreationFilter httpMethodNoSessionCreationFilter;
+//
+//    //web页面访问时，身份认证的Filter
+//    @Autowired
+//    private JwtAuthenticatingFilter jwtAuthenticatingFilter;
+//
+//    //web页面访问时，身份权限验证的Filter
+//    @Autowired
+//    private AnyRolesAuthorizationFilter anyRolesAuthorizationFilter;
 
 
     //创建securityManager bean
@@ -138,11 +142,11 @@ public class ShiroConfig {
         Map<String, Filter> filterMap = factoryBean.getFilters();
 
 
-        filterMap.put("httpMethodNoSessionCreation", httpMethodNoSessionCreationFilter);
+        filterMap.put("httpMethodNoSessionCreation", new HttpMethodNoSessionCreationFilter());
         //token权限验证；
-        filterMap.put("jwtAuthToken", jwtAuthenticatingFilter);
+        filterMap.put("jwtAuthToken", new JwtAuthenticatingFilter(jwtTokenConfigProperties));
         //角色验证。
-        filterMap.put("anyRole", anyRolesAuthorizationFilter);
+        filterMap.put("anyRole", new AnyRolesAuthorizationFilter());
 
         factoryBean.setFilters(filterMap);
         factoryBean.setFilterChainDefinitionMap(shiroFilterChainDefinition().getFilterChainMap());
@@ -167,7 +171,8 @@ public class ShiroConfig {
         chainDefinition.addPathDefinition("/v1/logon/function","httpMethodNoSessionCreation,jwtAuthToken[RememberMe,permissive]");
 
         chainDefinition.addPathDefinition("/v1/logon/account","jwtAuthToken");
-        chainDefinition.addPathDefinition("/images/**","httpMethodNoSessionCreation,anon");
+
+        chainDefinition.addPathDefinition("/images/**","anon");
 
         //未配置的URL，均需要身份认证；
         chainDefinition.addPathDefinition("/**","httpMethodNoSessionCreation,jwtAuthToken[RememberMe]");
