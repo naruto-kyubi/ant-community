@@ -167,6 +167,8 @@ public class ShiroConfig {
         chainDefinition.addPathDefinition("/v1/logon/function","httpMethodNoSessionCreation,jwtAuthToken[RememberMe,permissive]");
 
         chainDefinition.addPathDefinition("/v1/logon/account","jwtAuthToken");
+        chainDefinition.addPathDefinition("/images/**","httpMethodNoSessionCreation,anon");
+
         //未配置的URL，均需要身份认证；
         chainDefinition.addPathDefinition("/**","httpMethodNoSessionCreation,jwtAuthToken[RememberMe]");
 
