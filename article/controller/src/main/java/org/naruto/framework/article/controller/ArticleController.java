@@ -5,6 +5,7 @@ import org.naruto.framework.article.domain.ArticleStatus;
 import org.naruto.framework.article.domain.Comment;
 import org.naruto.framework.article.service.ArticleSearchRequest;
 import org.naruto.framework.article.service.ArticleService;
+import org.naruto.framework.article.service.CommentSearchRequest;
 import org.naruto.framework.article.service.User2ArticleSearchRequest;
 import org.naruto.framework.core.utils.PageUtils;
 import org.naruto.framework.core.web.ResultEntity;
@@ -81,9 +82,9 @@ public class ArticleController {
     @ResponseBody
     @RequestMapping(value = "/v1/articles/comments", method = RequestMethod.GET, produces = {"application/json;charset=UTF-8"})
     public ResponseEntity<ResultEntity> queryComments(
-            @RequestParam(required = false) Map map,
+            CommentSearchRequest searchRequest,
             HttpServletRequest request, HttpServletResponse response) {
-        Page page = articleService.queryCommentByPage(map);
+        Page page = articleService.queryCommentByPage(searchRequest);
         return ResponseEntity.ok(ResultEntity.ok(page.getContent(), PageUtils.wrapperPagination(page)));
     }
 
