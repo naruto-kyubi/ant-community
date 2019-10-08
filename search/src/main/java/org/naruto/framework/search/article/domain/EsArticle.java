@@ -51,8 +51,8 @@ public class EsArticle {
     @Field(type = FieldType.Long)
     private long likeCount = 0;
 
-    @Field(type = FieldType.Boolean)
-    private boolean recommend;
+    @Field(type = FieldType.Integer)
+    private int recommend;
 
     @Field(type = FieldType.Keyword)
     private String userId;
