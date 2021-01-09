@@ -1,0 +1,4 @@
+rootProject.name = 'investment'
+//includeFlat 'user'
+//includeFlat 'core'
+//include 'user:user-domain'

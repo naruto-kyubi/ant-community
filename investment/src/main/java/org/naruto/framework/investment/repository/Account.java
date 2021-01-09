@@ -1,0 +1,51 @@
+package org.naruto.framework.investment.repository;
+
+
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
+import org.hibernate.annotations.GenericGenerator;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+
+import javax.persistence.*;
+import java.util.Date;
+
+@Entity
+@Table(name="accounts")
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@EntityListeners(value={AuditingEntityListener.class})
+@ToString
+public class Account {
+  @Id
+  @GenericGenerator(name="idGenerator", strategy="uuid")
+  @GeneratedValue(generator="idGenerator")
+  @Column(length=40)
+  private String id;
+
+  private String nameCn;
+  private String nameEn;
+  private String mail;
+  private String loginPwd;
+  private String tradePwd;
+  private String mobile;
+  private String idCard;
+  private String address;
+  private String bankCard;
+  private String company;
+  private String officeTel;
+  private String officeAddress;
+  private String owner;
+  private String appLocation;
+  private String type;
+  private String parent;
+  private Float balance;
+
+  @LastModifiedDate
+  private Date lastOperationAt;
+  private String lastOperationStatus;
+
+}

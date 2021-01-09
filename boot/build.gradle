@@ -11,4 +11,5 @@ dependencies {
     compile project(':user')
     compile project(':security')
     compile project(':article')
+    compile project(':investment')
 }

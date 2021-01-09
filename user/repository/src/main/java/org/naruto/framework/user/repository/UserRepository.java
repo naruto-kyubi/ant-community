@@ -1,6 +1,6 @@
 package org.naruto.framework.user.repository;
 
-import com.sun.org.apache.xpath.internal.operations.Bool;
+//import com.sun.org.apache.xpath.internal.operations.Bool;
 import org.naruto.framework.core.repository.CustomRepository;
 import org.naruto.framework.user.domain.User;
 import org.springframework.data.jpa.repository.Query;
