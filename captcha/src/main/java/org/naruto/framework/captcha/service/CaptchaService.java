@@ -63,7 +63,7 @@ public class CaptchaService {
 
         log.info("The otp code is :" + otp);
         captcha.setCaptcha(otp);
-        sendSMS(mobile, otp);
+       // sendSMS(mobile, otp);
         return captchaRepository.save(captcha);
     }
 
