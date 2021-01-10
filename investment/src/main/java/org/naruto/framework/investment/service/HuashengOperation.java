@@ -69,8 +69,13 @@ public class HuashengOperation implements AccountOperation {
         //手机密码登录
         log.info("logon2-------"+ driver.currentActivity());
         wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//*[@content-desc=\"交易\"]"))).click();
-        wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("/hierarchy/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.LinearLayout[3]/android.widget.EditText"))).sendKeys(tradePwd);
-        driver.findElement(By.id("com.huasheng.stock:id/btn_login")).click();
+
+        try {
+            wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("/hierarchy/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.LinearLayout[3]/android.widget.EditText"))).sendKeys(tradePwd);
+            driver.findElement(By.id("com.huasheng.stock:id/btn_login")).click();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public void buyNewStock(AndroidDriver<MobileElement> driver,String stockNumber,String tradePwd) throws InterruptedException {

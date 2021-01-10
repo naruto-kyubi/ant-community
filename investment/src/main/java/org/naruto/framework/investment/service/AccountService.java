@@ -34,12 +34,17 @@ public class AccountService {
         return accountRepository.queryAccountById(id);
     }
 
-    public Account connect(String id) throws MalformedURLException, InterruptedException{
+    public Account connect(String id) {
         Account account = accountRepository.queryAccountById(id);
         accountOperation = (AccountOperation) SpringUtils.getBean(account.getType());
-        accountOperation.connect(account);
+        try {
+            accountOperation.connect(account);
+            account.setLastOperationStatus("1");
+        } catch (Exception e) {
+            account.setLastOperationStatus("0");
+        }
         //保存操作结果
-        account.setLastOperationStatus("1");
+        account.setLastOperationAt(new Date());
         accountRepository.save(account);
         return account;
     }
@@ -47,10 +52,15 @@ public class AccountService {
     public Account QueryBalance(String id) throws MalformedURLException, InterruptedException {
         Account account = accountRepository.queryAccountById(id);
         accountOperation = (AccountOperation) SpringUtils.getBean(account.getType());
-        account = accountOperation.queryBalance(account);
 
+        try {
+            account = accountOperation.queryBalance(account);
+            account.setLastOperationStatus("1");
+        } catch (Exception e) {
+            account.setLastOperationStatus("0");
+        }
+        //保存操作结果
         account.setLastOperationAt(new Date());
-        account.setLastOperationStatus("1");
         accountRepository.save(account);
         return account;
 

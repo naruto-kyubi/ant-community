@@ -25,10 +25,11 @@ public class Account {
   @GeneratedValue(generator="idGenerator")
   @Column(length=40)
   private String id;
-
+  private String accountNo;
   private String nameCn;
   private String nameEn;
   private String mail;
+  private String loginId;
   private String loginPwd;
   private String tradePwd;
   private String mobile;
