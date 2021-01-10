@@ -1,5 +1,6 @@
 package org.naruto.framework.investment.service;
 
+import lombok.extern.java.Log;
 import org.naruto.framework.core.SpringUtils;
 import org.naruto.framework.investment.repository.Account;
 import org.naruto.framework.investment.repository.AccountRepository;
@@ -13,6 +14,7 @@ import java.net.MalformedURLException;
 import java.util.Date;
 import java.util.List;
 
+@Log
 @Scope("prototype")
 @Service
 public class AccountService {
@@ -70,6 +72,19 @@ public class AccountService {
         return accountTypeRepository.findAll();
     }
 
+    public Account addAccount(Account account){
+        Account parent = accountRepository.queryAccountById(account.getParent());
+        account.setOwner(parent.getOwner());
+        account.setNameCn(parent.getNameCn());
+        account.setNameEn(parent.getNameEn());
 
+        if(account.getLoginId()==null||account.getLoginId().equals("")) account.setLoginId(parent.getMobile());
+        if(account.getLoginPwd()==null||account.getLoginPwd().equals("")) account.setLoginPwd(parent.getLoginPwd());
+        if(account.getAppLocation()==null||account.getAppLocation().equals("")) account.setAppLocation(parent.getAppLocation());
+        if(account.getTradePwd()==null||account.getTradePwd().equals("")) account.setTradePwd(parent.getTradePwd());
+        accountRepository.save(account);
+
+        return account;
+    }
 
 }
