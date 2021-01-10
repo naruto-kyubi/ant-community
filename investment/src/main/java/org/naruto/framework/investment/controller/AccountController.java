@@ -24,9 +24,12 @@ public class AccountController {
     @RequestMapping(value = "/v1/mainAccounts", method = RequestMethod.GET, produces = "application/json;charset=UTF-8")
     public ResponseEntity<ResultEntity> query(
             @RequestParam(required = false) String owner,
+            @RequestParam(required = false) String parent,
+            @RequestParam(required = false) String type,
             HttpServletRequest request, HttpServletResponse response) {
 
-        List<Account> accounts = accountService.queryAccountByOwner(owner);
+       // List<Account> accounts = accountService.queryAccountByOwner(owner);
+        List<Account> accounts = accountService.queryAccountsByParentAndType(owner,parent,type);
         return ResponseEntity.ok(ResultEntity.ok(accounts));
     }
 

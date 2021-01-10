@@ -28,6 +28,8 @@ public class AccountService {
         return accountRepository.queryAccountByOwner(owner);
     }
 
+    public List<Account> queryAccountsByParentAndType(String owner,String parent,String type){return accountRepository.queryAccountsByParentAndType(owner, parent, type);}
+
     public Account queryAccountById(String id){
         return accountRepository.queryAccountById(id);
     }
