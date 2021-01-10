@@ -1,4 +1,4 @@
-package org.naruto.framework.investment.huatai.service;
+package org.naruto.framework.investment.service;
 
 import io.appium.java_client.MobileElement;
 import io.appium.java_client.android.AndroidDriver;
@@ -8,7 +8,6 @@ import org.naruto.framework.investment.connect.SessionManager;
 import org.naruto.framework.investment.install.AppInfo;
 import org.naruto.framework.investment.install.Apps;
 import org.naruto.framework.investment.repository.Account;
-import org.naruto.framework.investment.service.AccountOperation;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Point;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -24,9 +23,9 @@ import java.util.Map;
 
 @Scope("prototype")
 @Service("huatai")
-public class HuataiIpoService implements AccountOperation {
+public class HuataiOperation implements AccountOperation {
 
-    private static final Logger log = LoggerFactory.getLogger(HuataiIpoService.class);
+    private static final Logger log = LoggerFactory.getLogger(HuataiOperation.class);
 
     private  Map<String, Point> tokenInputKeyboard ;
 
