@@ -21,8 +21,8 @@ public class AccountController {
     private AccountService accountService;
 
     @ResponseBody
-    @RequestMapping(value = "/v1/mainAccounts", method = RequestMethod.GET, produces = "application/json;charset=UTF-8")
-    public ResponseEntity<ResultEntity> query(
+    @RequestMapping(value = "/v1/subAccounts", method = RequestMethod.GET, produces = "application/json;charset=UTF-8")
+    public ResponseEntity<ResultEntity> querySubAccounts(
             @RequestParam(required = false) String owner,
             @RequestParam(required = false) String parent,
             @RequestParam(required = false) String type,
@@ -30,6 +30,17 @@ public class AccountController {
 
        // List<Account> accounts = accountService.queryAccountByOwner(owner);
         List<Account> accounts = accountService.queryAccountsByParentAndType(owner,parent,type);
+        return ResponseEntity.ok(ResultEntity.ok(accounts));
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "/v1/mainAccounts", method = RequestMethod.GET, produces = "application/json;charset=UTF-8")
+    public ResponseEntity<ResultEntity> queryMainAccounts(
+            @RequestParam(required = false) String owner,
+            HttpServletRequest request, HttpServletResponse response) {
+
+        // List<Account> accounts = accountService.queryAccountByOwner(owner);
+        List<Account> accounts = accountService.queryMainAccountByOwner(owner);
         return ResponseEntity.ok(ResultEntity.ok(accounts));
     }
 

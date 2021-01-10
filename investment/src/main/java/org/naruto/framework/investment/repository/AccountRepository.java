@@ -7,7 +7,11 @@ import java.util.List;
 
 
 public interface AccountRepository extends CustomRepository<Account,String>{
-    public List<Account> queryAccountByOwner(String owner);
+
+    @Query(value="select * from accounts where owner=?1 and parent=-1 ",
+            nativeQuery = true
+    )
+    public List<Account> queryMainAccountByOwner(String owner);
 
     @Query(value="select * from accounts where owner=?1 and if(?2 !='',parent=?2,1=1) and if(?3 !='',type=?3,1=1) ",
             nativeQuery = true
