@@ -75,7 +75,7 @@ public class MinshengOperation implements AccountOperation {
         driver.findElementById("com.cmbc.hwydlsyh:id/edtTxtUserName").sendKeys(account.getLoginId());
 
         driver.findElementById("com.cmbc.hwydlsyh:id/edt_password").click();
-
+        Thread.sleep(2000);
         KeyBordManager.minsheng_tap(driver,tokenInputKeyboard,account.getLoginPwd());
 
         driver.findElementById("com.cmbc.hwydlsyh:id/btnLogin").click();
