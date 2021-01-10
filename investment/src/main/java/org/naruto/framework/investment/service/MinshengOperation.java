@@ -72,13 +72,14 @@ public class MinshengOperation implements AccountOperation {
 
         driver.findElementById("com.cmbc.hwydlsyh:id/bt_iFirstPageFragmentBanner_login").click();
 
-        driver.findElementById("com.cmbc.hwydlsyh:id/edtTxtUserName").sendKeys(account.getLoginId());
+        wait.until(ExpectedConditions.presenceOfElementLocated(By.id("com.cmbc.hwydlsyh:id/edtTxtUserName"))).sendKeys(account.getLoginId());
 
         driver.findElementById("com.cmbc.hwydlsyh:id/edt_password").click();
+
         Thread.sleep(2000);
         KeyBordManager.minsheng_tap(driver,tokenInputKeyboard,account.getLoginPwd());
 
-        driver.findElementById("com.cmbc.hwydlsyh:id/btnLogin").click();
+        wait.until(ExpectedConditions.presenceOfElementLocated(By.id("com.cmbc.hwydlsyh:id/btnLogin"))).click();
     }
 
     public void buyNewStock(AndroidDriver<MobileElement> driver, Point newStockPoint, String stockShare, int selectedStock, String stockNumber) throws InterruptedException{
