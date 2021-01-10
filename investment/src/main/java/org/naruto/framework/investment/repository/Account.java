@@ -44,7 +44,6 @@ public class Account {
   private String parent;
   private Float balance;
 
-  @LastModifiedDate
   private Date lastOperationAt;
   private String lastOperationStatus;
 

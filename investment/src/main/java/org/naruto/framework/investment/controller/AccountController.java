@@ -3,6 +3,7 @@ package org.naruto.framework.investment.controller;
 import org.naruto.framework.core.SpringUtils;
 import org.naruto.framework.core.web.ResultEntity;
 import org.naruto.framework.investment.repository.Account;
+import org.naruto.framework.investment.repository.AccountType;
 import org.naruto.framework.investment.service.AccountService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -47,6 +48,15 @@ public class AccountController {
 
         accountService.QueryBalance(id);
         return ResponseEntity.ok(ResultEntity.ok(""));
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "/v1/queryAccountTypes", method = RequestMethod.GET, produces = "application/json;charset=UTF-8")
+    public ResponseEntity<ResultEntity> query(
+            HttpServletRequest request, HttpServletResponse response) {
+
+        List<AccountType> accountTypes = accountService.queryAccountType();
+        return ResponseEntity.ok(ResultEntity.ok(accountTypes));
     }
 
 }
