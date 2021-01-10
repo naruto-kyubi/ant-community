@@ -85,6 +85,12 @@ public class KeyBordManager {
                 put("keyboard_no_i",new Point(771,1842));
                 put("keyboard_no_h",new Point(670,2030));
                 put("keyboard_no_l",new Point(959,2030));
+
+                put("keyboard_no_z",new Point(178,2179));
+                put("keyboard_no_a",new Point(121,1919));
+                put("keyboard_no_q",new Point(82,1808));
+                put("keyboard_no_p",new Point(1008,1798));
+
                 put("keyboard_no_digital",new Point(92,2300));
                 put("keyboard_no_charactor",new Point(106,2305));
             }
