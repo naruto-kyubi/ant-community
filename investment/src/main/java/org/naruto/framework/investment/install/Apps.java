@@ -145,6 +145,10 @@ public class Apps {
                     new AppInfo("com.CMSI.Key",
                             "md58eeaaf6ecd101572fa448c5104fa33aa.BrokerListActivity",
                             "hkStockTrading2FA.apk"));
+            put("minsheng",
+                    new AppInfo("com.cmbc.hwydlsyh",
+                            "com.cmbc.hwydlsyh.activity.SplashActivity",
+                            ""));
         }
     };
 }

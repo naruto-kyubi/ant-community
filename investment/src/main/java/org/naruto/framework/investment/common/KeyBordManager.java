@@ -66,6 +66,31 @@ public class KeyBordManager {
 
         };
 
+        //华为-民生
+        Map<String, Point> lra_minsheng = new HashMap<String,Point>(){
+            {
+                put("keyboard_no_0",new Point(540,2309));
+                put("keyboard_no_1",new Point(180,1827));
+                put("keyboard_no_2",new Point(540,1827));
+                put("keyboard_no_3",new Point(900,1827));
+                put("keyboard_no_4",new Point(180,1933));
+                put("keyboard_no_5",new Point(540,1933));
+                put("keyboard_no_6",new Point(900,1933));
+                put("keyboard_no_7",new Point(180,2068));
+                put("keyboard_no_8",new Point(540,2068));
+                put("keyboard_no_9",new Point(900,2068));
+
+                put("keyboard_no_y",new Point(627,1847));
+                put("keyboard_no_u",new Point(661,1847));
+                put("keyboard_no_i",new Point(771,1842));
+                put("keyboard_no_h",new Point(670,2030));
+                put("keyboard_no_l",new Point(959,2030));
+                put("keyboard_no_digital",new Point(92,2300));
+                put("keyboard_no_charactor",new Point(106,2305));
+            }
+
+        };
+
         //红米note8数字键盘
         Map<String, Point> redmi_note_8_number =new HashMap<String,Point>(){
             {
@@ -118,15 +143,41 @@ public class KeyBordManager {
             }
         };
 
+        Map<String, Point> redmi_note_8_minsheng = new HashMap<String,Point>(){
+            {
+                put("keyboard_no_0",new Point(540,2080));
+                put("keyboard_no_1",new Point(180,1648));
+                put("keyboard_no_2",new Point(540,1648));
+                put("keyboard_no_3",new Point(900,1648));
+                put("keyboard_no_4",new Point(180,1822));
+                put("keyboard_no_5",new Point(540,1822));
+                put("keyboard_no_6",new Point(900,1822));
+                put("keyboard_no_7",new Point(180,1958));
+                put("keyboard_no_8",new Point(540,1958));
+                put("keyboard_no_9",new Point(900,1958));
+
+                put("keyboard_no_y",new Point(639,1676));
+                put("keyboard_no_u",new Point(751,1705));
+                put("keyboard_no_i",new Point(808,1582));
+                put("keyboard_no_h",new Point(667,1874));
+                put("keyboard_no_l",new Point(934,1836));
+
+                put("keyboard_no_digital",new Point(89,2122));
+                put("keyboard_no_charactor",new Point(99,2127));
+            }
+        };
+
         //小米键盘
         keyBordMap.put("LRA-AL00_number",lra_number);
         keyBordMap.put("LRA-AL00_full",lra_full);
         keyBordMap.put("LRA-AL00_huatai",lra_huatai);
+        keyBordMap.put("LRA-AL00_minsheng",lra_minsheng);
 
         //红米note8键盘
         keyBordMap.put("Redmi Note 8_number",redmi_note_8_number);
         keyBordMap.put("Redmi Note 8_full",redmi_note_8_full);
         keyBordMap.put("Redmi Note 8_huatai",redmi_note_8_huatai);
+        keyBordMap.put("Redmi Note 8_minsheng",redmi_note_8_minsheng);
     }
 
     public static Map<String,Point> getKeyBord(AndroidDriver<MobileElement> driver,String keybordType){
@@ -153,6 +204,36 @@ public class KeyBordManager {
                   // 大小写转换键
                 Point shift = keybord.get("keyboard_no_shift");
                 action.press(PointOption.point(shift)).release().perform();
+            }
+            action.press(PointOption.point(point)).release().perform();
+        }
+    }
+
+    public static void minsheng_tap(AndroidDriver<MobileElement> driver,Map<String,Point> keybord,String pwd){
+        boolean isalpha_keyboard = true;
+        for(int i =0; i<pwd.length();i++) {
+            char num = pwd.charAt(i);
+            String key = "keyboard_no_".concat(String.valueOf(num).toLowerCase());
+            Point point = keybord.get(key);
+            System.out.println("click the point ".concat(point.toString()));
+            AndroidTouchAction action = new AndroidTouchAction(driver);
+
+            if((Character.isLetter(num) && isalpha_keyboard) || (Character.isDigit(num) && !isalpha_keyboard)){
+
+            }else{
+                Point p = null;
+                if(isalpha_keyboard){
+                    p = keybord.get("keyboard_no_digital");
+                }else{
+                    p = keybord.get("keyboard_no_charactor");
+                }
+                action.press(PointOption.point(p)).release().perform();
+                isalpha_keyboard = !isalpha_keyboard;
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
             }
             action.press(PointOption.point(point)).release().perform();
         }
