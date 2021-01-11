@@ -45,6 +45,9 @@ public class Account {
   private String parent;
   private Float balance;
 
+  //证券的资金账户，用于使用fps入金或者银证入金
+  private String capitalAccount;
+
   private Date lastOperationAt;
   private String lastOperationStatus;
 
