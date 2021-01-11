@@ -8,5 +8,5 @@ dependencies {
 //    compile project(':user:user-repository')
 
     implementation 'org.springframework.boot:spring-boot-starter-web'
-    compile 'io.appium:java-client:7.3.0'
+    compile 'io.appium:java-client:7.4.1'
 }

@@ -26,6 +26,9 @@ public class AccountService {
 
     private AccountOperation accountOperation;
 
+    @Autowired
+    private PythonOperation pythonOperation;
+
     public List<Account> queryMainAccountByOwner(String owner){
         return accountRepository.queryMainAccountByOwner(owner);
     }
@@ -52,8 +55,15 @@ public class AccountService {
     }
 
     public Account QueryBalance(String id) throws MalformedURLException, InterruptedException {
+
         Account account = accountRepository.queryAccountById(id);
-        accountOperation = (AccountOperation) SpringUtils.getBean(account.getType());
+
+        try {
+            accountOperation = (AccountOperation) SpringUtils.getBean(account.getType());
+        } catch (Exception e) {
+            e.printStackTrace();
+            accountOperation = pythonOperation;
+        }
 
         try {
             account = accountOperation.queryBalance(account);
