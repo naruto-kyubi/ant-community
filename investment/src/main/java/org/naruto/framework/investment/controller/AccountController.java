@@ -85,4 +85,12 @@ public class AccountController {
 
     }
 
+    @ResponseBody
+    @RequestMapping(value = "/v1/updateAccount", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+    public ResponseEntity<ResultEntity> update(@Validated @RequestBody  Account account, HttpServletRequest request){
+
+        return ResponseEntity.ok(ResultEntity.ok(accountService.updateAccount(account)));
+
+    }
+
 }
