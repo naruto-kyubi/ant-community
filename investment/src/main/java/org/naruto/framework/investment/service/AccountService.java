@@ -97,4 +97,24 @@ public class AccountService {
         return account;
     }
 
+    public Account updateAccount(Account account){
+       // log.info(account.toString());
+        Account accountDb = accountRepository.queryAccountById(account.getId());
+
+        //保存前端提交数据
+        accountDb.setParent(account.getParent());
+        accountDb.setType(account.getType());
+        accountDb.setAppLocation(account.getAppLocation());
+        accountDb.setLoginPwd(account.getLoginPwd());
+        accountDb.setTradePwd(account.getTradePwd());
+        accountDb.setBalance(account.getBalance());
+        accountDb.setLoginId(account.getLoginId());
+        accountDb.setAccountNo(account.getAccountNo());
+
+      //  log.info(accountDb.toString());
+
+        accountRepository.save(accountDb);
+        return accountDb;
+    }
+
 }
