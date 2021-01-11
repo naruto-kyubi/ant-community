@@ -35,7 +35,7 @@ public class Account {
   private String mobile;
   private String idCard;
   private String address;
-  private String bankCard;
+  private String bankAccount;
   private String company;
   private String officeTel;
   private String officeAddress;
