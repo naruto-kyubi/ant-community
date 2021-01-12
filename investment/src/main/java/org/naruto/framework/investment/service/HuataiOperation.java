@@ -50,23 +50,8 @@ public class HuataiOperation implements AccountOperation {
 //        this.buyNewStock(driver,new Point(huataiIpoRequest.getStockPointX(),huataiIpoRequest.getStockPointY()),huataiIpoRequest.getStockShare(),huataiIpoRequest.getSelectedStock(),huataiIpoRequest.getStockNumber());
 //        return null;
 //    }
-
-    public void navToAccountPage(AndroidDriver<MobileElement> driver){
-        WebDriverWait wait = new WebDriverWait(driver, 5);
-
-        // 关闭广告框
-        String adv= "/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.RelativeLayout/android.widget.LinearLayout/android.widget.RelativeLayout/android.widget.ImageView";
-        try {
-            wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath(adv))).click();
-        } catch (Exception e) {
-            log.info("no adv present!!");
-        }
-
-        wait.until(ExpectedConditions.presenceOfElementLocated(By.id("com.lphtsccft.zlqqt2:id/main_account"))).click();
-    }
     public void logon (AndroidDriver<MobileElement> driver, String pwd, String tokenPwd) throws InterruptedException{
-        WebDriverWait wait = new WebDriverWait(driver, 10);
-       // wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//*[@text='去登录']"))).click();
+        WebDriverWait wait = new WebDriverWait(driver, 6);
         wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//*[contains(@text,'登录')]"))).click();
 
         wait.until(ExpectedConditions.presenceOfElementLocated(By.id("com.lphtsccft.zlqqt2:id/login_et_password"))).sendKeys(pwd);
@@ -91,8 +76,6 @@ public class HuataiOperation implements AccountOperation {
 
 
         String pinCode = wait.until(ExpectedConditions.presenceOfElementLocated(By.id("hk.com.ayers.htai.token:id/pin_value"))).getText();
-
-                System.out.println("The Ping Code is ".concat(pinCode));
 
         driver.activateApp(appInfo.getAppPackage());
 
@@ -182,10 +165,19 @@ public class HuataiOperation implements AccountOperation {
         AndroidDriver<MobileElement> driver = sessionManager.activateApp(account.getAppLocation(),account.getType());
         //激活应用
         tokenInputKeyboard = KeyBordManager.getKeyBord(driver,account.getType());
-        // 等待关闭闪屏
-        Thread.sleep(3000);
-        WebDriverWait wait = new WebDriverWait(driver, 10);
-        this.navToAccountPage(driver);
+
+        WebDriverWait wait = new WebDriverWait(driver, 6);
+
+        // 关闭广告框
+        String adv= "/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.RelativeLayout/android.widget.LinearLayout/android.widget.RelativeLayout/android.widget.ImageView";
+        try {
+            wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath(adv))).click();
+        } catch (Exception e) {
+            log.info("no adv present!!");
+        }
+
+        wait.until(ExpectedConditions.presenceOfElementLocated(By.id("com.lphtsccft.zlqqt2:id/main_account"))).click();
+
         try {
             wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//*[contains(@text,\"登录\")]")));
             this.logon(driver,account.getLoginPwd(),account.getTradePwd());

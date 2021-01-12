@@ -140,7 +140,7 @@ public class Apps {
             put("zhaoshang",
                     new AppInfo("com.aastocks.cms",
                             "com.aastocks.mwinner.MainActivity",
-                            "CMSHK_v1.8.9B1.apk"));
+                            "CMSHK_V1.9.4B4.apk"));
             put("zhaoshangToken",
                     new AppInfo("com.CMSI.Key",
                             "md58eeaaf6ecd101572fa448c5104fa33aa.BrokerListActivity",

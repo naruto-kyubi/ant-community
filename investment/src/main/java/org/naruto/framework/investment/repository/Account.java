@@ -13,7 +13,7 @@ import javax.persistence.*;
 import java.util.Date;
 
 @Entity
-@Table(name="accounts")
+@Table(name="accounts",uniqueConstraints=@UniqueConstraint(columnNames={"nameEn","type","parent"}))
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -25,30 +25,69 @@ public class Account {
   @GeneratedValue(generator="idGenerator")
   @Column(length=40)
   private String id;
+
+  @Column(length=40)
   private String accountNo;
+
+  @Column(length=40)
   private String nameCn;
+
+  @Column(length=40)
   private String nameEn;
+
+  @Column(length=40)
   private String mail;
+
+  @Column(length=40)
   private String loginId;
+
+  @Column(length=40)
   private String loginPwd;
+
+  @Column(length=40)
   private String tradePwd;
+
+  @Column(length=40)
   private String mobile;
+
+  @Column(length=40)
   private String idCard;
+
+  @Column(length=200)
   private String address;
+
+  @Column(length=40)
   private String bankAccount;
+
+  @Column(length=200)
   private String company;
+
+  @Column(length=40)
   private String officeTel;
+
+  @Column(length=200)
   private String officeAddress;
+
+  @Column(length=40)
   private String owner;
+
+  @Column(length=40)
   private String appLocation;
+
+  @Column(length=40)
   private String type;
+
+  @Column(length=40)
   private String parent;
-  private Float balance;
+  private Float balance = 0F;
 
   //证券的资金账户，用于使用fps入金或者银证入金
+  @Column(length=40)
   private String capitalAccount;
 
-  private Date lastOperationAt;
+  private Date lastOperationAt = new Date();
+
+  @Column(length=10)
   private String lastOperationStatus;
 
 }
