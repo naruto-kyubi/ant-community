@@ -173,6 +173,22 @@ public class KeyBordManager {
             }
         };
 
+        //MI 8_huatai
+        Map<String, Point> m8_huatai = new HashMap<String,Point>(){
+            {
+                put("keyboard_no_0",new Point(540,2080));
+                put("keyboard_no_1",new Point(180,1648));
+                put("keyboard_no_2",new Point(540,1648));
+                put("keyboard_no_3",new Point(900,1648));
+                put("keyboard_no_4",new Point(180,1822));
+                put("keyboard_no_5",new Point(540,1822));
+                put("keyboard_no_6",new Point(900,1822));
+                put("keyboard_no_7",new Point(180,1958));
+                put("keyboard_no_8",new Point(540,1958));
+                put("keyboard_no_9",new Point(900,1958));
+            }
+        };
+
         //小米键盘
         keyBordMap.put("LRA-AL00_number",lra_number);
         keyBordMap.put("LRA-AL00_full",lra_full);
@@ -184,6 +200,9 @@ public class KeyBordManager {
         keyBordMap.put("Redmi Note 8_full",redmi_note_8_full);
         keyBordMap.put("Redmi Note 8_huatai",redmi_note_8_huatai);
         keyBordMap.put("Redmi Note 8_minsheng",redmi_note_8_minsheng);
+
+        //小米8
+        keyBordMap.put("MI 8_huatai",m8_huatai);
     }
 
     public static Map<String,Point> getKeyBord(AndroidDriver<MobileElement> driver,String keybordType){

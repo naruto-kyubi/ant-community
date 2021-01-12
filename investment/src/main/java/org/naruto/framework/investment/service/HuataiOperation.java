@@ -2,6 +2,7 @@ package org.naruto.framework.investment.service;
 
 import io.appium.java_client.MobileElement;
 import io.appium.java_client.android.AndroidDriver;
+import lombok.extern.java.Log;
 import org.apache.commons.lang3.StringUtils;
 import org.naruto.framework.investment.common.KeyBordManager;
 import org.naruto.framework.investment.connect.SessionManager;
@@ -12,8 +13,6 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.Point;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
@@ -21,11 +20,10 @@ import org.springframework.stereotype.Service;
 import java.net.MalformedURLException;
 import java.util.Map;
 
+@Log
 @Scope("prototype")
 @Service("huatai")
 public class HuataiOperation implements AccountOperation {
-
-    private static final Logger log = LoggerFactory.getLogger(HuataiOperation.class);
 
     private  Map<String, Point> tokenInputKeyboard ;
 
@@ -79,7 +77,7 @@ public class HuataiOperation implements AccountOperation {
         try {
             wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath(expiredButton))).click();
         } catch (Exception e) {
-            log.error("no expired message!!");
+            log.info("no expired message!!");
         }finally {
             //token软件，跳过"不能复制一次性密码"
             wait.until(ExpectedConditions.presenceOfElementLocated(By.id("android:id/button1"))).click();
