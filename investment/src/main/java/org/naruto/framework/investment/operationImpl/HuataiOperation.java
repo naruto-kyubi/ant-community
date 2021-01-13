@@ -1,4 +1,4 @@
-package org.naruto.framework.investment.service;
+package org.naruto.framework.investment.operationImpl;
 
 import io.appium.java_client.MobileElement;
 import io.appium.java_client.android.AndroidDriver;
@@ -9,6 +9,7 @@ import org.naruto.framework.investment.connect.SessionManager;
 import org.naruto.framework.investment.install.AppInfo;
 import org.naruto.framework.investment.install.Apps;
 import org.naruto.framework.investment.repository.Account;
+import org.naruto.framework.investment.service.AccountOperation;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Point;
 import org.openqa.selenium.support.ui.ExpectedConditions;
