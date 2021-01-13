@@ -53,9 +53,8 @@ public class PythonOperation implements AccountOperation {
     }
 
     @Override
-    public Account queryBalance(Account account) throws MalformedURLException, InterruptedException {
+    public Account queryBalance(Account account) throws Exception {
 
-        try {
             Map map  =new HashMap();
             map.put("app_location",account.getAppLocation());
             map.put("user_id",account.getAccountNo());
@@ -69,16 +68,13 @@ public class PythonOperation implements AccountOperation {
 
             String status = result.getString("status");
             String money = result.getString("data");
-            if("ok".equals(status)){
+            if("ok".equals(status) && !money.equals("-1")){
                 account.setBalance(Float.parseFloat(money));
+                return account;
+            }else
+            {
+                throw new Exception();
             }
-            return account;
-        } catch (RestClientException e) {
-            e.printStackTrace();
-            throw e;
-        } catch (NumberFormatException e) {
-            e.printStackTrace();
-            throw e;
-        }
+
     }
 }

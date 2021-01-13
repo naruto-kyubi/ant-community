@@ -55,7 +55,7 @@ public class MinshengOperation implements AccountOperation {
     }
 
     @Override
-    public void connect(Account account) throws MalformedURLException, InterruptedException {
+    public void connect(Account account) throws Exception {
         AndroidDriver<MobileElement> driver = sessionManager.activateApp(account.getAppLocation(),account.getType());
         //激活应用
         tokenInputKeyboard = KeyBordManager.getKeyBord(driver,account.getType());
@@ -69,7 +69,7 @@ public class MinshengOperation implements AccountOperation {
     }
 
     @Override
-    public Account queryBalance(Account account) throws MalformedURLException, InterruptedException {
+    public Account queryBalance(Account account) throws Exception {
         AndroidDriver<MobileElement> driver = sessionManager.activateApp(account.getAppLocation(),account.getType());
         this.connect(account);
         WebDriverWait wait = new WebDriverWait(driver, 5);

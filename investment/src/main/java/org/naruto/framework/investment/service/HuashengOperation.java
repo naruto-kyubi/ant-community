@@ -22,7 +22,7 @@ import java.net.MalformedURLException;
 
 
 @Scope("prototype")
-@Service("huasheng")
+@Service("huasheng1")
 public class HuashengOperation implements AccountOperation {
     static AppInfo appInfo = Apps.apps.get("huasheng");
     @Autowired
@@ -208,14 +208,14 @@ public class HuashengOperation implements AccountOperation {
     }
 
     @Override
-    public void connect(Account account) throws MalformedURLException, InterruptedException {
+    public void connect(Account account) throws Exception {
         AndroidDriver<MobileElement> driver = sessionManager.activateApp(account.getAppLocation(),account.getType());
         //激活应用
         this.logon(driver,account.getTradePwd());
     }
 
     @Override
-    public Account queryBalance(Account account) throws MalformedURLException, InterruptedException {
+    public Account queryBalance(Account account) throws Exception {
         return null;
     }
 }

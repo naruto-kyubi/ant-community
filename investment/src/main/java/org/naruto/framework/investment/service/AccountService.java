@@ -54,7 +54,7 @@ public class AccountService {
         return account;
     }
 
-    public Account QueryBalance(String id) throws MalformedURLException, InterruptedException {
+    public Account QueryBalance(String id)  {
 
         Account account = accountRepository.queryAccountById(id);
 
