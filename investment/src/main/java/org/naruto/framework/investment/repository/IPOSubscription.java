@@ -47,9 +47,8 @@ public class IPOSubscription {
     //认购费用
     private Float subscriptionFee = 0F;
 
-    //中签情况
-    @Column(length=40)
-    private String numberOfSigned;
+    //中签数量
+    private Integer numberOfSigned;
 
     private Date lastOperationAt = new Date();
 
