@@ -24,15 +24,15 @@ public class SessionManager {
         DesiredCapabilities capabilities = new DesiredCapabilities();
         //  capabilities.setCapability("deviceName", "192.168.1.106:5555");
         capabilities.setCapability("deviceName", "HONOR 20 Lite");
-        capabilities.setCapability("automationName", "Appium");
+//        capabilities.setCapability("automationName", "Appium");
         capabilities.setCapability("platformName", "Android");
         capabilities.setCapability("platformVersion", "10.0");
      //   capabilities.setCapability("appPackage", appinfo.getAppPackage());
      //   capabilities.setCapability("appActivity", appinfo.getAppActivity());
-    //    capabilities.setCapability("noReset", "True");
+        capabilities.setCapability("noReset", "True");
         capabilities.setCapability("newCommandTimeout", "2000");
         capabilities.setCapability("udid", mobileId);
-     //   capabilities.setCapability("automationName", "uiautomator2");
+        capabilities.setCapability("automationName", "uiautomator2");
 
 
         AndroidDriver<MobileElement> driver = new AndroidDriver<MobileElement>(new URL("http://127.0.0.1:4723/wd/hub"), capabilities);
