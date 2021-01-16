@@ -25,7 +25,14 @@ public class AccountType {
   @Column(length=40)
   private String id;
 
+  @Column(length=200)
   private String nameCn;
+
+  @Column(length=200)
   private String nameEn;
+
+  // 排序字段，方便查询
+  @Column(length=20)
+  private String sn;
 
 }

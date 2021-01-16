@@ -8,6 +8,7 @@ import org.naruto.framework.investment.repository.AccountType;
 import org.naruto.framework.investment.repository.AccountTypeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.net.MalformedURLException;
@@ -79,7 +80,8 @@ public class AccountService {
     }
 
     public List<AccountType> queryAccountType(){
-        return accountTypeRepository.findAll();
+        Sort sort = new Sort(Sort.Direction.ASC, "sn");
+        return accountTypeRepository.findAll(sort);
     }
 
     public Account addAccount(Account account){
