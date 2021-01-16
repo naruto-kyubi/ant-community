@@ -13,7 +13,7 @@ public interface AccountRepository extends CustomRepository<Account,String>{
     )
     public List<Account> queryMainAccountByOwner(String owner);
 
-    @Query(value="select * from accounts where owner=?1 and type!='-1' and if(?2 !='',parent=?2,1=1) and if(?3 !='',type=?3,1=1) ",
+    @Query(value="select * from accounts where owner=?1 and type!='-1' and if(?2 !='',parent=?2,1=1) and if(?3 !='',type=?3,1=1) order by parent",
             nativeQuery = true
     )
     public List<Account> queryAccountsByParentAndType(String owner,String parent,String type);
