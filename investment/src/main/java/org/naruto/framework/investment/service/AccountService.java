@@ -42,16 +42,22 @@ public class AccountService {
 
     public Account connect(String id) {
         Account account = accountRepository.queryAccountById(id);
-        accountOperation = (AccountOperation) SpringUtils.getBean(account.getType());
+
+        try {
+            accountOperation = (AccountOperation) SpringUtils.getBean(account.getType());
+        } catch (Exception e) {
+            e.printStackTrace();
+            accountOperation = pythonOperation;
+        }
         try {
             accountOperation.connect(account);
-            account.setLastOperationStatus("1");
+//            account.setLastOperationStatus("1");
         } catch (Exception e) {
-            account.setLastOperationStatus("0");
+//            account.setLastOperationStatus("0");
         }
         //保存操作结果
-        account.setLastOperationAt(new Date());
-        accountRepository.save(account);
+//        account.setLastOperationAt(new Date());
+//        accountRepository.save(account);
         return account;
     }
 

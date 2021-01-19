@@ -49,7 +49,26 @@ public class PythonOperation implements AccountOperation {
 
     @Override
     public void connect(Account account) throws MalformedURLException, InterruptedException {
+        Map map  =new HashMap();
+        map.put("app_location",account.getAppLocation());
+        map.put("user_id",account.getAccountNo());
+        map.put("login_id",account.getLoginId());
+        map.put("login_pwd",account.getLoginPwd());
+        map.put("trade_pwd",account.getTradePwd());
+        map.put("bond_id",account.getType());
+        String url = pythonUrl + "/logon";
 
+        JSONObject result = restfulTemplate().postForObject(url, map, JSONObject.class);
+//
+//        String status = result.getString("status");
+//        String money = result.getString("data");
+//        if("ok".equals(status) && !money.equals("-1")){
+////            account.setBalance(Float.parseFloat(money));
+////            return account;
+//        }else
+//        {
+////            throw new Exception();
+//        }
     }
 
     @Override
