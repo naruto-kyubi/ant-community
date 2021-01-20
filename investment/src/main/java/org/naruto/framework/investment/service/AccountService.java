@@ -2,10 +2,7 @@ package org.naruto.framework.investment.service;
 
 import lombok.extern.java.Log;
 import org.naruto.framework.core.SpringUtils;
-import org.naruto.framework.investment.repository.Account;
-import org.naruto.framework.investment.repository.AccountRepository;
-import org.naruto.framework.investment.repository.AccountType;
-import org.naruto.framework.investment.repository.AccountTypeRepository;
+import org.naruto.framework.investment.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.data.domain.Sort;
@@ -125,4 +122,8 @@ public class AccountService {
         return accountDb;
     }
 
+    public Object addTrans(FundTrans fundTrans) {
+        log.info(fundTrans.toString());
+        return "ok";
+    }
 }

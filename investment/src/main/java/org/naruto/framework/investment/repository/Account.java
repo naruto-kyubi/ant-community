@@ -10,7 +10,9 @@ import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Table(name="accounts",uniqueConstraints=@UniqueConstraint(columnNames={"nameEn","type","parent"}))
@@ -89,5 +91,8 @@ public class Account {
 
   @Column(length=10)
   private String lastOperationStatus;
+
+  @OneToMany(targetEntity=FundTrans.class,mappedBy="account",cascade=CascadeType.ALL)
+  private List<FundTrans> fundTransList = new ArrayList<FundTrans>();
 
 }

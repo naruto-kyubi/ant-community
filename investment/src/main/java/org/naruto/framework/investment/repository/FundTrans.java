@@ -47,7 +47,7 @@ public class FundTrans {
     private Float balanceBeforeTrans = 0F;
     private Float balanceAfterTrans = 0F;
 
-    // 转账状态（计划：planning 执行中： processing  成功： succeed  取消： cancelled）
+    // 转账状态（计划：planning 执行中： processing  成功： succeed  取消： cancelled ， 完成：finished）
     @Column(length=10)
     private String status ;
 
