@@ -4,7 +4,10 @@ import lombok.extern.java.Log;
 import org.naruto.framework.core.web.ResultEntity;
 import org.naruto.framework.investment.repository.Account;
 import org.naruto.framework.investment.repository.IPOSubscription;
+import org.naruto.framework.investment.repository.Stock;
+import org.naruto.framework.investment.service.AccountService;
 import org.naruto.framework.investment.service.IPOSubscriptionService;
+import org.naruto.framework.investment.service.StockService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -22,6 +25,12 @@ public class IPOSubscriptionController {
     @Autowired
     private IPOSubscriptionService ipoSubscriptionService;
 
+    @Autowired
+    private AccountService accountService;
+
+    @Autowired
+    private StockService stockService;
+
     @ResponseBody
     @RequestMapping(value = "/v1/ipoSubscriptions", method = RequestMethod.GET, produces = "application/json;charset=UTF-8")
     public ResponseEntity<ResultEntity> queryIPOSubscriptions(
@@ -30,7 +39,7 @@ public class IPOSubscriptionController {
             @RequestParam(required = false) String type,
             HttpServletRequest request, HttpServletResponse response) {
             if (null == name) name ="%";
-            if(null==type) type="%";
+            if (null==type) type="%";
         List<IPOSubscription> list =  ipoSubscriptionService.findIPOSubscriptions(stockCode,name,type);
 
         List resultList = new ArrayList();
@@ -38,6 +47,7 @@ public class IPOSubscriptionController {
         for(IPOSubscription item : list){
             Account account = item.getAccount();
             IPOResult result = new IPOResult();
+            result.setId(item.getId());
             result.setStockCode(item.getStock().getCode());
             result.setAppLocation(account.getAppLocation());
             result.setNameCn(account.getNameCn());
@@ -51,5 +61,35 @@ public class IPOSubscriptionController {
         }
 
         return ResponseEntity.ok(ResultEntity.ok(resultList));
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "/v1/ipo", method = RequestMethod.GET, produces = "application/json;charset=UTF-8")
+    public ResponseEntity<ResultEntity> ipo(
+            @RequestParam(required = true) String stockCode,
+            @RequestParam(required = true) String id,
+            HttpServletRequest request, HttpServletResponse response) {
+
+        Stock stock = stockService.queryStockByCode(stockCode);
+        IPOSubscription ipo = ipoSubscriptionService.findIPOSubscriptionById(id);
+        IPOResult result = new IPOResult();
+        try {
+            IPOSubscription item = ipoSubscriptionService.oneCash(ipo,stock);
+            Account account = item.getAccount();
+
+            result.setId(item.getId());
+            result.setStockCode(item.getStock().getCode());
+            result.setAppLocation(account.getAppLocation());
+            result.setNameCn(account.getNameCn());
+            result.setType(account.getType());
+
+            result.setBalance(account.getBalance());
+            result.setNumberOfShares(item.getNumberOfShares());
+            result.setSubscriptionFee(item.getSubscriptionFee());
+            result.setNumberOfSigned(item.getNumberOfSigned());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return ResponseEntity.ok(ResultEntity.ok(result));
     }
 }

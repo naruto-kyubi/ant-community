@@ -13,6 +13,8 @@ public class IPOResult {
 
     private String stockCode;
 
+    private String id;
+
     private String appLocation;
 
     private String nameCn;

@@ -8,6 +8,8 @@ import org.naruto.framework.investment.connect.SessionManager;
 import org.naruto.framework.investment.install.AppInfo;
 import org.naruto.framework.investment.install.Apps;
 import org.naruto.framework.investment.repository.Account;
+import org.naruto.framework.investment.repository.IPOSubscription;
+import org.naruto.framework.investment.repository.Stock;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Point;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -95,5 +97,36 @@ public class PythonOperation implements AccountOperation {
                 throw new Exception();
             }
 
+    }
+
+    @Override
+    public IPOSubscription oneCash(IPOSubscription ipoSubscription, Stock stock) throws Exception {
+
+        Map map  =new HashMap();
+        Account account = ipoSubscription.getAccount();
+        map.put("stock_no",stock.getCode());
+        map.put("app_location",account.getAppLocation());
+        map.put("bond_id",account.getType());
+        map.put("user_id",account.getAccountNo());
+        map.put("login_id",account.getLoginId());
+        map.put("login_pwd",account.getLoginPwd());
+        map.put("trade_pwd",account.getTradePwd());
+        map.put("stock_count",stock.getLot());
+
+        String url = pythonUrl + "/one_cash";
+        System.out.println("url="+url);
+        JSONObject result = restfulTemplate().postForObject(url, map, JSONObject.class);
+
+        String status = result.getString("status");
+        String money = result.getString("data");
+
+        if("ok".equals(status) && !money.equals("-1")){
+            ipoSubscription.setNumberOfShares(stock.getLot());
+            //其它费用有待完善；
+            return ipoSubscription;
+        }else
+        {
+            throw new Exception();
+        }
     }
 }
