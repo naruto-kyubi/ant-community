@@ -22,6 +22,9 @@ public class AccountService {
     @Autowired
     private AccountTypeRepository accountTypeRepository;
 
+    @Autowired
+    private FundTransRepository fundTransRepository;
+
     private AccountOperation accountOperation;
 
     @Autowired
@@ -122,8 +125,11 @@ public class AccountService {
         return accountDb;
     }
 
-    public Object addTrans(FundTrans fundTrans) {
-        log.info(fundTrans.toString());
-        return "ok";
+    public FundTrans addTrans(FundTrans fundTrans) {
+        fundTrans.setCurrency("HKD");
+        fundTrans.setStatus("planning");
+        fundTrans.setTransAt(new Date());
+        fundTransRepository.save(fundTrans);
+        return fundTrans;
     }
 }
