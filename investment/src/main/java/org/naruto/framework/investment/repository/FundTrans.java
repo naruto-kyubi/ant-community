@@ -22,6 +22,10 @@ public class FundTrans {
     @Column(length=40)
     private String id;
 
+    //本笔转账的编码，一笔转账两条记录，分别为转出记录和转入记录，id不同，但公用一个转账编码
+    @Column(length=40)
+    private String transNo;
+
     //发生转账（出入金）的账户
     @Column(length=40)
     private String account;
