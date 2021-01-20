@@ -9,6 +9,8 @@ import org.naruto.framework.investment.connect.SessionManager;
 import org.naruto.framework.investment.install.AppInfo;
 import org.naruto.framework.investment.install.Apps;
 import org.naruto.framework.investment.repository.Account;
+import org.naruto.framework.investment.repository.IPOSubscription;
+import org.naruto.framework.investment.repository.Stock;
 import org.naruto.framework.investment.service.AccountOperation;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Point;
@@ -200,5 +202,10 @@ public class HuataiOperation implements AccountOperation {
         Float balance_ = Float.parseFloat(StringUtils.substringBefore(balance,"累计").replaceAll("[\b\r\n\t]*", "").replaceAll(",",""));
         account.setBalance(balance_);
         return account;
+    }
+
+    @Override
+    public IPOSubscription oneCash(IPOSubscription ipoSubscription, Stock stock) throws Exception {
+        return null;
     }
 }

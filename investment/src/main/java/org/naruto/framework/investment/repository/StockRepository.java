@@ -7,5 +7,5 @@ import java.util.List;
 
 
 public interface StockRepository extends CustomRepository<Stock,String>{
-
+    Stock queryStockByCode(String code);
 }
