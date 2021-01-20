@@ -44,4 +44,18 @@ public class IPOSubscriptionService {
         return accountOperation.oneCash(ipoSubscription,stock);
     }
 
+    public IPOSubscription sign(IPOSubscription ipoSubscription, Stock stock) throws Exception{
+        try {
+            Account account = ipoSubscription.getAccount();
+            accountOperation = (AccountOperation) SpringUtils.getBean(account.getType());
+        } catch (Exception e) {
+//            e.printStackTrace();
+            accountOperation = pythonOperation;
+        }
+        ipoSubscription =  accountOperation.sign(ipoSubscription,stock);
+        ipoSubscriptionRepository.save(ipoSubscription);
+
+        return ipoSubscription;
+    }
+
 }

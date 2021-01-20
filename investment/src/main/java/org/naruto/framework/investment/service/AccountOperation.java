@@ -10,4 +10,6 @@ public interface AccountOperation {
     public void connect(Account account) throws Exception;
     public Account queryBalance(Account account) throws Exception;
     public IPOSubscription oneCash(IPOSubscription ipoSubscription, Stock stock) throws Exception;
+
+    IPOSubscription sign(IPOSubscription ipoSubscription, Stock stock) throws Exception;
 }

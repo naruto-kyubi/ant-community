@@ -129,4 +129,33 @@ public class PythonOperation implements AccountOperation {
             throw new Exception();
         }
     }
+
+    @Override
+    public IPOSubscription sign(IPOSubscription ipoSubscription, Stock stock) throws Exception{
+        Map map  =new HashMap();
+        Account account = ipoSubscription.getAccount();
+        map.put("stock_no",stock.getCode());
+        map.put("app_location",account.getAppLocation());
+        map.put("bond_id",account.getType());
+        map.put("user_id",account.getAccountNo());
+        map.put("login_id",account.getLoginId());
+        map.put("login_pwd",account.getLoginPwd());
+        map.put("trade_pwd",account.getTradePwd());
+
+        String url = pythonUrl + "/sign";
+        System.out.println("url="+url);
+        JSONObject result = restfulTemplate().postForObject(url, map, JSONObject.class);
+
+        String status = result.getString("status");
+        String data = result.getString("data");
+
+        if("ok".equals(status) && Integer.parseInt(data)>0){
+            ipoSubscription.setNumberOfSigned(stock.getLot());
+            //其它费用有待完善；
+        }else
+        {
+            ipoSubscription.setNumberOfSigned(Integer.valueOf(data));
+        }
+        return ipoSubscription;
+    }
 }

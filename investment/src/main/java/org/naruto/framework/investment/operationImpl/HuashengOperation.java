@@ -224,4 +224,9 @@ public class HuashengOperation implements AccountOperation {
     public IPOSubscription oneCash(IPOSubscription ipoSubscription, Stock stock) throws Exception {
         return null;
     }
+
+    @Override
+    public IPOSubscription sign(IPOSubscription ipoSubscription, Stock stock) throws Exception {
+        return null;
+    }
 }

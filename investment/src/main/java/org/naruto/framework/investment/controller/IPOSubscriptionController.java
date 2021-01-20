@@ -92,4 +92,34 @@ public class IPOSubscriptionController {
         }
         return ResponseEntity.ok(ResultEntity.ok(result));
     }
+
+    @ResponseBody
+    @RequestMapping(value = "/v1/sign", method = RequestMethod.GET, produces = "application/json;charset=UTF-8")
+    public ResponseEntity<ResultEntity> sign(
+            @RequestParam(required = true) String stockCode,
+            @RequestParam(required = true) String id,
+            HttpServletRequest request, HttpServletResponse response) {
+
+        Stock stock = stockService.queryStockByCode(stockCode);
+        IPOSubscription ipo = ipoSubscriptionService.findIPOSubscriptionById(id);
+        IPOResult result = new IPOResult();
+        try {
+            IPOSubscription item = ipoSubscriptionService.sign(ipo,stock);
+            Account account = item.getAccount();
+
+            result.setId(item.getId());
+            result.setStockCode(item.getStock().getCode());
+            result.setAppLocation(account.getAppLocation());
+            result.setNameCn(account.getNameCn());
+            result.setType(account.getType());
+
+            result.setBalance(account.getBalance());
+            result.setNumberOfShares(item.getNumberOfShares());
+            result.setSubscriptionFee(item.getSubscriptionFee());
+            result.setNumberOfSigned(item.getNumberOfSigned());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return ResponseEntity.ok(ResultEntity.ok(result));
+    }
 }
