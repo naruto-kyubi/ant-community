@@ -149,6 +149,10 @@ public class Apps {
                     new AppInfo("com.cmbc.hwydlsyh",
                             "com.cmbc.hwydlsyh.activity.SplashActivity",
                             ""));
+            put("huaying",
+                    new AppInfo("com.cmbc.hwydlsyh",
+                            "com.cmbc.hwydlsyh.activity.SplashActivity",
+                            "huaying_2.6.1.apk"));
         }
     };
 }
