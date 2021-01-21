@@ -1,5 +1,6 @@
 package org.naruto.framework.investment.service;
 
+import lombok.NoArgsConstructor;
 import lombok.extern.java.Log;
 import org.naruto.framework.core.SpringUtils;
 import org.naruto.framework.investment.repository.*;
@@ -8,7 +9,6 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
-import java.net.MalformedURLException;
 import java.util.Date;
 import java.util.List;
 
@@ -126,10 +126,16 @@ public class AccountService {
     }
 
     public FundTrans addTrans(FundTrans fundTrans) {
+
+        String accountId = fundTrans.getAccount();
+        Account account = accountRepository.queryAccountById(accountId);
         fundTrans.setCurrency("HKD");
-        fundTrans.setStatus("planning");
+        fundTrans.setStatus(FundTransStatus.PLANNING.ordinal());
+        fundTrans.setBalanceBeforeTrans(account.getBalance());
         fundTrans.setTransAt(new Date());
         fundTransRepository.save(fundTrans);
         return fundTrans;
     }
 }
+
+

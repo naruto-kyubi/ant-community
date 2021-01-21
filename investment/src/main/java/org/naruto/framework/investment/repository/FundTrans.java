@@ -52,6 +52,6 @@ public class FundTrans {
 
     // 转账状态（计划：planning 执行中： processing  成功： succeed  取消： cancelled ， 完成：finished）
     @Column(length=10)
-    private String status ;
+    private Integer status ;
 
 }
