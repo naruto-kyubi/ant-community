@@ -41,7 +41,7 @@ public class InstallApp {
 
         Account account_ = accountRepository.queryAccountById(account);
 
-        AppInfo appInfo = Apps.apps.get(account_.getType());
+        AppInfo appInfo = Apps.apps.get(account_.getAccountType().getId());
         AndroidDriver<MobileElement> driver = sessionManager.getConnection(account_.getAppLocation());
         driver.installApp("D:\\stock\\apk\\".concat(appInfo.getApkName()));
         return ResponseEntity.ok(ResultEntity.ok(account_));

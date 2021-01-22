@@ -141,7 +141,7 @@ public class AccountService {
         FundTrans fundTrans = fundTransRepository.getOne(id);
         Account account = accountRepository.getOne(fundTrans.getAccount());
         try {
-            accountOperation = (AccountOperation) SpringUtils.getBean(account.getType());
+            accountOperation = (AccountOperation) SpringUtils.getBean(account.getAccountType().getId());
         } catch (Exception e) {
             e.printStackTrace();
             accountOperation = pythonOperation;

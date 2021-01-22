@@ -220,7 +220,7 @@ public class HuashengOperation implements AccountOperation {
     @Override
     public Account queryBalance(Account account) throws Exception {
         this.connect(account);
-        AndroidDriver<MobileElement> driver = sessionManager.activateApp(account.getAppLocation(),account.getType());
+        AndroidDriver<MobileElement> driver = sessionManager.activateApp(account.getAppLocation(),account.getAccountType().getId());
         WebDriverWait wait = new WebDriverWait(driver, 3);
         //
         String balance =  wait.until(ExpectedConditions.presenceOfElementLocated(By.id("com.huasheng.stock:id/totalAsserts"))).getText();
