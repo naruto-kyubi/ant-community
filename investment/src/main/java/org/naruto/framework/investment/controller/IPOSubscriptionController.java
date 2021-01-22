@@ -82,6 +82,10 @@ public class IPOSubscriptionController {
 
                 result.setPlanIPO(item.getPlanIPO());
                 result.setBalance(account.getBalance());
+
+                result.setCommissionFee(account.getAccountType().getCommissionFee());
+                result.setAdminssionFee(stock.getAdmissionFee());
+
                 result.setSubscriptionFee(item.getSubscriptionFee());
                 result.setNumberOfShares(item.getNumberOfShares());
                 result.setSubscriptionFee(item.getSubscriptionFee());
@@ -118,6 +122,10 @@ public class IPOSubscriptionController {
 
             result.setPlanIPO(item.getPlanIPO());
             result.setBalance(account.getBalance());
+
+            result.setCommissionFee(account.getAccountType().getCommissionFee());
+            result.setAdminssionFee(item.getStock().getAdmissionFee());
+
             result.setSubscriptionFee(item.getSubscriptionFee());
             result.setNumberOfShares(item.getNumberOfShares());
             result.setSubscriptionFee(item.getSubscriptionFee());
@@ -151,6 +159,10 @@ public class IPOSubscriptionController {
 
             result.setPlanIPO(item.getPlanIPO());
             result.setBalance(account.getBalance());
+
+            result.setCommissionFee(account.getAccountType().getCommissionFee());
+            result.setAdminssionFee(item.getStock().getAdmissionFee());
+
             result.setSubscriptionFee(item.getSubscriptionFee());
             result.setNumberOfShares(item.getNumberOfShares());
             result.setSubscriptionFee(item.getSubscriptionFee());
@@ -184,6 +196,10 @@ public class IPOSubscriptionController {
 
             result.setPlanIPO(item.getPlanIPO());
             result.setBalance(account.getBalance());
+
+            result.setCommissionFee(account.getAccountType().getCommissionFee());
+            result.setAdminssionFee(item.getStock().getAdmissionFee());
+
             result.setSubscriptionFee(item.getSubscriptionFee());
             result.setNumberOfShares(item.getNumberOfShares());
             result.setSubscriptionFee(item.getSubscriptionFee());
@@ -217,6 +233,10 @@ public class IPOSubscriptionController {
 
             result.setPlanIPO(item.getPlanIPO());
             result.setBalance(account.getBalance());
+
+            result.setCommissionFee(account.getAccountType().getCommissionFee());
+            result.setAdminssionFee(item.getStock().getAdmissionFee());
+
             result.setSubscriptionFee(item.getSubscriptionFee());
             result.setNumberOfShares(item.getNumberOfShares());
             result.setSubscriptionFee(item.getSubscriptionFee());
