@@ -117,7 +117,7 @@ public class Apps {
                     new AppInfo("com.tsci.indl",
                             "com.konsonsmx.market.module.base.ui.FlashADActivity",
                             "INDL_v2.1.5.apk"));
-            put("alpha",
+            put("aerfa",
                     new AppInfo("com.hkbeiniu.securities",
                             "com.hkbeiniu.securities.home.activity.UPHKLauncherActivity",
                             "alpha-android-1.6.0-20090202-release.apk"));

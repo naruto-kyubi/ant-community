@@ -136,6 +136,36 @@ public class AccountService {
         fundTransRepository.save(fundTrans);
         return fundTrans;
     }
+
+    public FundTrans executeTrans(String id) {
+        FundTrans fundTrans = fundTransRepository.getOne(id);
+        Account account = accountRepository.getOne(fundTrans.getAccount());
+        try {
+            accountOperation = (AccountOperation) SpringUtils.getBean(account.getType());
+        } catch (Exception e) {
+            e.printStackTrace();
+            accountOperation = pythonOperation;
+        }
+
+        try {
+            fundTrans = accountOperation.executeTrans(fundTrans);
+            fundTrans.setStatus(FundTransStatus.SUCCEED.ordinal());
+        } catch (Exception e) {
+            fundTrans.setStatus(FundTransStatus.ERROR.ordinal());
+        }
+        //保存操作结果
+        fundTrans.setTransAt(new Date());
+        fundTransRepository.save(fundTrans);
+        return fundTrans;
+
+    }
+
+    public FundTrans closeTrans(String id) {
+        FundTrans fundTrans = fundTransRepository.getOne(id);
+        fundTrans.setStatus(FundTransStatus.FINISHED.ordinal());
+        fundTransRepository.save(fundTrans);
+        return fundTrans;
+    }
 }
 
 
