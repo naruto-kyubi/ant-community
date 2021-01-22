@@ -4,10 +4,13 @@ import io.appium.java_client.MobileElement;
 import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.android.AndroidTouchAction;
 import io.appium.java_client.touch.offset.PointOption;
+import lombok.extern.java.Log;
+import org.apache.commons.lang3.StringUtils;
 import org.naruto.framework.investment.connect.SessionManager;
 import org.naruto.framework.investment.install.AppInfo;
 import org.naruto.framework.investment.install.Apps;
 import org.naruto.framework.investment.repository.Account;
+import org.naruto.framework.investment.repository.FundTrans;
 import org.naruto.framework.investment.repository.IPOSubscription;
 import org.naruto.framework.investment.repository.Stock;
 import org.naruto.framework.investment.service.AccountOperation;
@@ -22,15 +25,14 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 
 
+@Log
 @Scope("prototype")
-@Service("huasheng1")
+@Service("huasheng")
 public class HuashengOperation implements AccountOperation {
     static AppInfo appInfo = Apps.apps.get("huasheng");
     @Autowired
     private SessionManager sessionManager;
     private boolean isAdvClosed = false;
-
-    private static final Logger log = LoggerFactory.getLogger(HuashengOperation.class);
 
 //    public String buy(HuashengIpoRequest huashengIpoRequest) throws MalformedURLException, InterruptedException {
 //
@@ -45,7 +47,6 @@ public class HuashengOperation implements AccountOperation {
 
         //关闭广告1
         try {
-//            driver.findElementById("com.huasheng.stock:id/button_cancel").click();
             log.info("navToAccountPage1-------"+ driver.currentActivity());
             wait.until(ExpectedConditions.presenceOfElementLocated(By.id("com.huasheng.stock:id/button_cancel"))).click();
 
@@ -55,7 +56,6 @@ public class HuashengOperation implements AccountOperation {
         //关闭广告2
         try {
             log.info("navToAccountPage2-------"+ driver.currentActivity());
-//            driver.findElementById("com.huasheng.stock:id/btn_close").click();
             wait.until(ExpectedConditions.presenceOfElementLocated(By.id("com.huasheng.stock:id/btn_close"))).click();
 
         } catch (Exception e) {
@@ -67,6 +67,8 @@ public class HuashengOperation implements AccountOperation {
 
     public void logon (AndroidDriver<MobileElement> driver,String tradePwd) throws InterruptedException {
         WebDriverWait wait = new WebDriverWait(driver, 3);
+
+        this.closeAdv(driver);
         //手机密码登录
         log.info("logon2-------"+ driver.currentActivity());
         wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//*[@content-desc=\"交易\"]"))).click();
@@ -75,7 +77,7 @@ public class HuashengOperation implements AccountOperation {
             wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("/hierarchy/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.LinearLayout[3]/android.widget.EditText"))).sendKeys(tradePwd);
             driver.findElement(By.id("com.huasheng.stock:id/btn_login")).click();
         } catch (Exception e) {
-            e.printStackTrace();
+            log.info("已经登录了客户端");
         }
     }
 
@@ -217,7 +219,14 @@ public class HuashengOperation implements AccountOperation {
 
     @Override
     public Account queryBalance(Account account) throws Exception {
-        return null;
+        this.connect(account);
+        AndroidDriver<MobileElement> driver = sessionManager.activateApp(account.getAppLocation(),account.getType());
+        WebDriverWait wait = new WebDriverWait(driver, 3);
+        //
+        String balance =  wait.until(ExpectedConditions.presenceOfElementLocated(By.id("com.huasheng.stock:id/totalAsserts"))).getText();
+        Float balance_ = Float.parseFloat(StringUtils.substringBefore(balance,"累计").replaceAll("[\b\r\n\t]*", "").replaceAll(",",""));
+        account.setBalance(balance_);
+        return account;
     }
 
     @Override
@@ -227,6 +236,11 @@ public class HuashengOperation implements AccountOperation {
 
     @Override
     public IPOSubscription sign(IPOSubscription ipoSubscription, Stock stock) throws Exception {
+        return null;
+    }
+
+    @Override
+    public FundTrans executeTrans(FundTrans fundTrans) throws Exception {
         return null;
     }
 }

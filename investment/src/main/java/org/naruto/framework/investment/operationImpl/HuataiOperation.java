@@ -9,6 +9,7 @@ import org.naruto.framework.investment.connect.SessionManager;
 import org.naruto.framework.investment.install.AppInfo;
 import org.naruto.framework.investment.install.Apps;
 import org.naruto.framework.investment.repository.Account;
+import org.naruto.framework.investment.repository.FundTrans;
 import org.naruto.framework.investment.repository.IPOSubscription;
 import org.naruto.framework.investment.repository.Stock;
 import org.naruto.framework.investment.service.AccountOperation;
@@ -172,9 +173,8 @@ public class HuataiOperation implements AccountOperation {
         WebDriverWait wait = new WebDriverWait(driver, 6);
 
         // 关闭广告框
-        String adv= "/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.RelativeLayout/android.widget.LinearLayout/android.widget.RelativeLayout/android.widget.ImageView";
         try {
-            wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath(adv))).click();
+            wait.until(ExpectedConditions.presenceOfElementLocated(By.id("com.lphtsccft.zlqqt2:id/iv_advertisement"))).click();
         } catch (Exception e) {
             log.info("no adv present!!");
         }
@@ -211,6 +211,11 @@ public class HuataiOperation implements AccountOperation {
 
     @Override
     public IPOSubscription sign(IPOSubscription ipoSubscription, Stock stock) throws Exception {
+        return null;
+    }
+
+    @Override
+    public FundTrans executeTrans(FundTrans fundTrans) throws Exception {
         return null;
     }
 }

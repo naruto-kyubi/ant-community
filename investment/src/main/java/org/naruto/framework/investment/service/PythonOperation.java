@@ -3,11 +3,13 @@ package org.naruto.framework.investment.service;
 import com.alibaba.fastjson.JSONObject;
 import io.appium.java_client.MobileElement;
 import io.appium.java_client.android.AndroidDriver;
+import lombok.extern.java.Log;
 import org.naruto.framework.investment.common.KeyBordManager;
 import org.naruto.framework.investment.connect.SessionManager;
 import org.naruto.framework.investment.install.AppInfo;
 import org.naruto.framework.investment.install.Apps;
 import org.naruto.framework.investment.repository.Account;
+import org.naruto.framework.investment.repository.FundTrans;
 import org.naruto.framework.investment.repository.IPOSubscription;
 import org.naruto.framework.investment.repository.Stock;
 import org.openqa.selenium.By;
@@ -31,6 +33,7 @@ import java.util.Map;
 
 @Scope("prototype")
 @Service("python")
+@Log
 public class PythonOperation implements AccountOperation {
 
     @Value("${python.url}")
@@ -45,8 +48,6 @@ public class PythonOperation implements AccountOperation {
         restTemplate.setRequestFactory(requestFactory);
         return restTemplate;
     }
-
-    private static final Logger log = LoggerFactory.getLogger(PythonOperation.class);
 
 
     @Override
@@ -157,5 +158,11 @@ public class PythonOperation implements AccountOperation {
             ipoSubscription.setNumberOfSigned(Integer.valueOf(data));
         }
         return ipoSubscription;
+    }
+
+    @Override
+    public FundTrans executeTrans(FundTrans fundTrans) throws Exception {
+        log.info("We are transing here ..................................................");
+        return null;
     }
 }

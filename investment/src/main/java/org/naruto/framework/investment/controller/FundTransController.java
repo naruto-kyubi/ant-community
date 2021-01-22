@@ -12,6 +12,8 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.net.MalformedURLException;
 
 
 @Log
@@ -27,6 +29,26 @@ public class FundTransController {
 
         return ResponseEntity.ok(ResultEntity.ok(accountService.addTrans(fundTrans)));
 
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "/v1/executeTrans", method = RequestMethod.GET, produces = "application/json;charset=UTF-8")
+    public ResponseEntity<ResultEntity> executeTrans(
+            @RequestParam(required = false) String id,
+            HttpServletRequest request, HttpServletResponse response) throws MalformedURLException, InterruptedException {
+
+        accountService.executeTrans(id);
+        return ResponseEntity.ok(ResultEntity.ok(""));
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "/v1/closeTrans", method = RequestMethod.GET, produces = "application/json;charset=UTF-8")
+    public ResponseEntity<ResultEntity> closeTrans(
+            @RequestParam(required = false) String id,
+            HttpServletRequest request, HttpServletResponse response) throws MalformedURLException, InterruptedException {
+
+        accountService.closeTrans(id);
+        return ResponseEntity.ok(ResultEntity.ok(""));
     }
 
 
