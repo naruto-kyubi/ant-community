@@ -23,6 +23,9 @@ public class IPOResult {
 
     private Float balance = 0F;
 
+    //申购计划
+    private Integer planIPO = 0;
+
     //认购费用
     private Float subscriptionFee = 0F;
 

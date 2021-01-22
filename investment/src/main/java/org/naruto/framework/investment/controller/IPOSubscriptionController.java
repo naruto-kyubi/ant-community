@@ -35,12 +35,9 @@ public class IPOSubscriptionController {
     @RequestMapping(value = "/v1/ipoSubscriptions", method = RequestMethod.GET, produces = "application/json;charset=UTF-8")
     public ResponseEntity<ResultEntity> queryIPOSubscriptions(
             @RequestParam(required = true) String stockCode,
-            @RequestParam(required = false) String name,
-            @RequestParam(required = false) String type,
             HttpServletRequest request, HttpServletResponse response) {
-            if (null == name) name ="%";
-            if (null==type) type="%";
-        List<IPOSubscription> list =  ipoSubscriptionService.findIPOSubscriptions(stockCode,name,type);
+
+        List<IPOSubscription> list =  ipoSubscriptionService.findIPOSubscriptions(stockCode);
 
         List resultList = new ArrayList();
 
@@ -51,8 +48,9 @@ public class IPOSubscriptionController {
             result.setStockCode(item.getStock().getCode());
             result.setAppLocation(account.getAppLocation());
             result.setNameCn(account.getNameCn());
-            result.setType(account.getType());
+            result.setType(account.getAccountType().getId());
 
+            result.setPlanIPO(item.getPlanIPO());
             result.setBalance(account.getBalance());
             result.setNumberOfShares(item.getNumberOfShares());
             result.setSubscriptionFee(item.getSubscriptionFee());
@@ -61,6 +59,37 @@ public class IPOSubscriptionController {
         }
 
         return ResponseEntity.ok(ResultEntity.ok(resultList));
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "/v1/addPlan", method = RequestMethod.GET, produces = "application/json;charset=UTF-8")
+    public ResponseEntity<ResultEntity> addPlan(
+            @RequestParam(required = true) String stockCode,
+            @RequestParam(required = true) String id,
+            HttpServletRequest request, HttpServletResponse response) {
+
+        Stock stock = stockService.queryStockByCode(stockCode);
+        IPOSubscription ipo = ipoSubscriptionService.findIPOSubscriptionById(id);
+        IPOResult result = new IPOResult();
+        try {
+            IPOSubscription item = ipoSubscriptionService.addPlan(ipo,stock);
+            Account account = item.getAccount();
+
+            result.setId(item.getId());
+            result.setStockCode(item.getStock().getCode());
+            result.setAppLocation(account.getAppLocation());
+            result.setNameCn(account.getNameCn());
+            result.setType(account.getAccountType().getId());
+
+            result.setPlanIPO(item.getPlanIPO());
+            result.setBalance(account.getBalance());
+            result.setNumberOfShares(item.getNumberOfShares());
+            result.setSubscriptionFee(item.getSubscriptionFee());
+            result.setNumberOfSigned(item.getNumberOfSigned());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return ResponseEntity.ok(ResultEntity.ok(result));
     }
 
     @ResponseBody
@@ -81,8 +110,9 @@ public class IPOSubscriptionController {
             result.setStockCode(item.getStock().getCode());
             result.setAppLocation(account.getAppLocation());
             result.setNameCn(account.getNameCn());
-            result.setType(account.getType());
+            result.setType(account.getAccountType().getId());
 
+            result.setPlanIPO(item.getPlanIPO());
             result.setBalance(account.getBalance());
             result.setNumberOfShares(item.getNumberOfShares());
             result.setSubscriptionFee(item.getSubscriptionFee());
@@ -111,8 +141,9 @@ public class IPOSubscriptionController {
             result.setStockCode(item.getStock().getCode());
             result.setAppLocation(account.getAppLocation());
             result.setNameCn(account.getNameCn());
-            result.setType(account.getType());
+            result.setType(account.getAccountType().getId());
 
+            result.setPlanIPO(item.getPlanIPO());
             result.setBalance(account.getBalance());
             result.setNumberOfShares(item.getNumberOfShares());
             result.setSubscriptionFee(item.getSubscriptionFee());

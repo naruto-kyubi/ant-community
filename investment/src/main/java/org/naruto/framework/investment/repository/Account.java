@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 import org.hibernate.annotations.GenericGenerator;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
@@ -15,7 +16,8 @@ import java.util.Date;
 import java.util.List;
 
 @Entity
-@Table(name="accounts",uniqueConstraints=@UniqueConstraint(columnNames={"nameEn","type","parent"}))
+@Table(name="accounts")
+//        ,uniqueConstraints=@UniqueConstraint(columnNames={"nameEn","account_type_id","parent"}))
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -76,8 +78,13 @@ public class Account {
   @Column(length=40)
   private String appLocation;
 
-  @Column(length=40)
-  private String type;
+//  @Column(length=40)
+//  private String type;
+
+  @ManyToOne(fetch= FetchType.EAGER)
+  @JoinColumn(name = "account_type_id")
+  @Lazy(false)
+  private AccountType accountType;
 
   @Column(length=40)
   private String parent;

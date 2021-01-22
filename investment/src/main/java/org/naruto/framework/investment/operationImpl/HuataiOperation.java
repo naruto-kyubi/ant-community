@@ -165,9 +165,9 @@ public class HuataiOperation implements AccountOperation {
 
     @Override
     public void connect(Account account) throws Exception{
-        AndroidDriver<MobileElement> driver = sessionManager.activateApp(account.getAppLocation(),account.getType());
+        AndroidDriver<MobileElement> driver = sessionManager.activateApp(account.getAppLocation(),account.getAccountType().getId());
         //激活应用
-        tokenInputKeyboard = KeyBordManager.getKeyBord(driver,account.getType());
+        tokenInputKeyboard = KeyBordManager.getKeyBord(driver,account.getAccountType().getId());
 
         WebDriverWait wait = new WebDriverWait(driver, 6);
 
@@ -192,7 +192,7 @@ public class HuataiOperation implements AccountOperation {
 
     @Override
     public Account queryBalance(Account account) throws Exception {
-        AndroidDriver<MobileElement> driver = sessionManager.activateApp(account.getAppLocation(),account.getType());
+        AndroidDriver<MobileElement> driver = sessionManager.activateApp(account.getAppLocation(),account.getAccountType().getId());
         this.connect(account);
         WebDriverWait wait = new WebDriverWait(driver, 5);
         wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//*[contains(@text,'我的资产')]"))).click();

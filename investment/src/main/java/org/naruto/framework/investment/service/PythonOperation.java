@@ -57,7 +57,7 @@ public class PythonOperation implements AccountOperation {
         map.put("login_id",account.getLoginId());
         map.put("login_pwd",account.getLoginPwd());
         map.put("trade_pwd",account.getTradePwd());
-        map.put("bond_id",account.getType());
+        map.put("bond_id",account.getAccountType().getId());
         String url = pythonUrl + "/logon";
 
         JSONObject result = restfulTemplate().postForObject(url, map, JSONObject.class);
@@ -83,7 +83,7 @@ public class PythonOperation implements AccountOperation {
             map.put("login_pwd",account.getLoginPwd());
             map.put("trade_pwd",account.getTradePwd());
 
-            String url = pythonUrl + "/calc/" + account.getType();
+            String url = pythonUrl + "/calc/" + account.getAccountType().getId();
 
             JSONObject result = restfulTemplate().postForObject(url, map, JSONObject.class);
 
@@ -106,7 +106,7 @@ public class PythonOperation implements AccountOperation {
         Account account = ipoSubscription.getAccount();
         map.put("stock_no",stock.getCode());
         map.put("app_location",account.getAppLocation());
-        map.put("bond_id",account.getType());
+        map.put("bond_id",account.getAccountType().getId());
         map.put("user_id",account.getAccountNo());
         map.put("login_id",account.getLoginId());
         map.put("login_pwd",account.getLoginPwd());
@@ -136,7 +136,7 @@ public class PythonOperation implements AccountOperation {
         Account account = ipoSubscription.getAccount();
         map.put("stock_no",stock.getCode());
         map.put("app_location",account.getAppLocation());
-        map.put("bond_id",account.getType());
+        map.put("bond_id",account.getAccountType().getId());
         map.put("user_id",account.getAccountNo());
         map.put("login_id",account.getLoginId());
         map.put("login_pwd",account.getLoginPwd());

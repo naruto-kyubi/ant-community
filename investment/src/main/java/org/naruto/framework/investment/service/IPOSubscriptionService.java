@@ -24,19 +24,25 @@ public class IPOSubscriptionService {
     @Autowired
     private IPOSubscriptionRepository ipoSubscriptionRepository;
 
-    public List<IPOSubscription> findIPOSubscriptions(String stockCode, String nameCn, String type){
+    public List<IPOSubscription> findIPOSubscriptions(String stockCode){
 
-        return ipoSubscriptionRepository.findIPOSubscriptions(stockCode,nameCn,type);
+        return ipoSubscriptionRepository.findIPOSubscriptions(stockCode);
     }
 
     public IPOSubscription findIPOSubscriptionById(String id){
         return ipoSubscriptionRepository.findById(id).get();
     }
 
+    public IPOSubscription addPlan(IPOSubscription ipoSubscription, Stock stock) throws Exception{
+        ipoSubscription.setPlanIPO(1);
+        ipoSubscriptionRepository.save(ipoSubscription);
+        return ipoSubscription;
+    }
+
     public IPOSubscription oneCash(IPOSubscription ipoSubscription, Stock stock) throws Exception{
         try {
             Account account = ipoSubscription.getAccount();
-            accountOperation = (AccountOperation) SpringUtils.getBean(account.getType());
+            accountOperation = (AccountOperation) SpringUtils.getBean(account.getAccountType().getId());
         } catch (Exception e) {
 //            e.printStackTrace();
             accountOperation = pythonOperation;
@@ -47,7 +53,7 @@ public class IPOSubscriptionService {
     public IPOSubscription sign(IPOSubscription ipoSubscription, Stock stock) throws Exception{
         try {
             Account account = ipoSubscription.getAccount();
-            accountOperation = (AccountOperation) SpringUtils.getBean(account.getType());
+            accountOperation = (AccountOperation) SpringUtils.getBean(account.getAccountType().getId());
         } catch (Exception e) {
 //            e.printStackTrace();
             accountOperation = pythonOperation;

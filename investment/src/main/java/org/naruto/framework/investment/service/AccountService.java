@@ -44,7 +44,7 @@ public class AccountService {
         Account account = accountRepository.queryAccountById(id);
 
         try {
-            accountOperation = (AccountOperation) SpringUtils.getBean(account.getType());
+            accountOperation = (AccountOperation) SpringUtils.getBean(account.getAccountType().getId());
         } catch (Exception e) {
             e.printStackTrace();
             accountOperation = pythonOperation;
@@ -66,7 +66,7 @@ public class AccountService {
         Account account = accountRepository.queryAccountById(id);
 
         try {
-            accountOperation = (AccountOperation) SpringUtils.getBean(account.getType());
+            accountOperation = (AccountOperation) SpringUtils.getBean(account.getAccountType().getId());
         } catch (Exception e) {
             e.printStackTrace();
             accountOperation = pythonOperation;
@@ -111,7 +111,7 @@ public class AccountService {
 
         //保存前端提交数据
         accountDb.setParent(account.getParent());
-        accountDb.setType(account.getType());
+        accountDb.setAccountType(account.getAccountType());
         accountDb.setAppLocation(account.getAppLocation());
         accountDb.setLoginPwd(account.getLoginPwd());
         accountDb.setTradePwd(account.getTradePwd());

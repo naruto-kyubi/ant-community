@@ -31,6 +31,15 @@ public class AccountType {
   @Column(length=200)
   private String nameEn;
 
+  //平台费
+  private Integer platformFee;
+
+  //管理费
+  private Integer manageFee;
+
+  //手续费
+  private Integer commissionFee;
+
   // 排序字段，方便查询
   @Column(length=20)
   private String sn;

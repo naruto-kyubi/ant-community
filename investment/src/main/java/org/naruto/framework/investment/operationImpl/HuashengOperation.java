@@ -210,7 +210,7 @@ public class HuashengOperation implements AccountOperation {
 
     @Override
     public void connect(Account account) throws Exception {
-        AndroidDriver<MobileElement> driver = sessionManager.activateApp(account.getAppLocation(),account.getType());
+        AndroidDriver<MobileElement> driver = sessionManager.activateApp(account.getAppLocation(),account.getAccountType().getId());
         //激活应用
         this.logon(driver,account.getTradePwd());
     }
