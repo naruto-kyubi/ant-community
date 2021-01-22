@@ -16,7 +16,10 @@ public interface AccountRepository extends CustomRepository<Account,String>{
     @Query(value="select * from accounts where owner=?1 and account_type_id!='-1' and if(?2 !='',parent=?2,1=1) and if(?3 !='',account_type_id=?3,1=1) order by parent",
             nativeQuery = true
     )
+
     public List<Account> queryAccountsByParentAndType(String owner,String parent,String type);
+
     public Account queryAccountById(String id);
 
+    List<Account> findAccountsByOwnerAndParentNot(String owner,String parent);
 }

@@ -6,7 +6,7 @@ bootJar.enabled = false
 dependencies {
     compile project(':core')
 //    compile project(':user:user-repository')
-
+    compile project(':user:user-service')
     implementation 'org.springframework.boot:spring-boot-starter-web'
     compile 'io.appium:java-client:7.4.1'
 }

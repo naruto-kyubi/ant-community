@@ -102,4 +102,13 @@ public class Account {
   @OneToMany(targetEntity=FundTrans.class,mappedBy="account",cascade=CascadeType.ALL)
   private List<FundTrans> fundTransList = new ArrayList<FundTrans>();
 
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) return true;
+    if (o == null || getClass() != o.getClass()) return false;
+
+    Account account = (Account) o;
+
+    return id.equals(account.id);
+  }
 }

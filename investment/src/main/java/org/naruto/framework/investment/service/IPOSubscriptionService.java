@@ -1,6 +1,7 @@
 package org.naruto.framework.investment.service;
 
 import lombok.extern.java.Log;
+import org.apache.commons.collections.ListUtils;
 import org.naruto.framework.core.SpringUtils;
 import org.naruto.framework.investment.repository.Account;
 import org.naruto.framework.investment.repository.IPOSubscription;
@@ -64,4 +65,11 @@ public class IPOSubscriptionService {
         return ipoSubscription;
     }
 
+    public List save(List<IPOSubscription> list,Stock stock,String stockCode) throws Exception{
+        List<IPOSubscription> ipoList = this.findIPOSubscriptions(stockCode);
+
+        List newList = ListUtils.subtract(list,ipoList);
+
+        return ipoSubscriptionRepository.saveAll(newList);
+    }
 }

@@ -32,13 +32,13 @@ public class AccountType {
   private String nameEn;
 
   //平台费
-  private Integer platformFee;
+  private Float platformFee;
 
   //管理费
-  private Integer manageFee;
+  private Float manageFee;
 
   //手续费
-  private Integer commissionFee;
+  private Float commissionFee;
 
   // 排序字段，方便查询
   @Column(length=20)

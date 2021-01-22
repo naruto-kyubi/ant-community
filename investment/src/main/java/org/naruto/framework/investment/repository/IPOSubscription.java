@@ -10,6 +10,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.Objects;
 
 @Entity
 @Table(name="ipo_subscription")
@@ -58,4 +59,13 @@ public class IPOSubscription {
     @Column(length=10)
     private String lastOperationStatus;
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        IPOSubscription that = (IPOSubscription) o;
+        if(Objects.equals(id, that.id)) return true;
+        if(Objects.equals(account, that.account) && Objects.equals(stock, that.stock)) return true;
+        return false;
+    }
 }

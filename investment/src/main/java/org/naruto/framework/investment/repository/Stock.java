@@ -8,6 +8,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.Objects;
 
 @Entity
 @Table(name="stocks")
@@ -56,4 +57,16 @@ public class Stock {
     @Column(length=100)
     private String sponsor;
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Stock stock = (Stock) o;
+        return Objects.equals(code, stock.code);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(code, name, lot, admissionFee, applicationFromDate, applicationToDate, allotmentResultAnnounce, listingDate, industry, totalIssueAmount, sponsor);
+    }
 }

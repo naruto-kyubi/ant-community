@@ -34,6 +34,11 @@ public class AccountService {
         return accountRepository.queryMainAccountByOwner(owner);
     }
 
+    public List<Account> queryAccounts(String owner,String parent){
+
+        return accountRepository.findAccountsByOwnerAndParentNot(owner,parent);
+    }
+
     public List<Account> queryAccountsByParentAndType(String owner,String parent,String type){return accountRepository.queryAccountsByParentAndType(owner, parent, type);}
 
     public Account queryAccountById(String id){
