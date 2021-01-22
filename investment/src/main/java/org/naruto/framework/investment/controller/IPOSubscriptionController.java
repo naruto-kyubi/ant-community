@@ -62,9 +62,6 @@ public class IPOSubscriptionController {
                 ipo.setAccount(account);
                 ipo.setStock(stock);
                 ipo.setSubscriptionFee(value);
-//                ipo.setNumberOfShares(-1);
-//                ipo.setNumberOfSigned(-1);
-//                ipo.setPlanIPO(-2);
                 ipo.setLastOperationAt(new Date());
                 ipoList.add(ipo);
             }
@@ -142,6 +139,7 @@ public class IPOSubscriptionController {
         IPOSubscription ipo = ipoSubscriptionService.findIPOSubscriptionById(id);
         IPOResult result = new IPOResult();
         try {
+            ipo.setLastOperationAt(new Date());
             IPOSubscription item = ipoSubscriptionService.addPlan(ipo,stock);
             Account account = item.getAccount();
 
@@ -174,6 +172,7 @@ public class IPOSubscriptionController {
         IPOSubscription ipo = ipoSubscriptionService.findIPOSubscriptionById(id);
         IPOResult result = new IPOResult();
         try {
+            ipo.setLastOperationAt(new Date());
             IPOSubscription item = ipoSubscriptionService.oneCash(ipo,stock);
             Account account = item.getAccount();
 
@@ -206,6 +205,7 @@ public class IPOSubscriptionController {
         IPOSubscription ipo = ipoSubscriptionService.findIPOSubscriptionById(id);
         IPOResult result = new IPOResult();
         try {
+            ipo.setLastOperationAt(new Date());
             IPOSubscription item = ipoSubscriptionService.sign(ipo,stock);
             Account account = item.getAccount();
 
