@@ -52,7 +52,7 @@ public class IPOSubscription {
     private Integer planIPO = 0;
 
     //中签数量
-    private Integer numberOfSigned;
+    private Integer numberOfSigned = 0;
 
     private Date lastOperationAt = new Date();
 

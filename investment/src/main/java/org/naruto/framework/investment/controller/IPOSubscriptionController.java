@@ -62,9 +62,9 @@ public class IPOSubscriptionController {
                 ipo.setAccount(account);
                 ipo.setStock(stock);
                 ipo.setSubscriptionFee(value);
-                ipo.setNumberOfShares(-1);
-                ipo.setNumberOfSigned(-1);
-                ipo.setPlanIPO(-2);
+//                ipo.setNumberOfShares(-1);
+//                ipo.setNumberOfSigned(-1);
+//                ipo.setPlanIPO(-2);
                 ipo.setLastOperationAt(new Date());
                 ipoList.add(ipo);
             }
