@@ -44,4 +44,7 @@ public class AccountType {
   @Column(length=20)
   private String sn;
 
+  public AccountType(String id) {
+    this.id = id;
+  }
 }

@@ -161,8 +161,9 @@ public class PythonOperation implements AccountOperation {
     }
 
     @Override
-    public FundTrans executeTrans(FundTrans fundTrans) throws Exception {
-        log.info("We are transing here ..................................................");
-        return null;
+    public FundTrans executeTrans(FundTrans fundTrans, Account account, Account BankAccount) throws Exception {
+        return fundTrans;
     }
+
+
 }

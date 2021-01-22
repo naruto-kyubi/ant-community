@@ -240,7 +240,7 @@ public class HuashengOperation implements AccountOperation {
     }
 
     @Override
-    public FundTrans executeTrans(FundTrans fundTrans) throws Exception {
+    public FundTrans executeTrans(FundTrans fundTrans, Account account, Account BankAccount) throws Exception {
         return null;
     }
 }

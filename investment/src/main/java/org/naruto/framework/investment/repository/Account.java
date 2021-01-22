@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.Where;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -100,6 +101,7 @@ public class Account {
   private String lastOperationStatus;
 
   @OneToMany(targetEntity=FundTrans.class,mappedBy="account",cascade=CascadeType.ALL)
+  @Where(clause="status<4")
   private List<FundTrans> fundTransList = new ArrayList<FundTrans>();
 
   @Override
