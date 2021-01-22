@@ -140,6 +140,9 @@ public class AccountService {
     public FundTrans executeTrans(String id) {
         FundTrans fundTrans = fundTransRepository.getOne(id);
         Account account = accountRepository.getOne(fundTrans.getAccount());
+        Account mainAccount = accountRepository.getOne(account.getParent());
+        Account bankAccount = accountRepository.getOne(mainAccount.getBankAccount());
+
         try {
             accountOperation = (AccountOperation) SpringUtils.getBean(account.getAccountType().getId());
         } catch (Exception e) {
@@ -148,7 +151,7 @@ public class AccountService {
         }
 
         try {
-            fundTrans = accountOperation.executeTrans(fundTrans);
+            fundTrans = accountOperation.executeTrans(fundTrans,account,bankAccount);
             fundTrans.setStatus(FundTransStatus.SUCCEED.ordinal());
         } catch (Exception e) {
             fundTrans.setStatus(FundTransStatus.ERROR.ordinal());
