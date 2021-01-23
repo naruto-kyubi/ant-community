@@ -5,6 +5,7 @@ import org.naruto.framework.core.session.ISessionService;
 import org.naruto.framework.core.web.ResultEntity;
 import org.naruto.framework.investment.repository.Account;
 import org.naruto.framework.investment.repository.IPOSubscription;
+import org.naruto.framework.investment.repository.IPOSubscriptionRepository;
 import org.naruto.framework.investment.repository.Stock;
 import org.naruto.framework.investment.service.AccountService;
 import org.naruto.framework.investment.service.IPOSubscriptionService;
@@ -12,6 +13,7 @@ import org.naruto.framework.investment.service.StockService;
 import org.naruto.framework.user.domain.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -68,29 +70,15 @@ public class IPOSubscriptionController {
 
             ipoSubscriptionService.save(ipoList,stock,stock.getCode());
             List<IPOSubscription> list =  ipoSubscriptionService.findIPOSubscriptions(stockCode);
-
             List resultList = new ArrayList();
 
             for(IPOSubscription item : list){
-                Account account = item.getAccount();
-                IPOResult result = new IPOResult();
-                result.setId(item.getId());
-                result.setStockCode(item.getStock().getCode());
-                result.setAppLocation(account.getAppLocation());
-                result.setNameCn(account.getNameCn());
-                result.setType(account.getAccountType().getNameCn());
-
-                result.setPlanIPO(item.getPlanIPO());
-                result.setBalance(account.getBalance());
-
-                result.setCommissionFee(account.getAccountType().getCommissionFee());
-                result.setAdminssionFee(stock.getAdmissionFee());
-
-                result.setSubscriptionFee(item.getSubscriptionFee());
-                result.setNumberOfShares(item.getNumberOfShares());
-                result.setSubscriptionFee(item.getSubscriptionFee());
-                result.setNumberOfSigned(item.getNumberOfSigned());
-                resultList.add(result);
+                try {
+                    IPOResult result = this.createIPOResult(item);
+                    resultList.add(result);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
 
             return ResponseEntity.ok(ResultEntity.ok(resultList));
@@ -110,27 +98,13 @@ public class IPOSubscriptionController {
         List<IPOSubscription> list =  ipoSubscriptionService.findIPOSubscriptions(stockCode);
 
         List resultList = new ArrayList();
-
         for(IPOSubscription item : list){
-            Account account = item.getAccount();
-            IPOResult result = new IPOResult();
-            result.setId(item.getId());
-            result.setStockCode(item.getStock().getCode());
-            result.setAppLocation(account.getAppLocation());
-            result.setNameCn(account.getNameCn());
-            result.setType(account.getAccountType().getNameCn());
-
-            result.setPlanIPO(item.getPlanIPO());
-            result.setBalance(account.getBalance());
-
-            result.setCommissionFee(account.getAccountType().getCommissionFee());
-            result.setAdminssionFee(item.getStock().getAdmissionFee());
-
-            result.setSubscriptionFee(item.getSubscriptionFee());
-            result.setNumberOfShares(item.getNumberOfShares());
-            result.setSubscriptionFee(item.getSubscriptionFee());
-            result.setNumberOfSigned(item.getNumberOfSigned());
-            resultList.add(result);
+            try {
+                IPOResult result = this.createIPOResult(item);
+                resultList.add(result);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
 
         return ResponseEntity.ok(ResultEntity.ok(resultList));
@@ -149,24 +123,7 @@ public class IPOSubscriptionController {
         try {
             ipo.setLastOperationAt(new Date());
             IPOSubscription item = ipoSubscriptionService.addPlan(ipo,stock);
-            Account account = item.getAccount();
-
-            result.setId(item.getId());
-            result.setStockCode(item.getStock().getCode());
-            result.setAppLocation(account.getAppLocation());
-            result.setNameCn(account.getNameCn());
-            result.setType(account.getAccountType().getNameCn());
-
-            result.setPlanIPO(item.getPlanIPO());
-            result.setBalance(account.getBalance());
-
-            result.setCommissionFee(account.getAccountType().getCommissionFee());
-            result.setAdminssionFee(item.getStock().getAdmissionFee());
-
-            result.setSubscriptionFee(item.getSubscriptionFee());
-            result.setNumberOfShares(item.getNumberOfShares());
-            result.setSubscriptionFee(item.getSubscriptionFee());
-            result.setNumberOfSigned(item.getNumberOfSigned());
+            result = this.createIPOResult(item);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -186,24 +143,7 @@ public class IPOSubscriptionController {
         try {
             ipo.setLastOperationAt(new Date());
             IPOSubscription item = ipoSubscriptionService.oneCash(ipo,stock);
-            Account account = item.getAccount();
-
-            result.setId(item.getId());
-            result.setStockCode(item.getStock().getCode());
-            result.setAppLocation(account.getAppLocation());
-            result.setNameCn(account.getNameCn());
-            result.setType(account.getAccountType().getNameCn());
-
-            result.setPlanIPO(item.getPlanIPO());
-            result.setBalance(account.getBalance());
-
-            result.setCommissionFee(account.getAccountType().getCommissionFee());
-            result.setAdminssionFee(item.getStock().getAdmissionFee());
-
-            result.setSubscriptionFee(item.getSubscriptionFee());
-            result.setNumberOfShares(item.getNumberOfShares());
-            result.setSubscriptionFee(item.getSubscriptionFee());
-            result.setNumberOfSigned(item.getNumberOfSigned());
+            result = this.createIPOResult(item);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -223,27 +163,49 @@ public class IPOSubscriptionController {
         try {
             ipo.setLastOperationAt(new Date());
             IPOSubscription item = ipoSubscriptionService.sign(ipo,stock);
-            Account account = item.getAccount();
-
-            result.setId(item.getId());
-            result.setStockCode(item.getStock().getCode());
-            result.setAppLocation(account.getAppLocation());
-            result.setNameCn(account.getNameCn());
-            result.setType(account.getAccountType().getNameCn());
-
-            result.setPlanIPO(item.getPlanIPO());
-            result.setBalance(account.getBalance());
-
-            result.setCommissionFee(account.getAccountType().getCommissionFee());
-            result.setAdminssionFee(item.getStock().getAdmissionFee());
-
-            result.setSubscriptionFee(item.getSubscriptionFee());
-            result.setNumberOfShares(item.getNumberOfShares());
-            result.setSubscriptionFee(item.getSubscriptionFee());
-            result.setNumberOfSigned(item.getNumberOfSigned());
+            result = this.createIPOResult(item);
         } catch (Exception e) {
             e.printStackTrace();
         }
         return ResponseEntity.ok(ResultEntity.ok(result));
+    }
+
+
+    @ResponseBody
+    @RequestMapping(value = "/v1/updateIpo", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+    public ResponseEntity<ResultEntity> update(@Validated @RequestBody  IPOSubscription ipoSubscription, HttpServletRequest request){
+
+        IPOResult result = new IPOResult();
+        try {
+            IPOSubscription ipo = ipoSubscriptionService.update(ipoSubscription);
+            result = this.createIPOResult(ipo);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return ResponseEntity.ok(ResultEntity.ok(result));
+
+    }
+
+    private IPOResult createIPOResult(IPOSubscription ipoSubscription){
+        IPOResult result = new IPOResult();
+        Account account = ipoSubscription.getAccount();
+
+        result.setId(ipoSubscription.getId());
+        result.setStockCode(ipoSubscription.getStock().getCode());
+        result.setAppLocation(account.getAppLocation());
+        result.setNameCn(account.getNameCn());
+        result.setType(account.getAccountType().getNameCn());
+
+        result.setPlanIPO(ipoSubscription.getPlanIPO());
+        result.setBalance(account.getBalance());
+
+        result.setCommissionFee(account.getAccountType().getCommissionFee());
+        result.setAdminssionFee(ipoSubscription.getStock().getAdmissionFee());
+
+        result.setSubscriptionFee(ipoSubscription.getSubscriptionFee());
+        result.setNumberOfShares(ipoSubscription.getNumberOfShares());
+        result.setSubscriptionFee(ipoSubscription.getSubscriptionFee());
+        result.setNumberOfSigned(ipoSubscription.getNumberOfSigned());
+        return result;
     }
 }

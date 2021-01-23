@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 
 @Log
@@ -71,5 +72,16 @@ public class IPOSubscriptionService {
         List newList = ListUtils.subtract(list,ipoList);
 
         return ipoSubscriptionRepository.saveAll(newList);
+    }
+
+    public IPOSubscription update(IPOSubscription ipoSubscription) throws Exception {
+
+        IPOSubscription ipo = this.findIPOSubscriptionById(ipoSubscription.getId());
+        ipo.setSubscriptionFee(ipoSubscription.getSubscriptionFee());
+        ipo.setPlanIPO(ipoSubscription.getPlanIPO());
+        ipo.setNumberOfShares(ipoSubscription.getNumberOfShares());
+        ipo.setNumberOfSigned(ipoSubscription.getNumberOfSigned());
+        ipo.setLastOperationAt(new Date());
+        return ipoSubscriptionRepository.save(ipo);
     }
 }
