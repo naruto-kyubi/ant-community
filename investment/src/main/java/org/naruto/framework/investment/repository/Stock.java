@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
+import org.hibernate.annotations.GenericGenerator;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
@@ -19,8 +20,13 @@ import java.util.Objects;
 @ToString
 public class Stock {
 
-    //股票代码
     @Id
+    @GenericGenerator(name="idGenerator", strategy="uuid")
+    @GeneratedValue(generator="idGenerator")
+    @Column(length=40)
+    private String id;
+
+    //股票代码
     @Column(length=10)
     private String code;
 
@@ -62,11 +68,11 @@ public class Stock {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Stock stock = (Stock) o;
-        return Objects.equals(code, stock.code);
+        return Objects.equals(id, stock.id);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(code, name, lot, admissionFee, applicationFromDate, applicationToDate, allotmentResultAnnounce, listingDate, industry, totalIssueAmount, sponsor);
+        return Objects.hash(id,code, name, lot, admissionFee, applicationFromDate, applicationToDate, allotmentResultAnnounce, listingDate, industry, totalIssueAmount, sponsor);
     }
 }

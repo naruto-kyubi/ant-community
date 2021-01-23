@@ -11,7 +11,7 @@ import javax.persistence.Column;
 @Data
 public class IPOResult {
 
-    private String stockCode;
+    private String stockId;
 
     private String id;
 

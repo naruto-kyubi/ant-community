@@ -5,7 +5,6 @@ import org.naruto.framework.core.session.ISessionService;
 import org.naruto.framework.core.web.ResultEntity;
 import org.naruto.framework.investment.repository.Account;
 import org.naruto.framework.investment.repository.IPOSubscription;
-import org.naruto.framework.investment.repository.IPOSubscriptionRepository;
 import org.naruto.framework.investment.repository.Stock;
 import org.naruto.framework.investment.service.AccountService;
 import org.naruto.framework.investment.service.IPOSubscriptionService;
@@ -20,7 +19,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
 
 @Log
@@ -42,11 +40,11 @@ public class IPOSubscriptionController {
     @ResponseBody
     @RequestMapping(value = "/v1/importData", method = RequestMethod.GET, produces = "application/json;charset=UTF-8")
     public ResponseEntity<ResultEntity> importData(
-            @RequestParam(required = true) String stockCode,
+            @RequestParam(required = true) String stockId,
             HttpServletRequest request, HttpServletResponse response) {
 
         try {
-            Stock stock = stockService.queryStockByCode(stockCode);
+            Stock stock = stockService.queryStockById(stockId);
 
             User user = (User) sessionService.getCurrentUser(request);
             String owner = user.getId();
@@ -68,8 +66,8 @@ public class IPOSubscriptionController {
                 ipoList.add(ipo);
             }
 
-            ipoSubscriptionService.save(ipoList,stock,stock.getCode());
-            List<IPOSubscription> list =  ipoSubscriptionService.findIPOSubscriptions(stockCode);
+            ipoSubscriptionService.save(ipoList,stock,stock.getId());
+            List<IPOSubscription> list =  ipoSubscriptionService.findIPOSubscriptions(stockId);
             List resultList = new ArrayList();
 
             for(IPOSubscription item : list){
@@ -92,10 +90,10 @@ public class IPOSubscriptionController {
     @ResponseBody
     @RequestMapping(value = "/v1/ipoSubscriptions", method = RequestMethod.GET, produces = "application/json;charset=UTF-8")
     public ResponseEntity<ResultEntity> queryIPOSubscriptions(
-            @RequestParam(required = true) String stockCode,
+            @RequestParam(required = true) String stockId,
             HttpServletRequest request, HttpServletResponse response) {
 
-        List<IPOSubscription> list =  ipoSubscriptionService.findIPOSubscriptions(stockCode);
+        List<IPOSubscription> list =  ipoSubscriptionService.findIPOSubscriptions(stockId);
 
         List resultList = new ArrayList();
         for(IPOSubscription item : list){
@@ -113,11 +111,11 @@ public class IPOSubscriptionController {
     @ResponseBody
     @RequestMapping(value = "/v1/addPlan", method = RequestMethod.GET, produces = "application/json;charset=UTF-8")
     public ResponseEntity<ResultEntity> addPlan(
-            @RequestParam(required = true) String stockCode,
+            @RequestParam(required = true) String stockId,
             @RequestParam(required = true) String id,
             HttpServletRequest request, HttpServletResponse response) {
 
-        Stock stock = stockService.queryStockByCode(stockCode);
+        Stock stock = stockService.queryStockById(stockId);
         IPOSubscription ipo = ipoSubscriptionService.findIPOSubscriptionById(id);
         IPOResult result = new IPOResult();
         try {
@@ -133,11 +131,11 @@ public class IPOSubscriptionController {
     @ResponseBody
     @RequestMapping(value = "/v1/ipo", method = RequestMethod.GET, produces = "application/json;charset=UTF-8")
     public ResponseEntity<ResultEntity> ipo(
-            @RequestParam(required = true) String stockCode,
+            @RequestParam(required = true) String stockId,
             @RequestParam(required = true) String id,
             HttpServletRequest request, HttpServletResponse response) {
 
-        Stock stock = stockService.queryStockByCode(stockCode);
+        Stock stock = stockService.queryStockById(stockId);
         IPOSubscription ipo = ipoSubscriptionService.findIPOSubscriptionById(id);
         IPOResult result = new IPOResult();
         try {
@@ -153,11 +151,11 @@ public class IPOSubscriptionController {
     @ResponseBody
     @RequestMapping(value = "/v1/sign", method = RequestMethod.GET, produces = "application/json;charset=UTF-8")
     public ResponseEntity<ResultEntity> sign(
-            @RequestParam(required = true) String stockCode,
+            @RequestParam(required = true) String stockId,
             @RequestParam(required = true) String id,
             HttpServletRequest request, HttpServletResponse response) {
 
-        Stock stock = stockService.queryStockByCode(stockCode);
+        Stock stock = stockService.queryStockById(stockId);
         IPOSubscription ipo = ipoSubscriptionService.findIPOSubscriptionById(id);
         IPOResult result = new IPOResult();
         try {
@@ -191,7 +189,7 @@ public class IPOSubscriptionController {
         Account account = ipoSubscription.getAccount();
 
         result.setId(ipoSubscription.getId());
-        result.setStockCode(ipoSubscription.getStock().getCode());
+        result.setStockId(ipoSubscription.getStock().getId());
         result.setAppLocation(account.getAppLocation());
         result.setNameCn(account.getNameCn());
         result.setType(account.getAccountType().getNameCn());

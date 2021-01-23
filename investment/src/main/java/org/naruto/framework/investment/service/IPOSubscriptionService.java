@@ -26,9 +26,9 @@ public class IPOSubscriptionService {
     @Autowired
     private IPOSubscriptionRepository ipoSubscriptionRepository;
 
-    public List<IPOSubscription> findIPOSubscriptions(String stockCode){
+    public List<IPOSubscription> findIPOSubscriptions(String stockId){
 
-        return ipoSubscriptionRepository.findIPOSubscriptions(stockCode);
+        return ipoSubscriptionRepository.findIPOSubscriptions(stockId);
     }
 
     public IPOSubscription findIPOSubscriptionById(String id){
@@ -66,8 +66,8 @@ public class IPOSubscriptionService {
         return ipoSubscription;
     }
 
-    public List save(List<IPOSubscription> list,Stock stock,String stockCode) throws Exception{
-        List<IPOSubscription> ipoList = this.findIPOSubscriptions(stockCode);
+    public List save(List<IPOSubscription> list,Stock stock,String stockId) throws Exception{
+        List<IPOSubscription> ipoList = this.findIPOSubscriptions(stockId);
 
         List newList = ListUtils.subtract(list,ipoList);
 

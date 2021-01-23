@@ -20,8 +20,8 @@ public class StockService {
         return stockRepository.findAll();
     }
 
-    public Stock queryStockByCode(String stockCode){
-        return stockRepository.queryStockByCode(stockCode);
+    public Stock queryStockById(String stockId){
+        return stockRepository.findById(stockId).get();
     }
 //
 //    public List<IPOSubscription> findIPOSubscriptions(String stockCode, String nameCn, String type){

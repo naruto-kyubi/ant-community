@@ -34,7 +34,7 @@ public class IPOSubscription {
 
     //股票代码
     @ManyToOne(fetch= FetchType.EAGER)
-    @JoinColumn(name = "stock_code")
+    @JoinColumn(name = "stock_id")
     @Lazy(false)
     private Stock stock;
 
