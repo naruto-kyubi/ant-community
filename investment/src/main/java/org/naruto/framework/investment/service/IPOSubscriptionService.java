@@ -41,6 +41,12 @@ public class IPOSubscriptionService {
         return ipoSubscription;
     }
 
+    public IPOSubscription removePlan(IPOSubscription ipoSubscription, Stock stock) throws Exception{
+        ipoSubscription.setPlanIPO(0);
+        ipoSubscriptionRepository.save(ipoSubscription);
+        return ipoSubscription;
+    }
+
     public IPOSubscription oneCash(IPOSubscription ipoSubscription, Stock stock) throws Exception{
         try {
             Account account = ipoSubscription.getAccount();

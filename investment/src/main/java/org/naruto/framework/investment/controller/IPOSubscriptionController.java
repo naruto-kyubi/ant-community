@@ -128,6 +128,28 @@ public class IPOSubscriptionController {
         return ResponseEntity.ok(ResultEntity.ok(result));
     }
 
+
+    @ResponseBody
+    @RequestMapping(value = "/v1/removePlan", method = RequestMethod.GET, produces = "application/json;charset=UTF-8")
+    public ResponseEntity<ResultEntity> removePlan(
+            @RequestParam(required = true) String stockId,
+            @RequestParam(required = true) String id,
+            HttpServletRequest request, HttpServletResponse response) {
+
+        Stock stock = stockService.queryStockById(stockId);
+        IPOSubscription ipo = ipoSubscriptionService.findIPOSubscriptionById(id);
+        IPOResult result = new IPOResult();
+        try {
+            ipo.setLastOperationAt(new Date());
+            IPOSubscription item = ipoSubscriptionService.removePlan(ipo,stock);
+            result = this.createIPOResult(item);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return ResponseEntity.ok(ResultEntity.ok(result));
+    }
+
+
     @ResponseBody
     @RequestMapping(value = "/v1/ipo", method = RequestMethod.GET, produces = "application/json;charset=UTF-8")
     public ResponseEntity<ResultEntity> ipo(
