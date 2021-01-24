@@ -83,6 +83,7 @@ public class IPOSubscriptionService {
     public IPOSubscription update(IPOSubscription ipoSubscription) throws Exception {
 
         IPOSubscription ipo = this.findIPOSubscriptionById(ipoSubscription.getId());
+        ipo.setCommissionFee(ipoSubscription.getCommissionFee());
         ipo.setSubscriptionFee(ipoSubscription.getSubscriptionFee());
         ipo.setPlanIPO(ipoSubscription.getPlanIPO());
         ipo.setNumberOfShares(ipoSubscription.getNumberOfShares());
