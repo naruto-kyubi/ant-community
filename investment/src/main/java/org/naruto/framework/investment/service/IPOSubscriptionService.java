@@ -41,6 +41,12 @@ public class IPOSubscriptionService {
         return ipoSubscription;
     }
 
+    public IPOSubscription removePlan(IPOSubscription ipoSubscription, Stock stock) throws Exception{
+        ipoSubscription.setPlanIPO(0);
+        ipoSubscriptionRepository.save(ipoSubscription);
+        return ipoSubscription;
+    }
+
     public IPOSubscription oneCash(IPOSubscription ipoSubscription, Stock stock) throws Exception{
         try {
             Account account = ipoSubscription.getAccount();
@@ -77,6 +83,7 @@ public class IPOSubscriptionService {
     public IPOSubscription update(IPOSubscription ipoSubscription) throws Exception {
 
         IPOSubscription ipo = this.findIPOSubscriptionById(ipoSubscription.getId());
+        ipo.setCommissionFee(ipoSubscription.getCommissionFee());
         ipo.setSubscriptionFee(ipoSubscription.getSubscriptionFee());
         ipo.setPlanIPO(ipoSubscription.getPlanIPO());
         ipo.setNumberOfShares(ipoSubscription.getNumberOfShares());

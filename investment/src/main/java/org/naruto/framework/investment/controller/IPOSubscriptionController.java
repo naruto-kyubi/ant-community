@@ -61,6 +61,7 @@ public class IPOSubscriptionController {
                 IPOSubscription ipo = new IPOSubscription();
                 ipo.setAccount(account);
                 ipo.setStock(stock);
+                ipo.setCommissionFee(commissionFee);
                 ipo.setSubscriptionFee(value);
                 ipo.setLastOperationAt(new Date());
                 ipoList.add(ipo);
@@ -128,6 +129,28 @@ public class IPOSubscriptionController {
         return ResponseEntity.ok(ResultEntity.ok(result));
     }
 
+
+    @ResponseBody
+    @RequestMapping(value = "/v1/removePlan", method = RequestMethod.GET, produces = "application/json;charset=UTF-8")
+    public ResponseEntity<ResultEntity> removePlan(
+            @RequestParam(required = true) String stockId,
+            @RequestParam(required = true) String id,
+            HttpServletRequest request, HttpServletResponse response) {
+
+        Stock stock = stockService.queryStockById(stockId);
+        IPOSubscription ipo = ipoSubscriptionService.findIPOSubscriptionById(id);
+        IPOResult result = new IPOResult();
+        try {
+            ipo.setLastOperationAt(new Date());
+            IPOSubscription item = ipoSubscriptionService.removePlan(ipo,stock);
+            result = this.createIPOResult(item);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return ResponseEntity.ok(ResultEntity.ok(result));
+    }
+
+
     @ResponseBody
     @RequestMapping(value = "/v1/ipo", method = RequestMethod.GET, produces = "application/json;charset=UTF-8")
     public ResponseEntity<ResultEntity> ipo(
@@ -170,8 +193,8 @@ public class IPOSubscriptionController {
 
 
     @ResponseBody
-    @RequestMapping(value = "/v1/updateIpo", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
-    public ResponseEntity<ResultEntity> update(@Validated @RequestBody  IPOSubscription ipoSubscription, HttpServletRequest request){
+    @RequestMapping(value = "/v1/updateIPO", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+    public ResponseEntity<ResultEntity> updateIPO(@Validated @RequestBody  IPOSubscription ipoSubscription, HttpServletRequest request){
 
         IPOResult result = new IPOResult();
         try {
@@ -197,7 +220,7 @@ public class IPOSubscriptionController {
         result.setPlanIPO(ipoSubscription.getPlanIPO());
         result.setBalance(account.getBalance());
 
-        result.setCommissionFee(account.getAccountType().getCommissionFee());
+        result.setCommissionFee(ipoSubscription.getCommissionFee());
         result.setAdminssionFee(ipoSubscription.getStock().getAdmissionFee());
 
         result.setSubscriptionFee(ipoSubscription.getSubscriptionFee());

@@ -48,8 +48,8 @@ public class IPOSubscription {
 //    //入场费
 //    private Float adminssionFee = 0F;
 //
-//    //手续费
-//    private Float commissionFee = 0F;
+    //手续费
+    private Float commissionFee = 0F;
 
     //认购费用
     private Float subscriptionFee = 0F;
