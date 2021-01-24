@@ -38,7 +38,7 @@ public class IPOSubscription {
     @Lazy(false)
     private Stock stock;
 
-    //认购类型（现金、融资）
+    //认购类型（现金0、融资1）
     @Column(length=40)
     private String subscriptionType ;
 
@@ -50,6 +50,9 @@ public class IPOSubscription {
 //
     //手续费
     private Float commissionFee = 0F;
+
+    //利息
+    private Float interest = 0F;
 
     //认购费用
     private Float subscriptionFee = 0F;

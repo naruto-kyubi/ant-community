@@ -83,6 +83,15 @@ public class IPOSubscriptionService {
     public IPOSubscription update(IPOSubscription ipoSubscription) throws Exception {
 
         IPOSubscription ipo = this.findIPOSubscriptionById(ipoSubscription.getId());
+
+        ipo.setSubscriptionType(ipoSubscription.getSubscriptionType());
+        if("0".equals(ipoSubscription.getSubscriptionType())){
+            //现金申购利息0；
+            ipo.setInterest(0F);
+        }else{
+            //融资利息；
+            ipo.setInterest(ipoSubscription.getInterest());
+        }
         ipo.setCommissionFee(ipoSubscription.getCommissionFee());
         ipo.setSubscriptionFee(ipoSubscription.getSubscriptionFee());
         ipo.setPlanIPO(ipoSubscription.getPlanIPO());

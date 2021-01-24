@@ -61,6 +61,8 @@ public class IPOSubscriptionController {
                 IPOSubscription ipo = new IPOSubscription();
                 ipo.setAccount(account);
                 ipo.setStock(stock);
+                ipo.setSubscriptionType("0");
+                ipo.setInterest(0F);
                 ipo.setCommissionFee(commissionFee);
                 ipo.setSubscriptionFee(value);
                 ipo.setLastOperationAt(new Date());
@@ -220,8 +222,11 @@ public class IPOSubscriptionController {
         result.setPlanIPO(ipoSubscription.getPlanIPO());
         result.setBalance(account.getBalance());
 
+        result.setSubscriptionType(ipoSubscription.getSubscriptionType());
+        result.setInterest(ipoSubscription.getInterest());
         result.setCommissionFee(ipoSubscription.getCommissionFee());
         result.setAdminssionFee(ipoSubscription.getStock().getAdmissionFee());
+
 
         result.setSubscriptionFee(ipoSubscription.getSubscriptionFee());
         result.setNumberOfShares(ipoSubscription.getNumberOfShares());

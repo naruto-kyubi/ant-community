@@ -32,6 +32,12 @@ public class IPOResult {
     //手续费
     private Float commissionFee = 0F;
 
+    //现金、融资
+    private String subscriptionType = "0";
+
+    //利息
+    private Float interest = 0F;
+
     //认购费用
     private Float subscriptionFee = 0F;
 
