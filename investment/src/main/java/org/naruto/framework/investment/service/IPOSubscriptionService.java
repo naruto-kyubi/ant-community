@@ -93,7 +93,10 @@ public class IPOSubscriptionService {
             ipo.setInterest(ipoSubscription.getInterest());
         }
         ipo.setCommissionFee(ipoSubscription.getCommissionFee());
-        ipo.setSubscriptionFee(ipoSubscription.getSubscriptionFee());
+
+        //申购费用=入场费+利息+手续费；
+        float subscriptionFee = ipo.getStock().getAdmissionFee() + ipoSubscription.getInterest() + ipoSubscription.getCommissionFee();
+        ipo.setSubscriptionFee(subscriptionFee);
         ipo.setPlanIPO(ipoSubscription.getPlanIPO());
         ipo.setNumberOfShares(ipoSubscription.getNumberOfShares());
         ipo.setNumberOfSigned(ipoSubscription.getNumberOfSigned());
