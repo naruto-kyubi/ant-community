@@ -192,8 +192,8 @@ public class IPOSubscriptionController {
 
 
     @ResponseBody
-    @RequestMapping(value = "/v1/updateIpo", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
-    public ResponseEntity<ResultEntity> update(@Validated @RequestBody  IPOSubscription ipoSubscription, HttpServletRequest request){
+    @RequestMapping(value = "/v1/updateIPO", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+    public ResponseEntity<ResultEntity> updateIPO(@Validated @RequestBody  IPOSubscription ipoSubscription, HttpServletRequest request){
 
         IPOResult result = new IPOResult();
         try {
