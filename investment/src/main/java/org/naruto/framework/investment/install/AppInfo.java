@@ -11,4 +11,5 @@ public class AppInfo {
     private String appPackage;
     private String appActivity;
     private String apkName;
+    private String appURL;
 }

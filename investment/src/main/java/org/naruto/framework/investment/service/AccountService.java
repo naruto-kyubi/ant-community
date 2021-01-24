@@ -114,8 +114,11 @@ public class AccountService {
        // log.info(account.toString());
         Account accountDb = accountRepository.queryAccountById(account.getId());
 
+        Account parent = accountRepository.getOne(account.getParent());
         //保存前端提交数据
         accountDb.setParent(account.getParent());
+        accountDb.setNameEn(parent.getNameEn());
+        accountDb.setNameCn(parent.getNameCn());
         accountDb.setAccountType(account.getAccountType());
         accountDb.setAppLocation(account.getAppLocation());
         accountDb.setLoginPwd(account.getLoginPwd());

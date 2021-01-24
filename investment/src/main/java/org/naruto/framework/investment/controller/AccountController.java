@@ -54,8 +54,8 @@ public class AccountController {
             @RequestParam(required = false) String id,
             HttpServletRequest request, HttpServletResponse response) throws MalformedURLException, InterruptedException {
 
-        accountService.connect(id);
-        return ResponseEntity.ok(ResultEntity.ok(""));
+        Account account = accountService.connect(id);
+        return ResponseEntity.ok(ResultEntity.ok(account));
     }
 
     @ResponseBody
@@ -64,8 +64,8 @@ public class AccountController {
             @RequestParam(required = false) String id,
             HttpServletRequest request, HttpServletResponse response) throws MalformedURLException, InterruptedException {
 
-        accountService.QueryBalance(id);
-        return ResponseEntity.ok(ResultEntity.ok(""));
+        Account account = accountService.QueryBalance(id);
+        return ResponseEntity.ok(ResultEntity.ok(account));
     }
 
     @ResponseBody

@@ -43,7 +43,11 @@ public class InstallApp {
 
         AppInfo appInfo = Apps.apps.get(account_.getAccountType().getId());
         AndroidDriver<MobileElement> driver = sessionManager.getConnection(account_.getAppLocation());
-        driver.installApp("D:\\stock\\apk\\".concat(appInfo.getApkName()));
+        if(appInfo.getAppURL().length()>1){
+            driver.installApp(appInfo.getAppURL());
+        }else {
+            driver.installApp("D:\\stock\\apk\\".concat(appInfo.getApkName()));
+        }
         return ResponseEntity.ok(ResultEntity.ok(account_));
     }
 
