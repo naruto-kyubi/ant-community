@@ -161,6 +161,17 @@ public class Apps {
                     new AppInfo("com.cmbc.hwydlsyh",
                             "com.cmbc.hwydlsyh.activity.SplashActivity",
                             "huaying_2.6.1.apk",""));
+
+
+            put("zhidaguoji",
+                    new AppInfo("com.cmbc.hwydlsyh",
+                            "com.cmbc.hwydlsyh.activity.SplashActivity",
+                            "huaying_2.6.1.apk","https://www.directaccess.com.hk//software/Download/download.php?file=newMtrader.apk"));
+
+            put("dongwu",
+                    new AppInfo("com.cmbc.hwydlsyh",
+                            "com.cmbc.hwydlsyh.activity.SplashActivity",
+                            "huaying_2.6.1.apk","http://config.iqdii.com/tsci_update/android/CIS/cis_v2.2.4.apk"));
         }
     };
 }

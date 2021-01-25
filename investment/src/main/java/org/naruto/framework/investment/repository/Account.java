@@ -95,10 +95,14 @@ public class Account {
   @Column(length=40)
   private String capitalAccount;
 
-  private Date lastOperationAt = new Date();
 
+  @Transient
+  private Date lastOperationAt;
+
+  @Transient
   @Column(length=10)
   private String lastOperationStatus;
+
 
   @OneToMany(targetEntity=FundTrans.class,mappedBy="account",cascade=CascadeType.ALL)
   @Where(clause="status<4")
