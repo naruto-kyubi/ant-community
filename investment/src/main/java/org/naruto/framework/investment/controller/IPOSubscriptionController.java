@@ -1,6 +1,7 @@
 package org.naruto.framework.investment.controller;
 
 import lombok.extern.java.Log;
+import org.naruto.framework.core.exception.ServiceException;
 import org.naruto.framework.core.session.ISessionService;
 import org.naruto.framework.core.web.ResultEntity;
 import org.naruto.framework.investment.repository.Account;
@@ -116,18 +117,14 @@ public class IPOSubscriptionController {
     public ResponseEntity<ResultEntity> addPlan(
             @RequestParam(required = true) String stockId,
             @RequestParam(required = true) String id,
-            HttpServletRequest request, HttpServletResponse response) {
+            HttpServletRequest request, HttpServletResponse response) throws Exception {
 
         Stock stock = stockService.queryStockById(stockId);
         IPOSubscription ipo = ipoSubscriptionService.findIPOSubscriptionById(id);
-        IPOResult result = new IPOResult();
-        try {
-            ipo.setLastOperationAt(new Date());
-            IPOSubscription item = ipoSubscriptionService.addPlan(ipo,stock);
-            result = this.createIPOResult(item);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+
+        IPOSubscription item = ipoSubscriptionService.addPlan(ipo,stock);
+        IPOResult result = this.createIPOResult(item);
+
         return ResponseEntity.ok(ResultEntity.ok(result));
     }
 
@@ -137,18 +134,13 @@ public class IPOSubscriptionController {
     public ResponseEntity<ResultEntity> removePlan(
             @RequestParam(required = true) String stockId,
             @RequestParam(required = true) String id,
-            HttpServletRequest request, HttpServletResponse response) {
+            HttpServletRequest request, HttpServletResponse response) throws Exception {
 
         Stock stock = stockService.queryStockById(stockId);
         IPOSubscription ipo = ipoSubscriptionService.findIPOSubscriptionById(id);
-        IPOResult result = new IPOResult();
-        try {
-            ipo.setLastOperationAt(new Date());
-            IPOSubscription item = ipoSubscriptionService.removePlan(ipo,stock);
-            result = this.createIPOResult(item);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        IPOSubscription item = ipoSubscriptionService.removePlan(ipo,stock);
+        IPOResult result = this.createIPOResult(item);
+
         return ResponseEntity.ok(ResultEntity.ok(result));
     }
 
@@ -158,18 +150,15 @@ public class IPOSubscriptionController {
     public ResponseEntity<ResultEntity> ipo(
             @RequestParam(required = true) String stockId,
             @RequestParam(required = true) String id,
-            HttpServletRequest request, HttpServletResponse response) {
+            HttpServletRequest request, HttpServletResponse response) throws Exception {
 
         Stock stock = stockService.queryStockById(stockId);
         IPOSubscription ipo = ipoSubscriptionService.findIPOSubscriptionById(id);
-        IPOResult result = new IPOResult();
-        try {
-            ipo.setLastOperationAt(new Date());
-            IPOSubscription item = ipoSubscriptionService.oneCash(ipo,stock);
-            result = this.createIPOResult(item);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+
+        ipo.setLastOperationAt(new Date());
+        IPOSubscription item = ipoSubscriptionService.oneCash(ipo,stock);
+        IPOResult result = this.createIPOResult(item);
+
         return ResponseEntity.ok(ResultEntity.ok(result));
     }
 
@@ -178,35 +167,24 @@ public class IPOSubscriptionController {
     public ResponseEntity<ResultEntity> sign(
             @RequestParam(required = true) String stockId,
             @RequestParam(required = true) String id,
-            HttpServletRequest request, HttpServletResponse response) {
+            HttpServletRequest request, HttpServletResponse response) throws Exception{
 
         Stock stock = stockService.queryStockById(stockId);
         IPOSubscription ipo = ipoSubscriptionService.findIPOSubscriptionById(id);
-        IPOResult result = new IPOResult();
-        try {
-            ipo.setLastOperationAt(new Date());
-            IPOSubscription item = ipoSubscriptionService.sign(ipo,stock);
-            result = this.createIPOResult(item);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        IPOSubscription item = ipoSubscriptionService.sign(ipo,stock);
+        IPOResult result = this.createIPOResult(item);
         return ResponseEntity.ok(ResultEntity.ok(result));
     }
 
 
     @ResponseBody
     @RequestMapping(value = "/v1/updateIPO", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
-    public ResponseEntity<ResultEntity> updateIPO(@Validated @RequestBody  IPOSubscription ipoSubscription, HttpServletRequest request){
+    public ResponseEntity<ResultEntity> updateIPO(@Validated @RequestBody  IPOSubscription ipoSubscription, HttpServletRequest request) throws Exception{
 
         IPOResult result = new IPOResult();
-        try {
-            IPOSubscription ipo = ipoSubscriptionService.update(ipoSubscription);
-            result = this.createIPOResult(ipo);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        IPOSubscription ipo = ipoSubscriptionService.update(ipoSubscription);
+        result = this.createIPOResult(ipo);
         return ResponseEntity.ok(ResultEntity.ok(result));
-
     }
 
     private IPOResult createIPOResult(IPOSubscription ipoSubscription){
@@ -227,11 +205,11 @@ public class IPOSubscriptionController {
         result.setCommissionFee(ipoSubscription.getCommissionFee());
         result.setAdminssionFee(ipoSubscription.getStock().getAdmissionFee());
 
-
         result.setSubscriptionFee(ipoSubscription.getSubscriptionFee());
         result.setNumberOfShares(ipoSubscription.getNumberOfShares());
         result.setSubscriptionFee(ipoSubscription.getSubscriptionFee());
         result.setNumberOfSigned(ipoSubscription.getNumberOfSigned());
+
         return result;
     }
 }

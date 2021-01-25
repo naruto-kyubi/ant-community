@@ -37,12 +37,14 @@ public class IPOSubscriptionService {
 
     public IPOSubscription addPlan(IPOSubscription ipoSubscription, Stock stock) throws Exception{
         ipoSubscription.setPlanIPO(1);
+        ipoSubscription.setLastOperationAt(new Date());
         ipoSubscriptionRepository.save(ipoSubscription);
         return ipoSubscription;
     }
 
     public IPOSubscription removePlan(IPOSubscription ipoSubscription, Stock stock) throws Exception{
         ipoSubscription.setPlanIPO(0);
+        ipoSubscription.setLastOperationAt(new Date());
         ipoSubscriptionRepository.save(ipoSubscription);
         return ipoSubscription;
     }
@@ -55,7 +57,10 @@ public class IPOSubscriptionService {
 //            e.printStackTrace();
             accountOperation = pythonOperation;
         }
-        return accountOperation.oneCash(ipoSubscription,stock);
+
+        IPOSubscription ipo = accountOperation.oneCash(ipoSubscription,stock);
+        ipo.setLastOperationAt(new Date());
+        return ipo;
     }
 
     public IPOSubscription sign(IPOSubscription ipoSubscription, Stock stock) throws Exception{
@@ -67,8 +72,8 @@ public class IPOSubscriptionService {
             accountOperation = pythonOperation;
         }
         ipoSubscription =  accountOperation.sign(ipoSubscription,stock);
+        ipoSubscription.setLastOperationAt(new Date());
         ipoSubscriptionRepository.save(ipoSubscription);
-
         return ipoSubscription;
     }
 

@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.Column;
+import java.util.Date;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -46,4 +47,8 @@ public class IPOResult {
 
     //中签情况
     private Integer numberOfSigned;
+
+    private Date lastOperationAt;
+
+    private String lastOperationStatus;
 }
