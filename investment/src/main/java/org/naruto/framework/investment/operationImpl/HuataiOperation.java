@@ -56,7 +56,7 @@ public class HuataiOperation implements AccountOperation {
 //    }
     public void logon (AndroidDriver<MobileElement> driver, String pwd, String tokenPwd) throws InterruptedException{
         WebDriverWait wait = new WebDriverWait(driver, 6);
-        wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//*[contains(@text,'登录')]"))).click();
+
 
         wait.until(ExpectedConditions.presenceOfElementLocated(By.id("com.lphtsccft.zlqqt2:id/login_et_password"))).sendKeys(pwd);
         driver.findElement(By.id("com.lphtsccft.zlqqt2:id/login_btn_login_account")).click();
@@ -179,7 +179,17 @@ public class HuataiOperation implements AccountOperation {
             log.info("no adv present!!");
         }
 
-        wait.until(ExpectedConditions.presenceOfElementLocated(By.id("com.lphtsccft.zlqqt2:id/main_account"))).click();
+
+        try {
+            //v3版本
+            wait.until(ExpectedConditions.presenceOfElementLocated(By.id("com.lphtsccft.zlqqt2:id/main_account"))).click();
+            wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//*[@text='持仓']"))).click();
+        } catch (Exception e) {
+            //v2版本
+            wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//*[contains(@text,'登录')]"))).click();
+        } finally {
+            this.logon(driver,account.getLoginPwd(),account.getTradePwd());
+        }
 
         try {
             wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//*[contains(@text,\"登录\")]")));
@@ -195,11 +205,15 @@ public class HuataiOperation implements AccountOperation {
         AndroidDriver<MobileElement> driver = sessionManager.activateApp(account.getAppLocation(),account.getAccountType().getId());
         this.connect(account);
         WebDriverWait wait = new WebDriverWait(driver, 5);
-        wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//*[contains(@text,'我的资产')]"))).click();
-        wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//*[contains(@text,'现金')]"))).click();
+
+
+
+        wait.until(ExpectedConditions.presenceOfElementLocated(By.id("com.lphtsccft.zlqqt2:id/main_fortune"))).click();
+       // wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//*[contains(@text,'我的资产')]"))).click();
+       // wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//*[contains(@text,'现金')]"))).click();
         //读取现金值
-        String balance =  wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//*[contains(@text,\"累计\")]"))).getText();
-        Float balance_ = Float.parseFloat(StringUtils.substringBefore(balance,"累计").replaceAll("[\b\r\n\t]*", "").replaceAll(",",""));
+        String balance =  wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//*[contains(@text,\"港元\")]"))).getText();
+        Float balance_ = Float.parseFloat(StringUtils.substringAfter(balance,"港元").replaceAll("[\b\r\n\t]*", "").replaceAll(",",""));
         account.setBalance(balance_);
         return account;
     }
