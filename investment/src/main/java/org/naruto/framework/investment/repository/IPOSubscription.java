@@ -62,9 +62,11 @@ public class IPOSubscription {
 
     //中签数量
     private Integer numberOfSigned = 0;
+    
+    @Transient
+    private Date lastOperationAt;
 
-    private Date lastOperationAt = new Date();
-
+    @Transient
     @Column(length=10)
     private String lastOperationStatus;
 
