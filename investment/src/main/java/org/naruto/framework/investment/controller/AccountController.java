@@ -3,10 +3,12 @@ package org.naruto.framework.investment.controller;
 import lombok.extern.flogger.Flogger;
 import lombok.extern.java.Log;
 import org.naruto.framework.core.SpringUtils;
+import org.naruto.framework.core.session.ISessionService;
 import org.naruto.framework.core.web.ResultEntity;
 import org.naruto.framework.investment.repository.Account;
 import org.naruto.framework.investment.repository.AccountType;
 import org.naruto.framework.investment.service.AccountService;
+import org.naruto.framework.user.domain.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -23,6 +25,9 @@ public class AccountController {
 
     @Autowired
     private AccountService accountService;
+
+    @Autowired(required = false)
+    private ISessionService sessionService;
 
     @ResponseBody
     @RequestMapping(value = "/v1/subAccounts", method = RequestMethod.GET, produces = "application/json;charset=UTF-8")
@@ -57,6 +62,19 @@ public class AccountController {
         Account account = accountService.connect(id);
         return ResponseEntity.ok(ResultEntity.ok(account));
     }
+
+    @ResponseBody
+    @RequestMapping(value = "/v1/dayEndClearing", method = RequestMethod.GET, produces = "application/json;charset=UTF-8")
+    public ResponseEntity<ResultEntity> dayEndClearing(
+            @RequestParam(required = false) String id,
+            HttpServletRequest request, HttpServletResponse response) throws MalformedURLException, InterruptedException {
+          User user = (User) sessionService.getCurrentUser(request);
+          String owner = user.getId();
+          accountService.dayEndClearing(owner);
+          return ResponseEntity.ok(ResultEntity.ok(null));
+    }
+
+
 
     @ResponseBody
     @RequestMapping(value = "/v1/queryBalance", method = RequestMethod.GET, produces = "application/json;charset=UTF-8")

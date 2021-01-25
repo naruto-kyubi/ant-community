@@ -1,8 +1,10 @@
 package org.naruto.framework.investment.repository;
 
 import org.naruto.framework.core.repository.CustomRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 
+import javax.transaction.Transactional;
 import java.util.List;
 
 
@@ -22,4 +24,9 @@ public interface AccountRepository extends CustomRepository<Account,String>{
     public Account queryAccountById(String id);
 
     List<Account> findAccountsByOwnerAndParentNot(String owner,String parent);
+
+    @Query(value="select sum(balance) from accounts where owner=?1",
+            nativeQuery = true
+    )
+    public Float queryBalanceByOwner(String owner);
 }

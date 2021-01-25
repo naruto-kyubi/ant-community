@@ -30,6 +30,9 @@ public class AccountService {
     @Autowired
     private PythonOperation pythonOperation;
 
+    @Autowired
+    private AccountDailyReportRepository accountDailyReportRepository;
+
     public List<Account> queryMainAccountByOwner(String owner){
         return accountRepository.queryMainAccountByOwner(owner);
     }
@@ -142,6 +145,28 @@ public class AccountService {
         fundTrans.setTransAt(new Date());
         fundTransRepository.save(fundTrans);
         return fundTrans;
+    }
+
+    public void dayEndClearing(String owner){
+        //
+
+        //当前账户余额拷贝一份
+        Float balance = accountRepository.queryBalanceByOwner(owner);
+
+        AccountDailyReport accountDailyReport;
+
+        try {
+            accountDailyReport = accountDailyReportRepository.queryAccountDailyReportByDate(owner).get(0);
+        }catch (Exception e)
+        {
+            accountDailyReport = new AccountDailyReport();
+        }
+
+        accountDailyReport.setBalance(balance);
+        accountDailyReport.setOwner(owner);
+        accountDailyReport.setStatisticAt(new Date());
+
+        accountDailyReportRepository.save(accountDailyReport);
     }
 
     public FundTrans executeTrans(String id) {
