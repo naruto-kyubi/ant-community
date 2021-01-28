@@ -37,6 +37,12 @@ public class AccountType {
   //管理费
   private Float manageFee;
 
+  //现金手续费
+  private Float cashCommissionFee;
+
+  //融资手续费
+  private Float financeCommissionFee;
+
   //手续费
   private Float commissionFee;
 

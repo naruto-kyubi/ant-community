@@ -53,7 +53,7 @@ public class IPOSubscriptionController {
             List<IPOSubscription> ipoList = new ArrayList();
             for(Account account : accountList){
                 //手续费
-                Float commissionFee = account.getAccountType().getCommissionFee();
+                Float commissionFee = account.getAccountType().getCashCommissionFee();
                 //入场费
                 Float adminssionFee = stock.getAdmissionFee();
 
@@ -201,6 +201,10 @@ public class IPOSubscriptionController {
         result.setBalance(account.getBalance());
 
         result.setSubscriptionType(ipoSubscription.getSubscriptionType());
+
+        result.setCashCommissionFee(account.getAccountType().getCashCommissionFee());
+        result.setFinanceCommissionFee(account.getAccountType().getFinanceCommissionFee());
+
         result.setInterest(ipoSubscription.getInterest());
         result.setCommissionFee(ipoSubscription.getCommissionFee());
         result.setAdminssionFee(ipoSubscription.getStock().getAdmissionFee());
