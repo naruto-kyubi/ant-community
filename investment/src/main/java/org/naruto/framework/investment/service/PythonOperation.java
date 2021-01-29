@@ -137,6 +137,7 @@ public class PythonOperation implements AccountOperation {
         map.put("stock_no",stock.getCode());
         map.put("app_location",account.getAppLocation());
         map.put("bond_id",account.getAccountType().getId());
+        map.put("account_no",account.getAccountNo());
         map.put("user_id",account.getAccountNo());
         map.put("login_id",account.getLoginId());
         map.put("login_pwd",account.getLoginPwd());
