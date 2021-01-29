@@ -131,6 +131,63 @@ public class PythonOperation implements AccountOperation {
         }
     }
 
+    public IPOSubscription addFinanceIPO(IPOSubscription ipoSubscription, Stock stock)  throws Exception {
+        Map map  =new HashMap();
+        Account account = ipoSubscription.getAccount();
+        map.put("stock_no",stock.getCode());
+        map.put("app_location",account.getAppLocation());
+        map.put("bond_id",account.getAccountType().getId());
+        map.put("user_id",account.getAccountNo());
+        map.put("login_id",account.getLoginId());
+        map.put("login_pwd",account.getLoginPwd());
+        map.put("trade_pwd",account.getTradePwd());
+        map.put("stock_count",stock.getLot());
+
+        String url = pythonUrl + "/one_finance";
+        System.out.println("url="+url);
+        JSONObject result = restfulTemplate().postForObject(url, map, JSONObject.class);
+
+        String status = result.getString("status");
+        String money = result.getString("data");
+
+        if("ok".equals(status) && !money.equals("-1")){
+            ipoSubscription.setNumberOfShares(stock.getLot());
+            //其它费用有待完善；
+            return ipoSubscription;
+        }else
+        {
+            throw new Exception();
+        }
+    }
+
+    @Override
+    public IPOSubscription cancelFinanceIPO(IPOSubscription ipoSubscription, Stock stock) throws Exception {
+        Map map  =new HashMap();
+        Account account = ipoSubscription.getAccount();
+        map.put("stock_no",stock.getCode());
+        map.put("app_location",account.getAppLocation());
+        map.put("bond_id",account.getAccountType().getId());
+        map.put("user_id",account.getAccountNo());
+        map.put("login_id",account.getLoginId());
+        map.put("login_pwd",account.getLoginPwd());
+        map.put("trade_pwd",account.getTradePwd());
+        map.put("stock_count",stock.getLot());
+
+        String url = pythonUrl + "/one_finance_cancel";
+        System.out.println("url="+url);
+        JSONObject result = restfulTemplate().postForObject(url, map, JSONObject.class);
+
+        String status = result.getString("status");
+
+        if("ok".equals(status)){
+            //其它费用有待完善；
+            return ipoSubscription;
+        }else
+        {
+            throw new Exception();
+        }
+    }
+
     @Override
     public IPOSubscription sign(IPOSubscription ipoSubscription, Stock stock) throws Exception{
         Map map  =new HashMap();

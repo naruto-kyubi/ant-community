@@ -15,4 +15,9 @@ public interface AccountOperation {
     IPOSubscription sign(IPOSubscription ipoSubscription, Stock stock) throws Exception;
 
     public FundTrans executeTrans(FundTrans fundTrans,Account account,Account BankAccount) throws Exception;
+
+    IPOSubscription addFinanceIPO(IPOSubscription ipoSubscription, Stock stock)  throws Exception;
+
+    IPOSubscription cancelFinanceIPO(IPOSubscription ipoSubscription, Stock stock)  throws Exception;
+
 }

@@ -235,6 +235,16 @@ public class HuashengOperation implements AccountOperation {
     }
 
     @Override
+    public IPOSubscription addFinanceIPO(IPOSubscription ipoSubscription, Stock stock) throws Exception {
+        return null;
+    }
+
+    @Override
+    public IPOSubscription cancelFinanceIPO(IPOSubscription ipoSubscription, Stock stock) throws Exception {
+        return null;
+    }
+
+    @Override
     public IPOSubscription sign(IPOSubscription ipoSubscription, Stock stock) throws Exception {
         return null;
     }

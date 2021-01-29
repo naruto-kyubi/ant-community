@@ -163,6 +163,41 @@ public class IPOSubscriptionController {
     }
 
     @ResponseBody
+    @RequestMapping(value = "/v1/addFinanceIPO", method = RequestMethod.GET, produces = "application/json;charset=UTF-8")
+    public ResponseEntity<ResultEntity> addFinanceIPO(
+            @RequestParam(required = true) String stockId,
+            @RequestParam(required = true) String id,
+            HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+        Stock stock = stockService.queryStockById(stockId);
+        IPOSubscription ipo = ipoSubscriptionService.findIPOSubscriptionById(id);
+
+        ipo.setLastOperationAt(new Date());
+        IPOSubscription item = ipoSubscriptionService.addFinanceIPO(ipo,stock);
+        IPOResult result = this.createIPOResult(item);
+
+        return ResponseEntity.ok(ResultEntity.ok(result));
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "/v1/cancelFinanceIPO", method = RequestMethod.GET, produces = "application/json;charset=UTF-8")
+    public ResponseEntity<ResultEntity> cancelFinanceIPO(
+            @RequestParam(required = true) String stockId,
+            @RequestParam(required = true) String id,
+            HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+        Stock stock = stockService.queryStockById(stockId);
+        IPOSubscription ipo = ipoSubscriptionService.findIPOSubscriptionById(id);
+
+        ipo.setLastOperationAt(new Date());
+        IPOSubscription item = ipoSubscriptionService.cancelFinanceIPO(ipo,stock);
+        IPOResult result = this.createIPOResult(ipo);
+
+        return ResponseEntity.ok(ResultEntity.ok(result));
+    }
+
+
+    @ResponseBody
     @RequestMapping(value = "/v1/sign", method = RequestMethod.GET, produces = "application/json;charset=UTF-8")
     public ResponseEntity<ResultEntity> sign(
             @RequestParam(required = true) String stockId,
