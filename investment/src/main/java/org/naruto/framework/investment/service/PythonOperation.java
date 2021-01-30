@@ -119,9 +119,8 @@ public class PythonOperation implements AccountOperation {
         JSONObject result = restfulTemplate().postForObject(url, map, JSONObject.class);
 
         String status = result.getString("status");
-        String money = result.getString("data");
 
-        if("ok".equals(status) && !money.equals("-1")){
+        if("ok".equals(status)){
             ipoSubscription.setNumberOfShares(stock.getLot());
             //其它费用有待完善；
             return ipoSubscription;
@@ -149,9 +148,8 @@ public class PythonOperation implements AccountOperation {
         JSONObject result = restfulTemplate().postForObject(url, map, JSONObject.class);
 
         String status = result.getString("status");
-        String money = result.getString("data");
 
-        if("ok".equals(status) && !money.equals("-1")){
+        if("ok".equals(status)){
             ipoSubscription.setNumberOfShares(stock.getLot());
             //其它费用有待完善；
             return ipoSubscription;
