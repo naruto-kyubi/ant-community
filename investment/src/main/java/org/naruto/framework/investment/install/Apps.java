@@ -70,7 +70,7 @@ public class Apps {
             put("aide",
                     new AppInfo("io.newtype.eddid.app",
                             "com.bartech.app.main.launcher.LauncherActivity",
-                            "io.newtype.eddid.app_2.22.3_370.apk",""));
+                            "base.apk",""));
             put("aide_pincode",
                     new AppInfo("hk.com.ayers.fsec.token",
                             "hk.com.ayers.fsec.token.FSECTokenApplication",
@@ -172,6 +172,11 @@ public class Apps {
                     new AppInfo("com.cmbc.hwydlsyh",
                             "com.cmbc.hwydlsyh.activity.SplashActivity",
                             "huaying_2.6.1.apk","http://config.iqdii.com/tsci_update/android/CIS/cis_v2.2.4.apk"));
+
+            put("zhifu",
+                    new AppInfo("com.cmbc.hwydlsyh",
+                            "com.cmbc.hwydlsyh.activity.SplashActivity",
+                            "huaying_2.6.1.apk","https://www.chiefgroup.com.hk/Repos/program/Android/app-ChiefTrade.apk"));
         }
     };
 }
