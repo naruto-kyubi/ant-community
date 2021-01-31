@@ -27,7 +27,7 @@ public class WebSessionManager {
         //   capabilities.setCapability("appPackage", appinfo.getAppPackage());
         //   capabilities.setCapability("appActivity", appinfo.getAppActivity());
         //    capabilities.setCapability("noReset", "True");
-//        capabilities.setCapability("newCommandTimeout", "2000");
+        capabilities.setCapability("newCommandTimeout", "36000");
         capabilities.setCapability("udid", mobileId);
 //        capabilities.setCapability("automationName", "uiautomator2");
 

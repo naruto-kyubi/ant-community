@@ -30,7 +30,7 @@ public class SessionManager {
      //   capabilities.setCapability("appPackage", appinfo.getAppPackage());
      //   capabilities.setCapability("appActivity", appinfo.getAppActivity());
         capabilities.setCapability("noReset", "True");
-        capabilities.setCapability("newCommandTimeout", "2000");
+        capabilities.setCapability("newCommandTimeout", "36000");
         capabilities.setCapability("udid", mobileId);
         capabilities.setCapability("automationName", "uiautomator2");
 
@@ -73,5 +73,15 @@ public class SessionManager {
             }
         }
         return driver;
+    }
+
+    public void closeApp(String mobileId,String appName) throws MalformedURLException{
+        AppInfo appInfo = Apps.apps.get(appName);
+        AndroidDriver<MobileElement> driver = this.getConnection(mobileId);
+
+        ApplicationState appState = driver.queryAppState(appInfo.getAppPackage());
+        if(appState.compareTo(ApplicationState.NOT_RUNNING) > 1){
+            driver.terminateApp(appInfo.getAppPackage());
+        }
     }
 }
