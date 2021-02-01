@@ -211,7 +211,6 @@ public class IPOSubscriptionController {
         return ResponseEntity.ok(ResultEntity.ok(result));
     }
 
-
     @ResponseBody
     @RequestMapping(value = "/v1/updateIPO", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
     public ResponseEntity<ResultEntity> updateIPO(@Validated @RequestBody  IPOSubscription ipoSubscription, HttpServletRequest request) throws Exception{

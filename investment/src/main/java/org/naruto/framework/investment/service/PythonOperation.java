@@ -278,20 +278,22 @@ public class PythonOperation implements AccountOperation {
         String status = result.getString("status");
         String data = result.getString("data");
 
-        if("ok".equals(status) && Integer.parseInt(data)>0){
-            ipoSubscription.setNumberOfSigned(stock.getLot());
-            //其它费用有待完善；
+        if("ok".equals(status)){
+            if("1".equals(data))
+                //中签
+                ipoSubscription.setNumberOfSigned(stock.getLot());
+            else{
+                ipoSubscription.setNumberOfSigned(Integer.parseInt(data));
+            }
+            return ipoSubscription;
         }else
         {
-            ipoSubscription.setNumberOfSigned(Integer.valueOf(data));
+            throw new Exception();
         }
-        return ipoSubscription;
     }
 
     @Override
     public FundTrans executeTrans(FundTrans fundTrans, Account account, Account BankAccount) throws Exception {
         return fundTrans;
     }
-
-
 }
