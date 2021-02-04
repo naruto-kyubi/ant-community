@@ -211,7 +211,11 @@ public class PythonOperation implements AccountOperation {
         map.put("login_id",account.getLoginId());
         map.put("login_pwd",account.getLoginPwd());
         map.put("trade_pwd",account.getTradePwd());
-        map.put("stock_count",stock.getLot());
+        Integer stock_count = ipoSubscription.getPlanIPO();
+        if(stock_count<stock.getLot()){
+            stock_count = stock.getLot();
+        }
+        map.put("stock_count",stock_count);
 
         String url = pythonUrl + "/one_finance";
         System.out.println("url="+url);
