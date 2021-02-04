@@ -70,6 +70,12 @@ public class IPOSubscription {
     @Column(length=10)
     private String lastOperationStatus;
 
+    //招股开始日期
+    private Date applicationFromDate;
+
+    //招股结束日期
+    private Date applicationToDate;
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
