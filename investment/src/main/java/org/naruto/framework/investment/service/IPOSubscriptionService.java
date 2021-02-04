@@ -36,7 +36,7 @@ public class IPOSubscriptionService {
     }
 
     public IPOSubscription addPlan(IPOSubscription ipoSubscription, Stock stock) throws Exception{
-        ipoSubscription.setPlanIPO(1);
+        ipoSubscription.setPlanIPO(stock.getLot());
         ipoSubscription.setLastOperationAt(new Date());
         ipoSubscriptionRepository.save(ipoSubscription);
         return ipoSubscription;
