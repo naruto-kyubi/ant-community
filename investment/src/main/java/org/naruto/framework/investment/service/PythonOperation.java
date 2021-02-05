@@ -124,6 +124,7 @@ public class PythonOperation implements AccountOperation {
         map.put("login_id",account.getLoginId());
         map.put("login_pwd",account.getLoginPwd());
         map.put("trade_pwd",account.getTradePwd());
+        map.put("pin_pwd",account.getPinPwd());
         map.put("stock_count",stock.getLot());
 
         String url = pythonUrl + "/one_cash";
@@ -211,6 +212,7 @@ public class PythonOperation implements AccountOperation {
         map.put("login_id",account.getLoginId());
         map.put("login_pwd",account.getLoginPwd());
         map.put("trade_pwd",account.getTradePwd());
+        map.put("pin_pwd",account.getPinPwd());
         Integer stock_count = ipoSubscription.getPlanIPO();
         if(stock_count<stock.getLot()){
             stock_count = stock.getLot();
@@ -246,6 +248,7 @@ public class PythonOperation implements AccountOperation {
         map.put("login_id",account.getLoginId());
         map.put("login_pwd",account.getLoginPwd());
         map.put("trade_pwd",account.getTradePwd());
+        map.put("pin_pwd",account.getPinPwd());
         map.put("stock_count",stock.getLot());
 
         String url = pythonUrl + "/one_finance_cancel";
@@ -274,6 +277,7 @@ public class PythonOperation implements AccountOperation {
         map.put("login_id",account.getLoginId());
         map.put("login_pwd",account.getLoginPwd());
         map.put("trade_pwd",account.getTradePwd());
+        map.put("pin_pwd",account.getPinPwd());
 
         String url = pythonUrl + "/sign";
         System.out.println("url="+url);

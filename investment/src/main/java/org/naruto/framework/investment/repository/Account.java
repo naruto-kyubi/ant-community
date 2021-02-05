@@ -53,6 +53,9 @@ public class Account {
   private String tradePwd;
 
   @Column(length=40)
+  private String pinPwd;
+
+  @Column(length=40)
   private String mobile;
 
   @Column(length=40)

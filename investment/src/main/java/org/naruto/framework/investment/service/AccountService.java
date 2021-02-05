@@ -126,9 +126,11 @@ public class AccountService {
         accountDb.setAppLocation(account.getAppLocation());
         accountDb.setLoginPwd(account.getLoginPwd());
         accountDb.setTradePwd(account.getTradePwd());
+        accountDb.setPinPwd(account.getPinPwd());
         accountDb.setBalance(account.getBalance());
         accountDb.setLoginId(account.getLoginId());
         accountDb.setAccountNo(account.getAccountNo());
+
 
       //  log.info(accountDb.toString());
 
