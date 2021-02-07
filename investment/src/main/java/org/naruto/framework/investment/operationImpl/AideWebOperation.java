@@ -188,6 +188,16 @@ public class AideWebOperation implements AccountOperation {
     }
 
     @Override
+    public void logonFinanceIPO(IPOSubscription ipoSubscription) throws Exception {
+
+    }
+
+    @Override
+    public void prepareFinanceIPO(IPOSubscription ipoSubscription, Stock stock) throws Exception {
+
+    }
+
+    @Override
     public IPOSubscription addFinanceIPO(IPOSubscription ipoSubscription, Stock stock) throws Exception {
         return null;
     }

@@ -201,7 +201,33 @@ public class PythonOperation implements AccountOperation {
 //        return resultString ;
 //    }
 
-    public IPOSubscription addFinanceIPO(IPOSubscription ipoSubscription, Stock stock)  throws Exception {
+
+    public void logonFinanceIPO(IPOSubscription ipoSubscription) throws Exception {
+
+        Map map = new HashMap();
+        Account account = ipoSubscription.getAccount();
+        map.put("app_location", account.getAppLocation());
+        map.put("bond_id", account.getAccountType().getId());
+        map.put("account_no", account.getAccountNo());
+        map.put("user_id", account.getAccountNo());
+        map.put("login_id", account.getLoginId());
+        map.put("login_pwd", account.getLoginPwd());
+        map.put("trade_pwd", account.getTradePwd());
+        map.put("pin_pwd", account.getPinPwd());
+        map.put("logon_type", "finance");
+        String url = pythonUrl + "/finance/logon";
+
+        JSONObject result = restfulTemplate().postForObject(url, map, JSONObject.class);
+
+        String status = result.getString("status");
+
+        if (!"ok".equals(status)) {
+            throw new Exception();
+        }
+    }
+
+    public void prepareFinanceIPO(IPOSubscription ipoSubscription, Stock stock) throws Exception {
+
         Map map  =new HashMap();
         Account account = ipoSubscription.getAccount();
         map.put("stock_no",stock.getCode());
@@ -219,11 +245,39 @@ public class PythonOperation implements AccountOperation {
         }
         map.put("stock_count",stock_count);
 
-        String url = pythonUrl + "/one_finance";
-        System.out.println("url="+url);
+        String url = pythonUrl + "/finance/parepare";
+
         JSONObject result = restfulTemplate().postForObject(url, map, JSONObject.class);
-//        String value = doPost(url,map,"utf-8");
-//        JSONObject  result = JSONObject.parseObject(value);
+
+        String status = result.getString("status");
+
+        if(!"ok".equals(status)){
+            throw new Exception();
+        }
+    }
+
+    public IPOSubscription addFinanceIPO(IPOSubscription ipoSubscription, Stock stock)  throws Exception {
+
+        Map map  =new HashMap();
+        Account account = ipoSubscription.getAccount();
+        map.put("stock_no",stock.getCode());
+        map.put("app_location",account.getAppLocation());
+        map.put("bond_id",account.getAccountType().getId());
+        map.put("account_no",account.getAccountNo());
+        map.put("user_id",account.getAccountNo());
+        map.put("login_id",account.getLoginId());
+        map.put("login_pwd",account.getLoginPwd());
+        map.put("trade_pwd",account.getTradePwd());
+        map.put("pin_pwd",account.getPinPwd());
+        Integer stock_count = ipoSubscription.getPlanIPO();
+        if(stock_count<stock.getLot()){
+            stock_count = stock.getLot();
+        }
+        map.put("stock_count",stock_count);
+
+        String url = pythonUrl + "/finance/start";
+
+        JSONObject result = restfulTemplate().postForObject(url, map, JSONObject.class);
 
         String status = result.getString("status");
 
@@ -251,14 +305,12 @@ public class PythonOperation implements AccountOperation {
         map.put("pin_pwd",account.getPinPwd());
         map.put("stock_count",stock.getLot());
 
-        String url = pythonUrl + "/one_finance_cancel";
-        System.out.println("url="+url);
+        String url = pythonUrl + "/finance/quit";
         JSONObject result = restfulTemplate().postForObject(url, map, JSONObject.class);
 
         String status = result.getString("status");
 
         if("ok".equals(status)){
-            //其它费用有待完善；
             return ipoSubscription;
         }else
         {

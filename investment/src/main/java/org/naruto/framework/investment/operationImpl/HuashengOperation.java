@@ -27,7 +27,7 @@ import org.springframework.stereotype.Service;
 
 @Log
 @Scope("prototype")
-@Service("huasheng")
+@Service("huasheng1")
 public class HuashengOperation implements AccountOperation {
     static AppInfo appInfo = Apps.apps.get("huasheng");
     @Autowired
@@ -232,6 +232,16 @@ public class HuashengOperation implements AccountOperation {
     @Override
     public IPOSubscription oneCash(IPOSubscription ipoSubscription, Stock stock) throws Exception {
         return null;
+    }
+
+    @Override
+    public void logonFinanceIPO(IPOSubscription ipoSubscription) throws Exception {
+
+    }
+
+    @Override
+    public void prepareFinanceIPO(IPOSubscription ipoSubscription, Stock stock) throws Exception {
+
     }
 
     @Override

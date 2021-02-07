@@ -16,6 +16,10 @@ public interface AccountOperation {
 
     public FundTrans executeTrans(FundTrans fundTrans,Account account,Account BankAccount) throws Exception;
 
+    void logonFinanceIPO(IPOSubscription ipoSubscription)  throws Exception;
+
+    void prepareFinanceIPO(IPOSubscription ipoSubscription,Stock stock)  throws Exception;
+
     IPOSubscription addFinanceIPO(IPOSubscription ipoSubscription, Stock stock)  throws Exception;
 
     IPOSubscription cancelFinanceIPO(IPOSubscription ipoSubscription, Stock stock)  throws Exception;

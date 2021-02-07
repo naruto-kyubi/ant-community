@@ -63,6 +63,28 @@ public class IPOSubscriptionService {
         return ipo;
     }
 
+    public void logonFinanceIPO(IPOSubscription ipoSubscription) throws Exception{
+        try {
+            Account account = ipoSubscription.getAccount();
+            accountOperation = (AccountOperation) SpringUtils.getBean(account.getAccountType().getId());
+        } catch (Exception e) {
+//            e.printStackTrace();
+            accountOperation = pythonOperation;
+        }
+        accountOperation.logonFinanceIPO(ipoSubscription);
+    }
+
+    public void prepareFinanceIPO(IPOSubscription ipoSubscription,Stock stock) throws Exception{
+        try {
+            Account account = ipoSubscription.getAccount();
+            accountOperation = (AccountOperation) SpringUtils.getBean(account.getAccountType().getId());
+        } catch (Exception e) {
+//            e.printStackTrace();
+            accountOperation = pythonOperation;
+        }
+        accountOperation.prepareFinanceIPO(ipoSubscription,stock);
+    }
+
     public IPOSubscription addFinanceIPO(IPOSubscription ipoSubscription, Stock stock) throws Exception{
         try {
             Account account = ipoSubscription.getAccount();

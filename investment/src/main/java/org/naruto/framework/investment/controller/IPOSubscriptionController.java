@@ -163,8 +163,35 @@ public class IPOSubscriptionController {
     }
 
     @ResponseBody
-    @RequestMapping(value = "/v1/addFinanceIPO", method = RequestMethod.GET, produces = "application/json;charset=UTF-8")
-    public ResponseEntity<ResultEntity> addFinanceIPO(
+    @RequestMapping(value = "/v1/finance/logon", method = RequestMethod.GET, produces = "application/json;charset=UTF-8")
+    public ResponseEntity<ResultEntity> logonFinanceIPO(
+//            @RequestParam(required = true) String stockId,
+            @RequestParam(required = true) String id,
+            HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+        IPOSubscription ipo = ipoSubscriptionService.findIPOSubscriptionById(id);
+        ipoSubscriptionService.logonFinanceIPO(ipo);
+        IPOResult result = this.createIPOResult(ipo);
+        return ResponseEntity.ok(ResultEntity.ok(result));
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "/v1/finance/prepare", method = RequestMethod.GET, produces = "application/json;charset=UTF-8")
+    public ResponseEntity<ResultEntity> prepareFinanceIPO(
+            @RequestParam(required = true) String stockId,
+            @RequestParam(required = true) String id,
+            HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+        Stock stock = stockService.queryStockById(stockId);
+        IPOSubscription ipo = ipoSubscriptionService.findIPOSubscriptionById(id);
+        ipoSubscriptionService.prepareFinanceIPO(ipo,stock);
+        IPOResult result = this.createIPOResult(ipo);
+        return ResponseEntity.ok(ResultEntity.ok(result));
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "/v1/finance/start", method = RequestMethod.GET, produces = "application/json;charset=UTF-8")
+    public ResponseEntity<ResultEntity> startFinanceIPO(
             @RequestParam(required = true) String stockId,
             @RequestParam(required = true) String id,
             HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -180,8 +207,8 @@ public class IPOSubscriptionController {
     }
 
     @ResponseBody
-    @RequestMapping(value = "/v1/cancelFinanceIPO", method = RequestMethod.GET, produces = "application/json;charset=UTF-8")
-    public ResponseEntity<ResultEntity> cancelFinanceIPO(
+    @RequestMapping(value = "/v1/finance/quit", method = RequestMethod.GET, produces = "application/json;charset=UTF-8")
+    public ResponseEntity<ResultEntity> quitFinanceIPO(
             @RequestParam(required = true) String stockId,
             @RequestParam(required = true) String id,
             HttpServletRequest request, HttpServletResponse response) throws Exception {
