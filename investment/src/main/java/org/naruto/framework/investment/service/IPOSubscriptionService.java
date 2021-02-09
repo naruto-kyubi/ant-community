@@ -17,12 +17,8 @@ import java.util.List;
 @Log
 @Scope("prototype")
 @Service
-public class IPOSubscriptionService {
+public class IPOSubscriptionService extends InvestmentBaseService{
 
-    private AccountOperation accountOperation;
-
-    @Autowired
-    private PythonOperation pythonOperation;
     @Autowired
     private IPOSubscriptionRepository ipoSubscriptionRepository;
 
@@ -50,13 +46,7 @@ public class IPOSubscriptionService {
     }
 
     public IPOSubscription oneCash(IPOSubscription ipoSubscription, Stock stock) throws Exception{
-        try {
-            Account account = ipoSubscription.getAccount();
-            accountOperation = (AccountOperation) SpringUtils.getBean(account.getAccountType().getId());
-        } catch (Exception e) {
-//            e.printStackTrace();
-            accountOperation = pythonOperation;
-        }
+        this.setOperationByAccount(ipoSubscription.getAccount());
 
         IPOSubscription ipo = accountOperation.oneCash(ipoSubscription,stock);
         ipo.setLastOperationAt(new Date());
@@ -64,35 +54,18 @@ public class IPOSubscriptionService {
     }
 
     public void logonFinanceIPO(IPOSubscription ipoSubscription) throws Exception{
-        try {
-            Account account = ipoSubscription.getAccount();
-            accountOperation = (AccountOperation) SpringUtils.getBean(account.getAccountType().getId());
-        } catch (Exception e) {
-//            e.printStackTrace();
-            accountOperation = pythonOperation;
-        }
+
+        this.setOperationByAccount(ipoSubscription.getAccount());
         accountOperation.logonFinanceIPO(ipoSubscription);
     }
 
     public void prepareFinanceIPO(IPOSubscription ipoSubscription,Stock stock) throws Exception{
-        try {
-            Account account = ipoSubscription.getAccount();
-            accountOperation = (AccountOperation) SpringUtils.getBean(account.getAccountType().getId());
-        } catch (Exception e) {
-//            e.printStackTrace();
-            accountOperation = pythonOperation;
-        }
+        this.setOperationByAccount(ipoSubscription.getAccount());
         accountOperation.prepareFinanceIPO(ipoSubscription,stock);
     }
 
     public IPOSubscription addFinanceIPO(IPOSubscription ipoSubscription, Stock stock) throws Exception{
-        try {
-            Account account = ipoSubscription.getAccount();
-            accountOperation = (AccountOperation) SpringUtils.getBean(account.getAccountType().getId());
-        } catch (Exception e) {
-//            e.printStackTrace();
-            accountOperation = pythonOperation;
-        }
+        this.setOperationByAccount(ipoSubscription.getAccount());
 
         IPOSubscription ipo = accountOperation.addFinanceIPO(ipoSubscription,stock);
         ipo.setLastOperationAt(new Date());
@@ -100,13 +73,7 @@ public class IPOSubscriptionService {
     }
 
     public IPOSubscription cancelFinanceIPO(IPOSubscription ipoSubscription, Stock stock) throws Exception{
-        try {
-            Account account = ipoSubscription.getAccount();
-            accountOperation = (AccountOperation) SpringUtils.getBean(account.getAccountType().getId());
-        } catch (Exception e) {
-//            e.printStackTrace();
-            accountOperation = pythonOperation;
-        }
+        this.setOperationByAccount(ipoSubscription.getAccount());
 
         IPOSubscription ipo = accountOperation.cancelFinanceIPO(ipoSubscription,stock);
         ipo.setLastOperationAt(new Date());
@@ -114,13 +81,7 @@ public class IPOSubscriptionService {
     }
 
     public IPOSubscription sign(IPOSubscription ipoSubscription, Stock stock) throws Exception{
-        try {
-            Account account = ipoSubscription.getAccount();
-            accountOperation = (AccountOperation) SpringUtils.getBean(account.getAccountType().getId());
-        } catch (Exception e) {
-//            e.printStackTrace();
-            accountOperation = pythonOperation;
-        }
+        this.setOperationByAccount(ipoSubscription.getAccount());
         ipoSubscription =  accountOperation.sign(ipoSubscription,stock);
         ipoSubscription.setLastOperationAt(new Date());
         ipoSubscriptionRepository.save(ipoSubscription);

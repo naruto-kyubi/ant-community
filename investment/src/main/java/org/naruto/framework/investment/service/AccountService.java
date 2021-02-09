@@ -15,7 +15,7 @@ import java.util.List;
 @Log
 @Scope("prototype")
 @Service
-public class AccountService {
+public class AccountService extends InvestmentBaseService{
     @Autowired
     private AccountRepository accountRepository;
 
@@ -25,10 +25,10 @@ public class AccountService {
     @Autowired
     private FundTransRepository fundTransRepository;
 
-    private AccountOperation accountOperation;
-
-    @Autowired
-    private PythonOperation pythonOperation;
+//    private AccountOperation accountOperation;
+//
+//    @Autowired
+//    private PythonOperation pythonOperation;
 
     @Autowired
     private AccountDailyReportRepository accountDailyReportRepository;
@@ -51,12 +51,7 @@ public class AccountService {
     public Account connect(String id) {
         Account account = accountRepository.queryAccountById(id);
 
-        try {
-            accountOperation = (AccountOperation) SpringUtils.getBean(account.getAccountType().getId());
-        } catch (Exception e) {
-            e.printStackTrace();
-            accountOperation = pythonOperation;
-        }
+        this.setOperationByAccount(account);
         try {
             accountOperation.connect(account);
             account.setLastOperationStatus("1");
@@ -72,12 +67,7 @@ public class AccountService {
 
         Account account = accountRepository.queryAccountById(id);
 
-        try {
-            accountOperation = (AccountOperation) SpringUtils.getBean(account.getAccountType().getId());
-        } catch (Exception e) {
-            e.printStackTrace();
-            accountOperation = pythonOperation;
-        }
+       this.setOperationByAccount(account);
 
         try {
             account = accountOperation.queryBalance(account);
@@ -178,12 +168,7 @@ public class AccountService {
         Account mainAccount = accountRepository.getOne(account.getParent());
         Account bankAccount = accountRepository.getOne(mainAccount.getBankAccount());
 
-        try {
-            accountOperation = (AccountOperation) SpringUtils.getBean(account.getAccountType().getId());
-        } catch (Exception e) {
-            e.printStackTrace();
-            accountOperation = pythonOperation;
-        }
+        this.setOperationByAccount(account);
 
         try {
             fundTrans = accountOperation.executeTrans(fundTrans,account,bankAccount);
@@ -204,6 +189,7 @@ public class AccountService {
         fundTransRepository.save(fundTrans);
         return fundTrans;
     }
+
 }
 
 
