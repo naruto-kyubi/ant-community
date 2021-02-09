@@ -1,7 +1,6 @@
 package org.naruto.framework.investment.controller;
 
 import lombok.extern.java.Log;
-import org.naruto.framework.core.exception.ServiceException;
 import org.naruto.framework.core.session.ISessionService;
 import org.naruto.framework.core.web.ResultEntity;
 import org.naruto.framework.investment.repository.Account;
@@ -258,7 +257,7 @@ public class IPOSubscriptionController {
         result.setNameCn(account.getNameCn());
         result.setType(account.getAccountType().getNameCn());
 
-        result.setPlanIPO(ipoSubscription.getPlanIPO());
+        result.setPlanSusbcriptionShares(ipoSubscription.getPlanSubscriptionShares());
         result.setBalance(account.getBalance());
 
         result.setSubscriptionType(ipoSubscription.getSubscriptionType());
