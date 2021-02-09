@@ -25,7 +25,7 @@ public class IPOResult {
     private Float balance = 0F;
 
     //申购计划
-    private Integer planSusbcriptionShares = 0;
+    private Integer planSubscriptionShares = 0;
 
         //入场费
     private Float adminssionFee = 0F;

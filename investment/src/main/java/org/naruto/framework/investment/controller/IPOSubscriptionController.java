@@ -257,7 +257,7 @@ public class IPOSubscriptionController {
         result.setNameCn(account.getNameCn());
         result.setType(account.getAccountType().getNameCn());
 
-        result.setPlanSusbcriptionShares(ipoSubscription.getPlanSubscriptionShares());
+        result.setPlanSubscriptionShares(ipoSubscription.getPlanSubscriptionShares());
         result.setBalance(account.getBalance());
 
         result.setSubscriptionType(ipoSubscription.getSubscriptionType());
