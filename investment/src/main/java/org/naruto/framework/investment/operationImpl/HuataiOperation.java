@@ -26,7 +26,7 @@ import java.util.Map;
 
 @Log
 @Scope("prototype")
-@Service("huatai")
+@Service("huatai_")
 public class HuataiOperation implements AccountOperation {
 
     private  Map<String, Point> tokenInputKeyboard ;

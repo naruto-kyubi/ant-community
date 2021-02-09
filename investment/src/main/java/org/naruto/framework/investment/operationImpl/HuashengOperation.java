@@ -27,7 +27,7 @@ import org.springframework.stereotype.Service;
 
 @Log
 @Scope("prototype")
-@Service("huasheng1")
+@Service("huasheng_")
 public class HuashengOperation implements AccountOperation {
     static AppInfo appInfo = Apps.apps.get("huasheng");
     @Autowired
