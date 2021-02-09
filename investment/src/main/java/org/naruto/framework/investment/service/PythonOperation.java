@@ -1,42 +1,20 @@
 package org.naruto.framework.investment.service;
 
 import com.alibaba.fastjson.JSONObject;
-import io.appium.java_client.MobileElement;
-import io.appium.java_client.android.AndroidDriver;
 import lombok.extern.java.Log;
 import org.apache.http.client.HttpRequestRetryHandler;
 import org.apache.http.impl.client.DefaultHttpRequestRetryHandler;
-import org.naruto.framework.investment.common.KeyBordManager;
-import org.naruto.framework.investment.connect.SessionManager;
-import org.naruto.framework.investment.install.AppInfo;
-import org.naruto.framework.investment.install.Apps;
 import org.naruto.framework.investment.repository.Account;
 import org.naruto.framework.investment.repository.FundTrans;
 import org.naruto.framework.investment.repository.IPOSubscription;
 import org.naruto.framework.investment.repository.Stock;
-import org.openqa.selenium.By;
-import org.openqa.selenium.Point;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Scope;
 import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
-import org.springframework.http.client.SimpleClientHttpRequestFactory;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -239,7 +217,7 @@ public class PythonOperation implements AccountOperation {
         map.put("login_pwd",account.getLoginPwd());
         map.put("trade_pwd",account.getTradePwd());
         map.put("pin_pwd",account.getPinPwd());
-        Integer stock_count = ipoSubscription.getPlanIPO();
+        Integer stock_count = ipoSubscription.getPlanSubscriptionShares();
         if(stock_count<stock.getLot()){
             stock_count = stock.getLot();
         }
@@ -269,7 +247,7 @@ public class PythonOperation implements AccountOperation {
         map.put("login_pwd",account.getLoginPwd());
         map.put("trade_pwd",account.getTradePwd());
         map.put("pin_pwd",account.getPinPwd());
-        Integer stock_count = ipoSubscription.getPlanIPO();
+        Integer stock_count = ipoSubscription.getPlanSubscriptionShares();
         if(stock_count<stock.getLot()){
             stock_count = stock.getLot();
         }

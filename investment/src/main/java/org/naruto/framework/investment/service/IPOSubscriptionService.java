@@ -2,8 +2,6 @@ package org.naruto.framework.investment.service;
 
 import lombok.extern.java.Log;
 import org.apache.commons.collections.ListUtils;
-import org.naruto.framework.core.SpringUtils;
-import org.naruto.framework.investment.repository.Account;
 import org.naruto.framework.investment.repository.IPOSubscription;
 import org.naruto.framework.investment.repository.IPOSubscriptionRepository;
 import org.naruto.framework.investment.repository.Stock;
@@ -32,14 +30,14 @@ public class IPOSubscriptionService extends InvestmentBaseService{
     }
 
     public IPOSubscription addPlan(IPOSubscription ipoSubscription, Stock stock) throws Exception{
-        ipoSubscription.setPlanIPO(stock.getLot());
+        ipoSubscription.setPlanSubscriptionShares(stock.getLot());
         ipoSubscription.setLastOperationAt(new Date());
         ipoSubscriptionRepository.save(ipoSubscription);
         return ipoSubscription;
     }
 
     public IPOSubscription removePlan(IPOSubscription ipoSubscription, Stock stock) throws Exception{
-        ipoSubscription.setPlanIPO(0);
+        ipoSubscription.setPlanSubscriptionShares(0);
         ipoSubscription.setLastOperationAt(new Date());
         ipoSubscriptionRepository.save(ipoSubscription);
         return ipoSubscription;
@@ -113,7 +111,7 @@ public class IPOSubscriptionService extends InvestmentBaseService{
         //申购费用=入场费+利息+手续费；
         float subscriptionFee = ipo.getStock().getAdmissionFee() + ipoSubscription.getInterest() + ipoSubscription.getCommissionFee();
         ipo.setSubscriptionFee(subscriptionFee);
-        ipo.setPlanIPO(ipoSubscription.getPlanIPO());
+        ipo.setPlanSubscriptionShares(ipoSubscription.getPlanSubscriptionShares());
         ipo.setNumberOfShares(ipoSubscription.getNumberOfShares());
         ipo.setNumberOfSigned(ipoSubscription.getNumberOfSigned());
         ipo.setLastOperationAt(new Date());

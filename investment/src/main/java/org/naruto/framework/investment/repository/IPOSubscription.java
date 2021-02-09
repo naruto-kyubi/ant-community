@@ -57,8 +57,9 @@ public class IPOSubscription {
     //认购费用
     private Float subscriptionFee = 0F;
 
-    //申购计划，0：未申购，1：计划申购
-    private Integer planIPO = 0;
+    //申购计划，0：未申购，1：计划申购 >1 计划申购数量
+    @Column(name="plan_subscription_shares")
+    private Integer planSubscriptionShares = 0;
 
     //中签数量
     private Integer numberOfSigned = -1;
