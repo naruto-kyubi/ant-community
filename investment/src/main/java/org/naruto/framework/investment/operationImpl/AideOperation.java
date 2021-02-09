@@ -23,8 +23,8 @@ import java.net.MalformedURLException;
 
 @Log
 @Scope("prototype")
-@Service("aide")
-public class AideWebOperation implements AccountOperation {
+@Service("aide_")
+public class AideOperation implements AccountOperation {
 
     @Autowired
     private WebSessionManager webSessionManager;
@@ -189,7 +189,7 @@ public class AideWebOperation implements AccountOperation {
 
     @Override
     public void logonFinanceIPO(IPOSubscription ipoSubscription) throws Exception {
-
+        log.info("login by FinanceIpo................");
     }
 
     @Override
