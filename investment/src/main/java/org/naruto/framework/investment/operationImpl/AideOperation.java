@@ -223,16 +223,14 @@ public class AideOperation extends BaseOperation {
         AndroidDriver<MobileElement> driver = webSessionManager.getConnection(account.getAppLocation());
 
         // 获取计划申购数量;
-        //  String shares = String.valueOf(ipoSubscription.getNumberOfShares());
+        String shares = String.valueOf(ipoSubscription.getPlanSubscriptionShares());
 
-        String shares = String.valueOf("40000");
 
         WebDriverWait wait = new WebDriverWait(driver, 20);
         while (!this.webSessionManager.shouldBeStoped(account.getAppLocation())) {
             driver.switchTo().parentFrame();
             driver.switchTo().frame("frame1");
             try {
-                log.info("start get margin.....................................");
 
                 // 设定申购数量
                 WebElement qty =  wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//*[@id='qty']"))) ;
