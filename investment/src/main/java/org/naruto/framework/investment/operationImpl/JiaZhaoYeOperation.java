@@ -15,37 +15,44 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 
-import java.net.MalformedURLException;
-
 @Log
 @Scope("prototype")
-@Service("aide_")
-public class AideOperation extends BaseOperation {
+@Service("jiazhaoye_")
+public class JiaZhaoYeOperation extends BaseOperation {
 
     private String getPinCode(String mobileId,String pinCodePwd) throws Exception{
 
-        AndroidDriver pinCodeDriver = sessionManager.activateApp(mobileId,"aide_pincode");
-        WebDriverWait wait = new WebDriverWait(pinCodeDriver, 5);
-        try{
-            for(int i =0; i<pinCodePwd.length(); i++) {
-                wait.until(ExpectedConditions.presenceOfElementLocated(By.id("hk.com.ayers.fsec.token1:id/t9_key_" + pinCodePwd.charAt(i)))).click();;
+        // 输入短信验证码, 后续自动获取短信验证码
+        AndroidDriver<MobileElement> driver = webSessionManager.getConnection(mobileId);
+        WebDriverWait wait = new WebDriverWait(driver, 20);
+
+
+        driver.switchTo().parentFrame();
+        // 切换到输入pin码界面
+        wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//*[@id='frame1']")));
+        //切换到iframe；
+        driver.switchTo().frame("frame1");
+
+
+        WebElement captchaElement = wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//input[@id='tbxESP']")));
+
+        String captcha = "";
+
+        while (captcha.length() < 4) {
+            Thread.sleep(500);
+            captcha = captchaElement.getAttribute("value");
+            if(this.webSessionManager.shouldBeStoped(mobileId) ) {
+                return null;
             }
-
-            pinCodeDriver.findElementById("hk.com.ayers.fsec.token1:id/t9_key_ok").click();
-        }catch (Exception e){
-            e.printStackTrace();
-            log.info("no password validator!");
         }
-        String text = wait.until(ExpectedConditions.presenceOfElementLocated(By.id("hk.com.ayers.fsec.token1:id/pin_value"))).getText();
 
-        sessionManager.closeApp(mobileId,"aide_pincode");
-        return text;
+       return captcha;
     }
 
     @Override
     public void connect(Account account) throws Exception {
         AndroidDriver<MobileElement> driver = webSessionManager.getConnection(account.getAppLocation());
-        String logonPageURL = "https://fsec.ayers.com.hk/mts.web/Web2/login/FSEC/#big5";
+        String logonPageURL = "https://webtrade.kaisasecurities.com/mts.web/Web2/login/sosl/#big5";
         driver.get(logonPageURL);
 
         WebDriverWait wait = new WebDriverWait(driver, 20);
@@ -63,21 +70,19 @@ public class AideOperation extends BaseOperation {
 
         driver.activateApp("com.android.chrome");
 
+        driver.switchTo().parentFrame();
         //切换到iframe；
         driver.switchTo().frame("frame1");
         //输入密码器编码；
 
         //输入密码器编码；
-        wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//input[@id='tbxESP']"))).sendKeys(pinCode);
+       // wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//input[@id='tbxESP']"))).sendKeys(pinCode);
 
         element1 = driver.findElementByXPath("//input[@id='btnSubmit_ESP']");
         driver.executeScript("arguments[0].click();",element1);
 
         //返回主页面；
         driver.switchTo().parentFrame();
-
-         //点击同意按钮
-        wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//*[@id='btnCloseLoginMsg']"))).click();
 
         driver.executeScript("window.scrollTo(0, document.body.scrollHeight)");
     }
@@ -120,10 +125,10 @@ public class AideOperation extends BaseOperation {
         WebDriverWait wait = new WebDriverWait(driver, 20);
 
         // 点击其他
-        wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//*[@id='lanmu_others_title_hdr']/a"))).click();
+        wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//*[@id='menuOthers']"))).click();
 
         //点击新股认购
-        wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//*[@id='lanmu_others_title_dtl']/li[1]/a"))).click();
+        wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//*[@id='itemIPO']"))).click();
 
         // 切换到新股认购界面
         wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//*[@id='frame1']")));
