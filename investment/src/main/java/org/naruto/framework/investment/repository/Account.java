@@ -94,7 +94,12 @@ public class Account {
 
   @Column(length=40)
   private String parent;
+
+
   private Float balance = 0F;
+
+  //现金可用
+  private Float cash = 0F;
 
   //证券的资金账户，用于使用fps入金或者银证入金
   @Column(length=40)

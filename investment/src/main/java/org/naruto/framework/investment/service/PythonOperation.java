@@ -79,9 +79,11 @@ public class PythonOperation implements AccountOperation {
             JSONObject result = restfulTemplate().postForObject(url, map, JSONObject.class);
 
             String status = result.getString("status");
-            String money = result.getString("data");
-            if("ok".equals(status) && !money.equals("-1")){
-                account.setBalance(Float.parseFloat(money));
+            JSONObject obj = result.getJSONObject("data");
+            if("ok".equals(status)){
+
+                account.setBalance(Float.parseFloat(obj.getString("balance")));
+                account.setCash(Float.parseFloat(obj.getString("cash")));
                 return account;
             }else
             {

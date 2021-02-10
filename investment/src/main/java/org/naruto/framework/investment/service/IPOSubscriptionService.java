@@ -48,6 +48,7 @@ public class IPOSubscriptionService extends InvestmentBaseService{
 
         IPOSubscription ipo = accountOperation.oneCash(ipoSubscription,stock);
         ipo.setLastOperationAt(new Date());
+        ipoSubscriptionRepository.save(ipo);
         return ipo;
     }
 
