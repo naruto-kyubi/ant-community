@@ -118,6 +118,7 @@ public class AccountService extends InvestmentBaseService{
         accountDb.setTradePwd(account.getTradePwd());
         accountDb.setPinPwd(account.getPinPwd());
         accountDb.setBalance(account.getBalance());
+        accountDb.setCash(account.getCash());
         accountDb.setLoginId(account.getLoginId());
         accountDb.setAccountNo(account.getAccountNo());
 
