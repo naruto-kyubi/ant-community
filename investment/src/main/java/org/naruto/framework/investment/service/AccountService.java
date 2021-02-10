@@ -129,12 +129,37 @@ public class AccountService extends InvestmentBaseService{
     }
 
     public FundTrans addTrans(FundTrans fundTrans) {
+        Integer transType = fundTrans.getTransType();
+        // 获取银行账户
+        Account account = accountRepository.getOne(fundTrans.getAccount().getId());
 
-        String accountId = fundTrans.getAccount();
-        Account account = accountRepository.queryAccountById(accountId);
+        Account bankAccount;
+        String bankAccountId = account.getBankAccount();
+
+        if(null==bankAccountId||bankAccountId.equals("")) {
+            Account mainAccount = accountRepository.getOne(account.getParent());
+            bankAccount = accountRepository.getOne(mainAccount.getBankAccount());
+        } else {
+            bankAccount = accountRepository.getOne(bankAccountId);
+        }
+
+        if(transType == FundTransType.DEBIT.ordinal()){
+            //入金
+            fundTrans.setDebitAccount(account);
+            fundTrans.setBalanceBeforeTransOfDebitAccount(account.getBalance());
+            fundTrans.setReceivingAccount(bankAccount);
+            fundTrans.setBalanceBeforeTransOfReceivingAccount(bankAccount.getBalance());
+        } else {
+            // 出金
+            fundTrans.setDebitAccount(bankAccount);
+            fundTrans.setBalanceBeforeTransOfDebitAccount(bankAccount.getBalance());
+            fundTrans.setReceivingAccount(account);
+            fundTrans.setBalanceBeforeTransOfReceivingAccount(account.getBalance());
+
+        }
+
         fundTrans.setCurrency("HKD");
         fundTrans.setStatus(FundTransStatus.PLANNING.ordinal());
-        fundTrans.setBalanceBeforeTrans(account.getBalance());
         fundTrans.setTransAt(new Date());
         fundTransRepository.save(fundTrans);
         return fundTrans;
@@ -164,7 +189,7 @@ public class AccountService extends InvestmentBaseService{
 
     public FundTrans executeTrans(String id) {
         FundTrans fundTrans = fundTransRepository.getOne(id);
-        Account account = accountRepository.getOne(fundTrans.getAccount());
+        Account account = fundTrans.getAccount();
         Account mainAccount = accountRepository.getOne(account.getParent());
         Account bankAccount = accountRepository.getOne(mainAccount.getBankAccount());
 

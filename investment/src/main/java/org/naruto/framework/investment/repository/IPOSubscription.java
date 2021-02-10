@@ -1,9 +1,6 @@
 package org.naruto.framework.investment.repository;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -14,7 +11,8 @@ import java.util.Objects;
 
 @Entity
 @Table(name="ipo_subscription")
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @EntityListeners(value={AuditingEntityListener.class})

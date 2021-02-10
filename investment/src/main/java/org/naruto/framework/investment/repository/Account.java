@@ -1,10 +1,8 @@
 package org.naruto.framework.investment.repository;
 
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Where;
 import org.springframework.context.annotation.Lazy;
@@ -19,16 +17,20 @@ import java.util.List;
 @Entity
 @Table(name="accounts")
 //        ,uniqueConstraints=@UniqueConstraint(columnNames={"nameEn","account_type_id","parent"}))
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@RequiredArgsConstructor
 @EntityListeners(value={AuditingEntityListener.class})
 @ToString
+@JsonIgnoreProperties(value = { "hibernateLazyInitializer"})
 public class Account {
   @Id
   @GenericGenerator(name="idGenerator", strategy="uuid")
   @GeneratedValue(generator="idGenerator")
   @Column(length=40)
+  @NonNull
   private String id;
 
   @Column(length=40)
@@ -106,10 +108,10 @@ public class Account {
   @Column(length=10)
   private String lastOperationStatus;
 
-
-  @OneToMany(targetEntity=FundTrans.class,mappedBy="account",cascade=CascadeType.ALL)
-  @Where(clause="status<4")
-  private List<FundTrans> fundTransList = new ArrayList<FundTrans>();
+//
+//  @OneToMany(targetEntity=FundTrans.class,mappedBy="account",cascade=CascadeType.ALL)
+//  @Where(clause="status<4")
+//  private List<FundTrans> fundTransList = new ArrayList<FundTrans>();
 
   @Override
   public boolean equals(Object o) {
