@@ -216,6 +216,9 @@ public class AccountService extends InvestmentBaseService{
         return fundTrans;
     }
 
+    public List<FundTrans> queryFundTransByParentAndType(String owner, String parent, String type) {
+        return fundTransRepository.findAll();
+    }
 }
 
 

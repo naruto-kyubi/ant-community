@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.net.MalformedURLException;
+import java.util.List;
 
 
 @Log
@@ -29,6 +30,18 @@ public class FundTransController {
 
         return ResponseEntity.ok(ResultEntity.ok(accountService.addTrans(fundTrans)));
 
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "/v1/fundTrans", method = RequestMethod.GET, produces = "application/json;charset=UTF-8")
+    public ResponseEntity<ResultEntity> queryFundTrans(
+            @RequestParam(required = false) String owner,
+            @RequestParam(required = false) String parent,
+            @RequestParam(required = false) String type,
+            HttpServletRequest request, HttpServletResponse response) {
+
+        List<FundTrans> fundTrans = accountService.queryFundTransByParentAndType(owner,parent,type);
+        return ResponseEntity.ok(ResultEntity.ok(fundTrans));
     }
 
     @ResponseBody
