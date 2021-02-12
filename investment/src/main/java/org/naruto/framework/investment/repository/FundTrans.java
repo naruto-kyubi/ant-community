@@ -28,8 +28,10 @@ public class FundTrans {
     @Column(length=40)
     private String id;
 
-    // 发起账户，必须是券商，不能是银行
-    @Transient
+    // 发起账户，必须是券商，不能是银行，根据这个字段进行查询
+    @ManyToOne(fetch= FetchType.EAGER)
+    @JoinColumn(name = "account")
+    @Lazy(false)
     private Account account;
 
     //转出账户
