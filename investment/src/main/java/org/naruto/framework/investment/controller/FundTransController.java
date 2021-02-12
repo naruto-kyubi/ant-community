@@ -1,11 +1,13 @@
 package org.naruto.framework.investment.controller;
 
 import lombok.extern.java.Log;
+import org.naruto.framework.core.session.ISessionService;
 import org.naruto.framework.core.web.ResultEntity;
 import org.naruto.framework.investment.repository.Account;
 import org.naruto.framework.investment.repository.AccountType;
 import org.naruto.framework.investment.repository.FundTrans;
 import org.naruto.framework.investment.service.AccountService;
+import org.naruto.framework.user.domain.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -24,6 +26,9 @@ public class FundTransController {
     @Autowired
     private AccountService accountService;
 
+    @Autowired(required = false)
+    private ISessionService sessionService;
+
     @ResponseBody
     @RequestMapping(value = "/v1/addTrans", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
     public ResponseEntity<ResultEntity> add(@Validated @RequestBody FundTrans fundTrans, HttpServletRequest request){
@@ -40,6 +45,10 @@ public class FundTransController {
             @RequestParam(required = false) String type,
             HttpServletRequest request, HttpServletResponse response) {
 
+
+        User user = (User) sessionService.getCurrentUser(request);
+        owner = user.getId();
+
         List<FundTrans> fundTrans = accountService.queryFundTransByParentAndType(owner,parent,type);
         return ResponseEntity.ok(ResultEntity.ok(fundTrans));
     }
@@ -50,8 +59,8 @@ public class FundTransController {
             @RequestParam(required = false) String id,
             HttpServletRequest request, HttpServletResponse response) throws MalformedURLException, InterruptedException {
 
-        accountService.executeTrans(id);
-        return ResponseEntity.ok(ResultEntity.ok(""));
+        FundTrans fundTrans = accountService.executeTrans(id);
+        return ResponseEntity.ok(ResultEntity.ok(fundTrans));
     }
 
     @ResponseBody
@@ -60,8 +69,8 @@ public class FundTransController {
             @RequestParam(required = false) String id,
             HttpServletRequest request, HttpServletResponse response) throws MalformedURLException, InterruptedException {
 
-        accountService.closeTrans(id);
-        return ResponseEntity.ok(ResultEntity.ok(""));
+        FundTrans fundTrans = accountService.closeTrans(id);
+        return ResponseEntity.ok(ResultEntity.ok(fundTrans));
     }
 
 

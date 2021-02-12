@@ -1,8 +1,6 @@
 package org.naruto.framework.investment.service;
 
-import lombok.NoArgsConstructor;
 import lombok.extern.java.Log;
-import org.naruto.framework.core.SpringUtils;
 import org.naruto.framework.investment.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
@@ -217,7 +215,7 @@ public class AccountService extends InvestmentBaseService{
     }
 
     public List<FundTrans> queryFundTransByParentAndType(String owner, String parent, String type) {
-        return fundTransRepository.findAll();
+        return fundTransRepository.queryFundTransByParentAndType(owner,parent,type);
     }
 }
 

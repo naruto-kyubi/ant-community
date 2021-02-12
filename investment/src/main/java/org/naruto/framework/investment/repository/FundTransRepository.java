@@ -8,4 +8,9 @@ import java.util.List;
 
 public interface FundTransRepository extends CustomRepository<FundTrans,String>{
 
+    @Query(value="select * from fund_trans where status < 4  order by trans_at", nativeQuery = true
+    )
+
+    public List<FundTrans> queryFundTransByParentAndType(String owner, String parent, String type);
+
 }
