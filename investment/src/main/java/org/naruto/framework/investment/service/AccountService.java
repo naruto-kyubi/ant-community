@@ -217,6 +217,11 @@ public class AccountService extends InvestmentBaseService{
     public List<FundTrans> queryFundTransByParentAndType(String owner, String parent, String type) {
         return fundTransRepository.queryFundTransByParentAndType(owner,parent,type);
     }
+
+    public String removeTrans(String id) {
+        fundTransRepository.deleteById(id);
+        return id;
+    }
 }
 
 

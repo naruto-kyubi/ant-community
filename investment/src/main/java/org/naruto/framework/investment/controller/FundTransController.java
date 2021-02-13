@@ -64,6 +64,16 @@ public class FundTransController {
     }
 
     @ResponseBody
+    @RequestMapping(value = "/v1/removeTrans", method = RequestMethod.GET, produces = "application/json;charset=UTF-8")
+    public ResponseEntity<ResultEntity> removeTrans(
+            @RequestParam(required = false) String id,
+            HttpServletRequest request, HttpServletResponse response) throws MalformedURLException, InterruptedException {
+
+        accountService.removeTrans(id);
+        return ResponseEntity.ok(ResultEntity.ok(id));
+    }
+
+    @ResponseBody
     @RequestMapping(value = "/v1/closeTrans", method = RequestMethod.GET, produces = "application/json;charset=UTF-8")
     public ResponseEntity<ResultEntity> closeTrans(
             @RequestParam(required = false) String id,
