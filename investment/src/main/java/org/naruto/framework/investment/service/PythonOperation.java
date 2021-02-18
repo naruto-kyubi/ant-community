@@ -378,7 +378,6 @@ public class PythonOperation implements AccountOperation {
         if(account.equals(fundTrans.getDebitAccount())){
             //券商出金；
             String url = pythonUrl + "/out_money";
-            System.out.println("url="+url);
             JSONObject result = restfulTemplate().postForObject(url, map, JSONObject.class);
 
             String status = result.getString("status");
@@ -389,6 +388,14 @@ public class PythonOperation implements AccountOperation {
 
         }else{
             //券商入金；
+            String url = pythonUrl + "/in_money";
+            JSONObject result = restfulTemplate().postForObject(url, map, JSONObject.class);
+
+            String status = result.getString("status");
+            String data = result.getString("data");
+            if(!"ok".equals(status)){
+                throw new Exception();
+            }
         }
 
         return fundTrans;
