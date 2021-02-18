@@ -44,7 +44,10 @@ public class AccountType {
   private Float financeCommissionFee;
 
   //手续费
-  private Float commissionFee;
+//  private Float commissionFee;
+
+  //取出资金费用
+  private Float withdrawalFee;
 
   // 排序字段，方便查询
   @Column(length=20)
