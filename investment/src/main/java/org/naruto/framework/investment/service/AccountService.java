@@ -143,18 +143,17 @@ public class AccountService extends InvestmentBaseService{
         }
 
         if(transType == FundTransType.DEBIT.ordinal()){
-            //入金
-            fundTrans.setDebitAccount(account);
-            fundTrans.setBalanceBeforeTransOfDebitAccount(account.getBalance());
-            fundTrans.setReceivingAccount(bankAccount);
-            fundTrans.setBalanceBeforeTransOfReceivingAccount(bankAccount.getBalance());
-        } else {
-            // 出金
+            //出金
             fundTrans.setDebitAccount(bankAccount);
             fundTrans.setBalanceBeforeTransOfDebitAccount(bankAccount.getBalance());
             fundTrans.setReceivingAccount(account);
             fundTrans.setBalanceBeforeTransOfReceivingAccount(account.getBalance());
-
+        } else {
+            // 入金
+            fundTrans.setDebitAccount(account);
+            fundTrans.setBalanceBeforeTransOfDebitAccount(account.getBalance());
+            fundTrans.setReceivingAccount(bankAccount);
+            fundTrans.setBalanceBeforeTransOfReceivingAccount(bankAccount.getBalance());
         }
 
         fundTrans.setCurrency("HKD");
