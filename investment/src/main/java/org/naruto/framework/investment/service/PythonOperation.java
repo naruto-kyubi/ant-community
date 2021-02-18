@@ -334,6 +334,63 @@ public class PythonOperation implements AccountOperation {
 
     @Override
     public FundTrans executeTrans(FundTrans fundTrans, Account account, Account BankAccount) throws Exception {
+//        {
+//            bond:{
+//                mobile_id,
+//                        bond_id,
+//                        user_id,
+//                        login_id,
+//                        login_pwd,
+//                        trade_pwd,
+//                        capital_account,
+//                        money,
+//            },
+//            bank:{
+//                mobile_id,
+//                        user_id,
+//                        login_id,
+//                        login_pwd,
+//
+//            }
+//        }
+
+        Map map  =new HashMap();
+        Map bondMap = new HashMap();
+        bondMap.put("mobile_id",account.getAppLocation());
+        bondMap.put("bond_id",account.getAccountType().getId());
+        bondMap.put("user_id",account.getAccountNo());
+        bondMap.put("login_id",account.getLoginId());
+        bondMap.put("login_pwd",account.getLoginPwd());
+        bondMap.put("trade_pwd",account.getTradePwd());
+        bondMap.put("pin_pwd",account.getPinPwd());
+        bondMap.put("capital_account",account.getCapitalAccount());
+        bondMap.put("money",fundTrans.getAmount());
+
+        map.put("bond",bondMap);
+
+        Map bankMap = new HashMap();
+        bankMap.put("mobile_id",BankAccount.getAppLocation());
+        bankMap.put("user_id",BankAccount.getAccountNo());
+        bankMap.put("login_id",BankAccount.getLoginId());
+        bankMap.put("login_pwd",BankAccount.getLoginPwd());
+        map.put("bank",bankMap);
+
+        if(account.equals(fundTrans.getDebitAccount())){
+            //券商出金；
+            String url = pythonUrl + "/out_money";
+            System.out.println("url="+url);
+            JSONObject result = restfulTemplate().postForObject(url, map, JSONObject.class);
+
+            String status = result.getString("status");
+            String data = result.getString("data");
+            if(!"ok".equals(status)){
+                throw new Exception();
+            }
+
+        }else{
+            //券商入金；
+        }
+
         return fundTrans;
     }
 }
