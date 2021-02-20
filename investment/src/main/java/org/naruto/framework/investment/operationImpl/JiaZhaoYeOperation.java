@@ -120,6 +120,7 @@ public class JiaZhaoYeOperation extends BaseOperation {
 
         Account account = ipoSubscription.getAccount();
         AndroidDriver<MobileElement> driver = webSessionManager.getConnection(account.getAppLocation());
+        driver.executeScript("window.scrollTo(0, document.body.scrollHeight)");
 
 
         WebDriverWait wait = new WebDriverWait(driver, 20);

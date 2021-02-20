@@ -15,6 +15,7 @@ import org.naruto.framework.investment.repository.Stock;
 import org.naruto.framework.investment.service.AccountOperation;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Point;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,38 +23,19 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 
 import java.net.MalformedURLException;
+import java.text.DecimalFormat;
 import java.util.Map;
 
 @Log
 @Scope("prototype")
 @Service("huatai_")
-public class HuataiOperation implements AccountOperation {
+public class HuataiOperation extends BaseOperation {
 
     private  Map<String, Point> tokenInputKeyboard ;
 
     static AppInfo appInfo = Apps.apps.get("huatai");
 
-    @Autowired
-    private SessionManager sessionManager;
 
-//    public String buy(HuataiIpoRequest huataiIpoRequest) throws MalformedURLException, InterruptedException {
-//        AndroidDriver<MobileElement> driver = sessionManager.activateApp(huataiIpoRequest.getMobileId(),"huatai");
-//        //激活应用
-//        tokenInputKeyboard = KeyBordManager.getKeyBord(driver,"huatai");
-//
-//        // 等待关闭闪屏
-//        Thread.sleep(3000);
-//        WebDriverWait wait = new WebDriverWait(driver, 10);
-//        this.navToAccountPage(driver);
-//        try {
-//            wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//*[contains(@text,\"登录\")]")));
-//            this.logon(driver,huataiIpoRequest.getPwd(),huataiIpoRequest.getTokenpwd());
-//        } catch (Exception e) {
-//            log.info("已经登录了客户端");
-//        }
-//        this.buyNewStock(driver,new Point(huataiIpoRequest.getStockPointX(),huataiIpoRequest.getStockPointY()),huataiIpoRequest.getStockShare(),huataiIpoRequest.getSelectedStock(),huataiIpoRequest.getStockNumber());
-//        return null;
-//    }
     public void logon (AndroidDriver<MobileElement> driver, String pwd, String tokenPwd) throws InterruptedException{
         WebDriverWait wait = new WebDriverWait(driver, 6);
 
@@ -88,81 +70,6 @@ public class HuataiOperation implements AccountOperation {
         KeyBordManager.tap(driver,tokenInputKeyboard,pinCode);
     }
 
-    public void buyNewStock(AndroidDriver<MobileElement> driver, Point newStockPoint, String stockShare, int selectedStock, String stockNumber) throws InterruptedException{
-
-        WebDriverWait wait = new WebDriverWait(driver, 5);
-        String currentActivity = "";
-        while(true){
-
-            try{
-                switch (driver.currentActivity()){
-
-                    case "com.htsc.zlgapp.main.MainActivity":
-                        currentActivity = "com.htsc.zlgapp.main.MainActivity";
-
-                        String functionMenu = "//android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.view.View/android.view.View/android.view.View/android.widget.ImageView[2]";
-                        driver.findElementByXPath(functionMenu).click();
-                        //点击'打新股'按钮
-                        wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//*[@text='打新股']"))).click();
-                        log.info("1-------------" + driver.currentActivity());
-
-                    case "com.lphtsccft.zhangle.rn.HtscReactNativeActivity":
-//                      if("com.lphtsccft.zhangle.rn.HtscReactNativeActivity".equals(currentActivity)){
-//                           //说明之前进入过该窗口；回退到主窗口
-//                            driver.navigate().back();
-//                            break;
-//                       }
-                        currentActivity = "com.lphtsccft.zhangle.rn.HtscReactNativeActivity";
-
-                      //  WebElement we = wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//*[@class='android.widget.TextView' and @text='" + stockNumber + "']/..")));
-                       //  driver.findElementByAndroidUIAutomator("new UiScrollable(new UiSelector().scrollable(true).instance(0)).setSwipeDeadZonePercentage(0.3).setMaxSearchSwipes(2).scrollIntoView(new UiSelector().textContains(\"".concat(stockNumber).concat("\").instance(0))")).click();
-                       // we.findElement(By.xpath("//*[@text='认购']")).click();;
-
-                        driver.findElementByAndroidUIAutomator("new UiScrollable(new UiSelector().scrollable(true).instance(0)).setSwipeDeadZonePercentage(0.3).setMaxSearchSwipes(2).scrollIntoView(new UiSelector().textContains(\"".concat(stockNumber).concat("\").instance(0))"));
-
-                        // 第一次滚动不能准确定位当前标的的位置，因此滚动完成后再使用定位进行点击
-                        //driver.findElementByAndroidUIAutomator("new UiScrollable(new UiSelector().scrollable(true).instance(0)).setSwipeDeadZonePercentage(0.3).setMaxSearchSwipes(2).scrollIntoView(new UiSelector().textContains(\"".concat(stockNumber).concat("\").instance(0))")).click();
-                        //wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//*[@text='申请认购' and @class='android.widget.TextView']"))).click();
-
-                        driver.findElement(By.xpath("//*[contains(@text,'" + stockNumber + "')]/../android.view.ViewGroup[2]")).click();
-
-                        //如果获取不到"其它股数"UI元素，程序报错，将会导航到程序"主界面"；
-                        log.info("2----------------" + driver.currentActivity());
-                        wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//*[@text='其他股数' and @class='android.widget.TextView']"))).click();
-
-                        log.info("3-------------" + driver.currentActivity());
-                        driver.findElementByAndroidUIAutomator("new UiScrollable(new UiSelector().scrollable(true).instance(0)).setSwipeDeadZonePercentage(0.3).setMaxSearchSwipes(2).scrollIntoView(new UiSelector().textContains(\"".concat(stockShare).concat("\").instance(0))"));
-
-
-                        driver.findElementByAndroidUIAutomator("new UiSelector().textContains(\"".concat(stockShare).concat("\")")).click();
-
-                        //选择'杠杆融资',
-                        // 需要验证：程序是否会自动选择'杠杆融资'
-                        driver.findElementByXPath("//*[@text='杠杆融资']/..").click();
-
-                        //
-
-                        //这里进行无限循环直到手动退出
-                        while(true) {
-                            try {
-                                //点击申请认购'按钮；
-                                wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//*[@text='申请认购']"))).click();
-
-                                //我已经阅读并同意；
-                                wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//*[@text='我已阅读并同意']"))).click();
-
-                                //点击'提交申请'按钮；生产环境要取消掉注释;
-                        //       driver.findElementByXPath("//*[@text='提交申请']").click();
-                            }catch(Exception e){
-
-                            }
-                        }
-                }
-            }catch(Exception e){
-                e.printStackTrace();
-            }
-        }
-    }
 
     @Override
     public void connect(Account account) throws Exception{
@@ -225,22 +132,77 @@ public class HuataiOperation implements AccountOperation {
 
     @Override
     public void logonFinanceIPO(IPOSubscription ipoSubscription) throws Exception {
-
+        this.connect(ipoSubscription.getAccount());
     }
 
     @Override
     public void prepareFinanceIPO(IPOSubscription ipoSubscription, Stock stock) throws Exception {
-
+        Account account = ipoSubscription.getAccount();
+        AndroidDriver<MobileElement> driver = sessionManager.activateApp(account.getAppLocation(),account.getAccountType().getId());
+        WebDriverWait wait = new WebDriverWait(driver, 5);
+        String functionMenu = "//android.widget.FrameLayout[@resource-id='com.lphtsccft.zlqqt2:id/fragment_stub']/android.widget.FrameLayout/android.widget.FrameLayout/android.view.View/android.view.View/android.view.View/android.view.View[11]/android.widget.ImageView";
+        driver.findElementByXPath(functionMenu).click();
+        //点击'打新股'按钮
+        wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//*[@text='打新股']"))).click();
     }
 
     @Override
     public IPOSubscription addFinanceIPO(IPOSubscription ipoSubscription, Stock stock) throws Exception {
-        return null;
-    }
+        Account account = ipoSubscription.getAccount();
+        AndroidDriver<MobileElement> driver = sessionManager.activateApp(account.getAppLocation(),account.getAccountType().getId());
+        WebDriverWait wait = new WebDriverWait(driver, 5);
 
-    @Override
-    public IPOSubscription cancelFinanceIPO(IPOSubscription ipoSubscription, Stock stock) throws Exception {
-        return null;
+        String stockCode = ipoSubscription.getStock().getCode();
+        while (!this.webSessionManager.shouldBeStoped(account.getAppLocation())) {
+            try {
+                driver.findElementByAndroidUIAutomator("new UiScrollable(new UiSelector().scrollable(true).instance(0)).setSwipeDeadZonePercentage(0.3).setMaxSearchSwipes(2).scrollIntoView(new UiSelector().textContains(\"".concat(stockCode).concat("\").instance(0))"));
+
+                WebElement element1 = driver.findElement(By.xpath("//*[contains(@text,'" + stockCode + "')]/../android.view.ViewGroup/android.widget.TextView"));
+
+                String text = element1.getText();
+
+                if (text.equals("认购")){
+
+                    element1.click();
+
+                    wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//*[@text='其他股数' and @class='android.widget.TextView']"))).click();
+
+                    DecimalFormat df = new DecimalFormat("#,###,###");
+
+                    String shares = df.format(ipoSubscription.getPlanSubscriptionShares());
+                    element1 = driver.findElementByAndroidUIAutomator("new UiScrollable(new UiSelector().scrollable(true).instance(0)).setSwipeDeadZonePercentage(0.3).setMaxSearchSwipes(2).scrollIntoView(new UiSelector().textContains(\"".concat(shares).concat("\").instance(0))"));
+                    element1.click();
+
+                    driver.findElementByXPath("//*[@text='杠杆融资']/..").click();
+                } else {
+                    // 没有开始认购时间，不能导航到新股认购页面
+                    wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//*[contains(@text,'待认购')]"))).click();
+                    wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//*[contains(@text,'可认购')]"))).click();
+                    continue;
+                }
+            } catch (Exception e) {
+                continue;
+            }
+            //这里进行无限循环直到手动退出
+            while(!this.webSessionManager.shouldBeStoped(account.getAppLocation())) {
+                try {
+                    //点击申请认购'按钮；
+                    wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//*[@text='申请认购']"))).click();
+
+                    //我已经阅读并同意；
+                    wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//*[@text='我已阅读并同意']"))).click();
+
+                    //点击'提交申请'按钮；生产环境要取消掉注释;
+                    //       driver.findElementByXPath("//*[@text='提交申请']").click();
+                }catch(Exception e){
+
+                }
+            }
+            log.info(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>退出新股申购<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<");
+            return ipoSubscription;
+        }
+        log.info("===================================退出新股申购=============================================");
+        return ipoSubscription;
     }
 
     @Override

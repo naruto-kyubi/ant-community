@@ -24,22 +24,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 
+import java.text.DecimalFormat;
+
 
 @Log
 @Scope("prototype")
 @Service("huasheng_")
-public class HuashengOperation implements AccountOperation {
+public class HuashengOperation extends BaseOperation{
     static AppInfo appInfo = Apps.apps.get("huasheng");
     @Autowired
     private SessionManager sessionManager;
     private boolean isAdvClosed = false;
 
-//    public String buy(HuashengIpoRequest huashengIpoRequest) throws MalformedURLException, InterruptedException {
-//
-//        AndroidDriver<MobileElement> driver = sessionManager.activateApp(huashengIpoRequest.getMobileId(),"huasheng");
-//        this.buyNewStock(driver,huashengIpoRequest.getStockNumber(),huashengIpoRequest.getTradePwd());
-//        return null;
-//    }
 
     public void closeAdv(AndroidDriver<MobileElement> driver){
         if(isAdvClosed) return;
@@ -236,16 +232,93 @@ public class HuashengOperation implements AccountOperation {
 
     @Override
     public void logonFinanceIPO(IPOSubscription ipoSubscription) throws Exception {
+        Account account = ipoSubscription.getAccount();
+
+        AndroidDriver<MobileElement> driver = webSessionManager.getConnection(account.getAppLocation());
+        WebDriverWait wait = new WebDriverWait(driver, 20);
+
+        // 到登录界面
+        String logonPageURL = "https://www.vbkr.com/passport/login";
+        driver.get(logonPageURL);
+        // 手机密码登录
+        String urlXpath = "//a[contains(text(),\"密码登录\")]";
+        wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath(urlXpath))).click();
+
+        wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//input[@name='mobile']"))).sendKeys(account.getLoginId());
+        wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//input[@name='password']"))).sendKeys(account.getLoginPwd());
+
+       // checkbox,不能直接点击，元素被覆盖，需要通过执行脚本进行点击；
+        WebElement element1 = wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//div[@id='app']/section/div[2]/input")));
+
+        driver.executeScript("arguments[0].click();",element1);
+
+        element1 = wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//div[@id='app']/a")));
+        driver.executeScript("arguments[0].click();",element1);
 
     }
 
     @Override
     public void prepareFinanceIPO(IPOSubscription ipoSubscription, Stock stock) throws Exception {
+        Account account = ipoSubscription.getAccount();
+
+        AndroidDriver<MobileElement> driver = webSessionManager.getConnection(account.getAppLocation());
+        WebDriverWait wait = new WebDriverWait(driver, 20);
+
+        // 直接到新股认购界面
+        String subscriptionPageURL = "https://www.vbkr.com/ipo/hk/v2/ipo-hk-index";
+        driver.get(subscriptionPageURL);
+
+
+        // 查找申购的新股代码，并确认；
+        String stockCode = ipoSubscription.getStock().getCode();
+
+        String urlXpath = "//td[contains(text(),\"".concat(stockCode).concat("\")]/following-sibling::td/following-sibling::td/span");
+
+        wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath(urlXpath))).click();
+
+
+        // 输入交易密码并登录
+       // wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//div[@id='app']/a"))).click();
+
+        wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//div[@id='tradeLoginDiv']/div/div/ul/li[2]/div/following-sibling::input"))).sendKeys(account.getTradePwd());
+
+        wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//div[@id='tradeLoginDiv']/div/div/footer/button"))).click();
+
+
 
     }
 
     @Override
     public IPOSubscription addFinanceIPO(IPOSubscription ipoSubscription, Stock stock) throws Exception {
+
+        Account account = ipoSubscription.getAccount();
+
+        AndroidDriver<MobileElement> driver = webSessionManager.getConnection(account.getAppLocation());
+        WebDriverWait wait = new WebDriverWait(driver, 5);
+        // 融资认购
+        wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//article[@id='app']/section/div[3]/div/div/ul/li[2]"))).click();
+
+        // 选择手数
+        wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//article[@id='app']/section/div[3]/div/div[4]/div/a"))).click();
+
+        DecimalFormat df = new DecimalFormat("#,###,###");
+
+        String shares = df.format(ipoSubscription.getPlanSubscriptionShares());
+
+        String urlXpath = "//span[@class='num']/em[text()='".concat(shares).concat("']");
+
+       // driver.findElementByAndroidUIAutomator("new UiScrollable(new UiSelector().scrollable(true).instance(0)).setSwipeDeadZonePercentage(0.3).setMaxSearchSwipes(2).scrollIntoView(new UiSelector().textContains(\"".concat(shares).concat("\").instance(0))"));
+
+
+        // 滑动到第一项
+        WebElement element1 =  wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath(urlXpath)));
+
+        driver.executeScript("arguments[0].scrollIntoView(true);",element1);
+        driver.executeScript("arguments[0].click();",element1);
+        // 点击认购
+        wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//div[@class='fixed-bt-con']/div/a[2]"))).click();
+
+
         return null;
     }
 
