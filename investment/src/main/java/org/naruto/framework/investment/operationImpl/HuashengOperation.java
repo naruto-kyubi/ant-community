@@ -294,7 +294,7 @@ public class HuashengOperation extends BaseOperation{
         Account account = ipoSubscription.getAccount();
 
         AndroidDriver<MobileElement> driver = webSessionManager.getConnection(account.getAppLocation());
-        WebDriverWait wait = new WebDriverWait(driver, 5);
+        WebDriverWait wait = new WebDriverWait(driver, 10);
         // 融资认购
         wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//article[@id='app']/section/div[3]/div/div/ul/li[2]"))).click();
 
@@ -318,6 +318,17 @@ public class HuashengOperation extends BaseOperation{
         // 点击认购
         wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//div[@class='fixed-bt-con']/div/a[2]"))).click();
 
+        // 认购协议
+        element1 = wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//input[@type='checkbox']")));
+        driver.executeScript("arguments[0].click();",element1);
+
+        // 确认提交
+        element1 = wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//a[contains(text(),'确认提交')]")));
+        driver.executeScript("arguments[0].click();",element1);
+
+        // 二次确认
+        element1 = wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//div[@class='p-bottom']/a[2]")));
+        driver.executeScript("arguments[0].click();",element1);
 
         return null;
     }
