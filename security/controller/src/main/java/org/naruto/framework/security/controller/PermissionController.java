@@ -52,7 +52,7 @@ public class PermissionController {
             String _pId = (String)_map.get("parent_id");
             String _type = (String)_map.get("type");
 
-            if (null != _pId && _pId.equals(parentId)) {
+            if (null != _pId && _pId.equals(parentId) && _type.startsWith("LINK")) {
                 Map _menuMap = new HashMap();
                 _menuMap.put("id", _map.get("id"));
                 _menuMap.put("parent_id", _map.get("parent_id"));

@@ -12,6 +12,15 @@ public class InvestmentBaseService {
     AccountOperation accountOperation;
 
     public void setOperationByAccount(Account account){
+
+        // 首先去带 “_” 的，找不到再找其他
+        try {
+            accountOperation = (AccountOperation) SpringUtils.getBean(account.getAccountType().getId().concat("_"));
+            return;
+        } catch (Exception e) {
+
+        }
+
         try {
             accountOperation = (AccountOperation) SpringUtils.getBean(account.getAccountType().getId());
         } catch (Exception e) {

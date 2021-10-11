@@ -37,8 +37,8 @@ public class AccountController {
             @RequestParam(required = false) String type,
             HttpServletRequest request, HttpServletResponse response) {
 
-       // List<Account> accounts = accountService.queryAccountByOwner(owner);
-        List<Account> accounts = accountService.queryAccountsByParentAndType(owner,parent,type);
+        User user = (User) sessionService.getCurrentUser(request);
+        List<Account> accounts = accountService.queryAccountsByParentAndType(user.getId(),parent,type);
         return ResponseEntity.ok(ResultEntity.ok(accounts));
     }
 
@@ -48,8 +48,8 @@ public class AccountController {
             @RequestParam(required = false) String owner,
             HttpServletRequest request, HttpServletResponse response) {
 
-        // List<Account> accounts = accountService.queryAccountByOwner(owner);
-        List<Account> accounts = accountService.queryMainAccountByOwner(owner);
+        User user = (User) sessionService.getCurrentUser(request);
+        List<Account> accounts = accountService.queryMainAccountByOwner(user.getId());
         return ResponseEntity.ok(ResultEntity.ok(accounts));
     }
 
@@ -106,7 +106,7 @@ public class AccountController {
     @ResponseBody
     @RequestMapping(value = "/v1/updateAccount", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
     public ResponseEntity<ResultEntity> update(@Validated @RequestBody  Account account, HttpServletRequest request){
-
+        System.out.println(account);
         return ResponseEntity.ok(ResultEntity.ok(accountService.updateAccount(account)));
 
     }

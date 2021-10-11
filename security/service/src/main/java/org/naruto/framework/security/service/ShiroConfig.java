@@ -168,15 +168,16 @@ public class ShiroConfig {
             chainDefinition.addPathDefinition(permission.getResourceUrl(), permission.getPermission());
         }
         chainDefinition.addPathDefinition("/v1/users/currentUser","jwtAuthToken[RememberMe]");
-     //   chainDefinition.addPathDefinition("/v1/logon/function","httpMethodNoSessionCreation,jwtAuthToken[RememberMe,permissive]");
+        chainDefinition.addPathDefinition("/v1/logon/function","httpMethodNoSessionCreation,jwtAuthToken[RememberMe,permissive]");
 
-     //   chainDefinition.addPathDefinition("/v1/logon/account","jwtAuthToken");
+        chainDefinition.addPathDefinition("/v1/logon/account","jwtAuthToken");
 
         chainDefinition.addPathDefinition("/images/**","anon");
         chainDefinition.addPathDefinition("/**","anon");
 
         //未配置的URL，均需要身份认证；
       //  chainDefinition.addPathDefinition("/**","httpMethodNoSessionCreation,jwtAuthToken[RememberMe]");
+        chainDefinition.addPathDefinition("/**","jwtAuthToken[RememberMe]");
 
         return chainDefinition;
     }
