@@ -14,7 +14,7 @@ public interface ResourceRoleReponsitory extends JpaRepository<ResourceRole,Stri
      * @param userId
      * @return
      */
-    @Query(value="select DISTINCT functions.* from user_roles,role_functions,functions where user_roles.role_id=role_functions.role_id and role_functions.function_id=functions.id and user_roles.user_id=?1",nativeQuery = true)
+    @Query(value="select DISTINCT functions.* from user_roles,role_functions,functions where user_roles.role_id=role_functions.role_id and role_functions.function_id=functions.id and user_roles.user_id=?1 order by functions.seq",nativeQuery = true)
     List<Map> queryFunctionsByUserId(String userId);
 
     /**
@@ -22,6 +22,6 @@ public interface ResourceRoleReponsitory extends JpaRepository<ResourceRole,Stri
      * @param roleId
      * @return
      */
-    @Query(value="select DISTINCT functions.* from role_functions,functions where role_functions.function_id=functions.id and role_functions.role_id=?1",nativeQuery = true)
+    @Query(value="select DISTINCT functions.* from role_functions,functions where role_functions.function_id=functions.id and role_functions.role_id=?1 order by functions.seq",nativeQuery = true)
     List<Map> queryFunctionsByRoleId(String roleId);
 }
